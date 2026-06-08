@@ -1,12 +1,15 @@
 <script setup>
-// Your implementation starts here
+import AppHeader from '../components/AppHeader.vue'
 </script>
 
 <template>
-  <q-layout>
+  <q-layout view="hHh lpR fFf">
+    <q-header class="bg-white text-neutral">
+      <AppHeader />
+    </q-header>
+
     <q-page-container>
       <q-page padding>
-        <h1 class="text-h3 text-neutral q-mb-md">Event Registration Wizard</h1>
         <p class="text-neutral-muted">Start building your registration wizard here.</p>
       </q-page>
     </q-page-container>
