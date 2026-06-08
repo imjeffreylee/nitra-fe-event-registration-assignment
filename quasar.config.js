@@ -1,4 +1,5 @@
 import UnoCSS from 'unocss/vite'
+import svgLoader from 'vite-svg-loader'
 
 export default function () {
   return {
@@ -16,6 +17,7 @@ export default function () {
         viteConf.plugins = viteConf.plugins || [];
         viteConf.plugins.push(
           ...UnoCSS(),
+          svgLoader()
         );
       },
     },
