@@ -26,24 +26,48 @@
 
     <!-- Details Rows -->
     <div class="flex flex-col gap-3 w-full mt-2">
-      <div
-        v-for="(item, index) in items"
-        :key="index"
-        class="flex flex-row justify-between items-start p-0 w-full flex-none self-stretch flex-grow-0 min-h-4 gap-4"
-      >
-        <span
-          class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-0 flex-grow text-left break-words max-w-[45%]"
-          :class="item.labelClass || 'font-[485] text-neutral-muted'"
+      <template v-for="(item, index) in items" :key="index">
+        <!-- Divider before the last item if requested -->
+        <div
+          v-if="
+            showLastItemDivider &&
+            index === items.length - 1 &&
+            items.length > 0
+          "
+          class="w-full h-[1px] bg-[rgba(0,0,0,0.05)] self-stretch flex-none"
+        />
+
+        <div
+          class="flex flex-row justify-between items-start p-0 w-full flex-none self-stretch flex-grow-0 min-h-4 gap-4"
         >
-          {{ item.label }}
-        </span>
-        <span
-          class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-1 flex-grow text-right break-words max-w-[55%]"
-          :class="item.valueClass || 'font-[485] text-neutral'"
-        >
-          {{ item.value }}
-        </span>
-      </div>
+          <span
+            class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-0 flex-grow text-left break-words max-w-[45%]"
+            :class="[
+              item.labelClass || 'text-neutral-muted',
+              showLastItemDivider && index === items.length - 1
+                ? 'font-[550]'
+                : item.labelClass
+                  ? ''
+                  : 'font-[485]',
+            ]"
+          >
+            {{ item.label }}
+          </span>
+          <span
+            class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-1 flex-grow text-right break-words max-w-[55%]"
+            :class="[
+              item.valueClass || 'text-neutral',
+              showLastItemDivider && index === items.length - 1
+                ? 'font-[550]'
+                : item.valueClass
+                  ? ''
+                  : 'font-[485]',
+            ]"
+          >
+            {{ item.value }}
+          </span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -58,6 +82,10 @@ defineProps({
     type: Array,
     required: true,
     // Expects: { label: String, value: String }[]
+  },
+  showLastItemDivider: {
+    type: Boolean,
+    default: false,
   },
 });
 

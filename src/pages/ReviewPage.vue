@@ -347,6 +347,7 @@ const formatCurrency = (value) => {
     <ReviewCard
       title="Pricing Summary"
       :items="pricingSummaryItems"
+      show-last-item-divider
       @edit="router.push('/addons')"
     />
   </PageContainer>
