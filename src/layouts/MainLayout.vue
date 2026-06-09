@@ -26,16 +26,15 @@ const currentStep = computed({
   <q-layout view="hHh lpR fFf">
     <q-header class="bg-white text-neutral">
       <AppHeader />
+      <div
+        class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none"
+      >
+        <AppStepper v-model="currentStep" :steps="steps" clickable />
+      </div>
     </q-header>
 
     <q-page-container>
       <q-page class="min-h-screen flex flex-col">
-        <div
-          class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none"
-        >
-          <AppStepper v-model="currentStep" :steps="steps" clickable />
-        </div>
-
         <router-view />
       </q-page>
     </q-page-container>
