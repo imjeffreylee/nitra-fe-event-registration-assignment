@@ -16,7 +16,7 @@ const router = useRouter();
     <div
       class="bg-white border border-gray-100 rounded-lg w-full flex flex-col min-h-[350px] justify-between"
     >
-      <div class="space-y-4">
+      <div class="space-y-8">
         <TicketTypeSection
           title="Select Ticket Type"
           :tickets="event.ticketTypes"
@@ -27,12 +27,20 @@ const router = useRouter();
           <!-- Row 1: Full Name + Email -->
           <div class="flex flex-row items-start p-0 gap-6 self-stretch">
             <FormField label="Full Name" placeholder="Enter your full name" />
-            <FormField label="Email" type="email" placeholder="Enter your email" />
+            <FormField
+              label="Email"
+              type="email"
+              placeholder="Enter your email"
+            />
           </div>
           <!-- Row 2: Phone + Company -->
           <div class="flex flex-row items-start p-0 gap-6 self-stretch">
-            <FormField label="Phone" type="tel" placeholder="+1 (555) 000-0000" />
-            <FormField label="Company" placeholder="Enter your company" />
+            <FormField
+              label="Phone"
+              type="tel"
+              placeholder="Enter your phone number"
+            />
+            <FormField label="Company" placeholder="Enter your company name" />
           </div>
           <!-- Row 3: Job Title (full width) -->
           <div class="flex flex-row items-start p-0 gap-6 self-stretch">
@@ -40,7 +48,10 @@ const router = useRouter();
           </div>
           <!-- Row 4: Shipping Address (full width) -->
           <div class="flex flex-row items-start p-0 gap-6 self-stretch">
-            <FormField label="Shipping Address (for swag kit)" placeholder="Enter your shipping address" />
+            <FormField
+              label="Shipping Address (Optional)"
+              placeholder="Enter your shipping address"
+            />
           </div>
         </div>
       </div>
