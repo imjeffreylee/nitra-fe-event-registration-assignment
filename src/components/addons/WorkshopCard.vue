@@ -36,12 +36,13 @@
 
       <!-- Date & Time + Spots left -->
       <div
+        v-if="workshop.date || workshop.capacity !== undefined"
         class="flex flex-col items-start gap-1 text-[11px] leading-[14px] font-medium text-neutral-quiet"
       >
-        <span class="[font-variation-settings:'slnt'_0]">{{
+        <span v-if="workshop.date" class="[font-variation-settings:'slnt'_0]">{{
           formattedTimeRange
         }}</span>
-        <span>
+        <span v-if="workshop.capacity !== undefined">
           {{ isFull ? 'Sold Out' : `${spotsLeft} spots remaining` }}
         </span>
       </div>

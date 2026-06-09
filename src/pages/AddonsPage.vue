@@ -16,6 +16,7 @@ const activeCategory = ref('Workshops');
 const selectedTicket = ref('vip');
 const selectedSessionIds = ref([]);
 const selectedWorkshops = ref([]);
+const selectedMeals = ref([]);
 
 onMounted(() => {
   // Load selected ticket type
@@ -39,6 +40,14 @@ onMounted(() => {
       selectedWorkshops.value = JSON.parse(savedWorkshops);
     } catch (e) {}
   }
+
+  // Load selected meals
+  const savedMeals = localStorage.getItem('selected_meals');
+  if (savedMeals) {
+    try {
+      selectedMeals.value = JSON.parse(savedMeals);
+    } catch (e) {}
+  }
 });
 
 // Watch and save workshops
@@ -46,6 +55,15 @@ watch(
   selectedWorkshops,
   (newVal) => {
     localStorage.setItem('selected_workshops', JSON.stringify(newVal));
+  },
+  { deep: true },
+);
+
+// Watch and save meals
+watch(
+  selectedMeals,
+  (newVal) => {
+    localStorage.setItem('selected_meals', JSON.stringify(newVal));
   },
   { deep: true },
 );
@@ -63,6 +81,11 @@ const workshops = computed(() => {
   return addons.filter((addon) => addon.category === 'workshop');
 });
 
+// Filter meal packages from mixed addons mock
+const meals = computed(() => {
+  return addons.filter((addon) => addon.category === 'meal');
+});
+
 const isSelected = (id) => selectedWorkshops.value.includes(id);
 
 const toggleWorkshop = (id) => {
@@ -71,6 +94,17 @@ const toggleWorkshop = (id) => {
     selectedWorkshops.value.splice(idx, 1);
   } else {
     selectedWorkshops.value.push(id);
+  }
+};
+
+const isMealSelected = (id) => selectedMeals.value.includes(id);
+
+const toggleMeal = (id) => {
+  const idx = selectedMeals.value.indexOf(id);
+  if (idx >= 0) {
+    selectedMeals.value.splice(idx, 1);
+  } else {
+    selectedMeals.value.push(id);
   }
 };
 
@@ -107,6 +141,20 @@ const hasTimeConflict = (workshop) => {
         :selected="isSelected(workshop.id)"
         :conflict="hasTimeConflict(workshop)"
         @select="toggleWorkshop(workshop.id)"
+      />
+    </div>
+
+    <!-- Meal Packages Tab view -->
+    <div
+      v-else-if="activeCategory === 'Meal Packages'"
+      class="flex flex-col items-start gap-4 w-full"
+    >
+      <WorkshopCard
+        v-for="meal in meals"
+        :key="meal.id"
+        :workshop="meal"
+        :selected="isMealSelected(meal.id)"
+        @select="toggleMeal(meal.id)"
       />
     </div>
   </PageContainer>
