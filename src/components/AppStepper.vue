@@ -59,7 +59,7 @@ const handleStepClick = (step) => {
   <div
     role="nav"
     aria-label="Progress Stepper"
-    class="w-full max-w-[1440px] h-20 px-4 md:px-16 lg:px-[120px] py-6 flex flex-row items-center justify-between mx-auto select-none"
+    class="w-full max-w-[1440px] h-20 px-4 md:px-16 lg:px-[120px] flex flex-row items-center justify-between mx-auto select-none"
   >
     <template v-for="(step, idx) in normalizedSteps" :key="step.id">
       <!-- Step Item -->

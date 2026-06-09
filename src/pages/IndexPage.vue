@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import AppHeader from '../components/AppHeader.vue';
 import AppStepper from '../components/AppStepper.vue';
 import TicketTypeSection from '../components/TicketTypeSection.vue';
+import SectionTitle from '../components/SectionTitle.vue';
 import { event } from '../mocks/event.js';
 
 // Step definitions matching the README requirements
@@ -42,10 +43,10 @@ const prevStep = () => {
 
         <!-- Wizard Step Content -->
         <main
-          class="flex-1 flex flex-col justify-center items-center px-4 py-8 max-w-[1440px] mx-auto w-full"
+          class="flex-1 flex flex-col justify-center items-center py-10 max-w-[1200px] mx-auto w-full"
         >
           <div
-            class="bg-white border border-gray-100 rounded-lg p-8 w-full shadow-sm flex flex-col min-h-[350px] justify-between"
+            class="bg-white border border-gray-100 rounded-lg w-full flex flex-col min-h-[350px] justify-between"
           >
             <div>
               <div v-if="currentStep === 1" class="space-y-4">
@@ -53,6 +54,7 @@ const prevStep = () => {
                   title="Select Ticket Type"
                   :tickets="event.ticketTypes"
                 />
+                <SectionTitle>Attendee Information</SectionTitle>
               </div>
 
               <div v-else-if="currentStep === 2" class="space-y-4">
@@ -91,30 +93,6 @@ const prevStep = () => {
                   displayed here.
                 </div>
               </div>
-            </div>
-
-            <!-- Wizard Navigation Controls -->
-            <div
-              class="flex flex-row items-center justify-between mt-8 pt-6 border-t border-gray-100"
-            >
-              <button
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold border border-gray-200 text-neutral hover:bg-gray-50 active:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                :disabled="currentStep === 1"
-                @click="prevStep"
-              >
-                Back
-              </button>
-
-              <button
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold bg-brand-emphasis text-white hover:opacity-90 active:opacity-95 transition-opacity"
-                @click="currentStep === steps.length ? null : nextStep()"
-              >
-                {{
-                  currentStep === steps.length
-                    ? 'Submit Registration'
-                    : 'Continue'
-                }}
-              </button>
             </div>
           </div>
         </main>
