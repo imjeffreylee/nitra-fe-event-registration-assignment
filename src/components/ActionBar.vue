@@ -22,31 +22,33 @@ const emit = defineEmits(['back', 'next']);
 </script>
 
 <template>
-  <div
-    class="w-full max-w-[1440px] h-[72px] px-4 md:px-16 lg:px-[120px] py-4 flex flex-row justify-between items-center mx-auto bg-white"
-  >
-    <button
-      v-if="showBack"
-      class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#E3E6E8] rounded-[10px] cursor-pointer border-none"
-      @click="emit('back')"
+  <div class="w-full bg-white border-t-1 border-t-solid border-t-gray-100">
+    <div
+      class="w-full max-w-[1440px] h-[72px] px-4 md:px-16 lg:px-[120px] py-4 flex flex-row justify-between items-center mx-auto bg-white"
     >
-      <span
-        class="text-[14px] font-semibold leading-5 text-center text-black/60"
+      <button
+        v-if="showBack"
+        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#E3E6E8] rounded-[10px] cursor-pointer border-none"
+        @click="emit('back')"
       >
-        {{ backLabel }}
-      </span>
-    </button>
-    <div v-else />
+        <span
+          class="text-[14px] font-semibold leading-5 text-center text-black/60"
+        >
+          {{ backLabel }}
+        </span>
+      </button>
+      <div v-else />
 
-    <button
-      v-if="showNext"
-      class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#FB7429] rounded-[10px] cursor-pointer border-none"
-      @click="emit('next')"
-    >
-      <span class="text-[14px] font-semibold leading-5 text-center text-white">
-        {{ nextLabel }}
-      </span>
-    </button>
-    <div v-else />
+      <button
+        v-if="showNext"
+        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#FB7429] rounded-[10px] cursor-pointer border-none"
+        @click="emit('next')"
+      >
+        <span class="text-[14px] font-semibold leading-5 text-center text-white">
+          {{ nextLabel }}
+        </span>
+      </button>
+      <div v-else />
+    </div>
   </div>
 </template>
