@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import TicketTypeSection from '../components/TicketTypeSection.vue';
+import TicketTypeSection from '../components/attendeeInfo/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
-import FormField from '../components/FormField.vue';
+import FormField from '../components/attendeeInfo/FormField.vue';
 import ActionBar from '../components/ActionBar.vue';
 import { event } from '../mocks/event.js';
 
