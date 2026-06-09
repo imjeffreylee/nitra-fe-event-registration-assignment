@@ -5,12 +5,14 @@ import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SessionCard from '../components/sessions/SessionCard.vue';
 import SectionTitle from '../components/SectionTitle.vue';
+import AppTabs from '../components/AppTabs.vue';
 import { sessions } from '../mocks/sessions.js';
 
 const router = useRouter();
 
 // Persistent selection state
 const selectedSessions = ref([]);
+const activeDay = ref('Nov 15');
 
 onMounted(() => {
   const saved = localStorage.getItem('selected_sessions');
@@ -55,14 +57,10 @@ const toggleSession = (id) => {
 <template>
   <PageContainer content-class="space-y-8">
     <SectionTitle>Select Sessions</SectionTitle>
+    <AppTabs v-model="activeDay" :options="['Nov 15', 'Nov 16']" />
 
     <!-- Day 1 Sessions Section -->
-    <div class="space-y-4">
-      <h3
-        class="text-[18px] leading-6 font-semibold text-neutral border-b-1 border-b-solid border-b-gray-100 pb-2 m-0"
-      >
-        Day 1 — Wednesday, November 15, 2028
-      </h3>
+    <div v-if="activeDay === 'Nov 15'" class="w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         <SessionCard
           v-for="session in day1Sessions"
@@ -75,12 +73,7 @@ const toggleSession = (id) => {
     </div>
 
     <!-- Day 2 Sessions Section -->
-    <div class="space-y-4">
-      <h3
-        class="text-[18px] leading-6 font-semibold text-neutral border-b-1 border-b-solid border-b-gray-100 pb-2 m-0"
-      >
-        Day 2 — Thursday, November 16, 2028
-      </h3>
+    <div v-else-if="activeDay === 'Nov 16'" class="w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         <SessionCard
           v-for="session in day2Sessions"
