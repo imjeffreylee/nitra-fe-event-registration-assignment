@@ -32,7 +32,7 @@ const prevStep = () => {
     <q-page-container>
       <q-page class="min-h-screen flex flex-col">
         <!-- Progress Stepper Row -->
-        <div class="bg-white border-b border-gray-100 flex-none">
+        <div class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none">
           <AppStepper v-model="currentStep" :steps="steps" clickable />
         </div>
 
