@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/attendeeInfo/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -10,6 +10,19 @@ import { event } from '../mocks/event.js';
 
 const router = useRouter();
 const selectedTicket = ref('vip');
+
+onMounted(() => {
+  const saved = localStorage.getItem('selected_ticket');
+  if (saved) {
+    selectedTicket.value = saved;
+  } else {
+    localStorage.setItem('selected_ticket', 'vip');
+  }
+});
+
+watch(selectedTicket, (newVal) => {
+  localStorage.setItem('selected_ticket', newVal);
+});
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col md:flex-row md:items-center justify-between p-4 gap-4 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] w-full max-w-[788px] min-h-[120px] box-border transition-all duration-200"
+    class="flex flex-col md:flex-row md:items-start justify-between p-4 gap-4 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] w-full max-w-[788px] min-h-[120px] box-border transition-all duration-200"
     :class="[
       isDisabled
         ? 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] opacity-60 cursor-not-allowed'
@@ -36,67 +36,22 @@
 
       <!-- Date & Time + Spots left -->
       <div
-        class="flex flex-row flex-wrap items-center gap-3 text-[11px] leading-[14px] font-medium text-neutral-quiet"
+        class="flex flex-col items-start gap-1 text-[11px] leading-[14px] font-medium text-neutral-quiet"
       >
         <span class="[font-variation-settings:'slnt'_0]">{{
           formattedTimeRange
         }}</span>
-        <span class="w-1 h-1 bg-[rgba(0,0,0,0.3)] rounded-full" />
-        <span :class="isFull ? 'text-[#5C6970]' : 'text-[#A13B02]'">
-          {{ isFull ? 'Fully Booked' : `${spotsLeft} spots left` }}
+        <span>
+          {{ isFull ? 'Sold Out' : `${spotsLeft} spots remaining` }}
         </span>
       </div>
     </div>
 
-    <!-- Right Column: Price and Selection Checkbox -->
-    <div
-      class="flex flex-row items-center gap-4 flex-none justify-between md:justify-end self-stretch md:self-auto border-t border-t-solid border-t-gray-100 md:border-none pt-2 md:pt-0"
-    >
-      <!-- Pricing Block -->
-      <div class="flex flex-col items-start md:items-end">
-        <div class="flex flex-row items-baseline gap-1.5">
-          <span
-            v-if="vipDiscount"
-            class="text-[12px] leading-4 text-neutral-quiet line-through"
-          >
-            ${{ workshop.price.toFixed(2) }}
-          </span>
-          <span class="text-[16px] leading-5 font-bold text-[#264D4F]">
-            ${{ finalPrice.toFixed(2) }}
-          </span>
-        </div>
-        <span
-          v-if="vipDiscount"
-          class="text-[10px] leading-3 font-semibold text-[#0D7248] [font-variation-settings:'slnt'_0]"
-        >
-          10% VIP Discount
-        </span>
-      </div>
-
-      <!-- Checkbox selector -->
-      <div
-        class="relative w-4 h-4 flex-none rounded-[2px] transition-all duration-200"
-        :class="[
-          selected ? 'bg-[#264D4F]' : 'border border-solid border-[#5C6970]',
-        ]"
-      >
-        <!-- Checkmark SVG -->
-        <svg
-          v-if="selected"
-          class="absolute w-[10px] h-[7px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white"
-          viewBox="0 0 10 7"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1 3.5L3.5 6L9 1"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </div>
+    <!-- Right Column: Price -->
+    <div class="flex flex-col items-start md:items-end flex-none">
+      <span class="text-[16px] leading-5 font-bold text-[#264D4F]">
+        ${{ workshop.price }}
+      </span>
     </div>
   </div>
 </template>
@@ -117,10 +72,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  vipDiscount: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['select']);
@@ -138,11 +89,6 @@ const isDisabled = computed(
 // Spots left calculation
 const spotsLeft = computed(() => {
   return Math.max(props.workshop.capacity - props.workshop.registered, 0);
-});
-
-// Final price with potential VIP discount
-const finalPrice = computed(() => {
-  return props.vipDiscount ? props.workshop.price * 0.9 : props.workshop.price;
 });
 
 // Date and time formatter
