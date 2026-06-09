@@ -7,6 +7,7 @@ import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
 import WorkshopCard from '../components/addons/WorkshopCard.vue';
 import MerchandiseCard from '../components/addons/MerchandiseCard.vue';
+import InfoIcon from '../assets/Info.svg';
 import { addons } from '../mocks/addons.js';
 import { sessions } from '../mocks/sessions.js';
 
@@ -208,13 +209,21 @@ const hasTimeConflict = (workshop) => {
     >
       <!-- Shipping Banner -->
       <div
-        class="p-4 bg-info-subtle-rest border border-info-muted rounded-md flex items-center gap-3 w-full max-w-[788px] text-sm text-info-emphasis box-border shipping-banner-pop"
+        class="box-border flex flex-row items-start p-4 gap-3 w-full max-w-[788px] min-h-[96px] bg-[#EDF6FD] border border-solid border-[rgba(26,126,199,0.5)] rounded-lg shipping-banner-pop"
       >
-        <span class="text-lg leading-none">ℹ️</span>
-        <p class="m-0 leading-5">
-          Merchandise items will be shipped to your address one week before the
-          conference. Please ensure your shipping address in Step 1 is correct.
-        </p>
+        <InfoIcon class="flex-none w-4 h-4 mt-[2px]" />
+        <div
+          class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 w-full max-w-[724px] md:h-10 flex-none order-1 self-stretch flex-grow-0"
+        >
+          <span class="font-bold text-[14px] leading-5"
+            >Shipping Information</span
+          >
+          <span class="text-[14px] leading-5 font-regular">
+            Merchandise items will be shipped to your address one week before
+            the conference. Please ensure your shipping address in Step 1 is
+            correct.
+          </span>
+        </div>
       </div>
 
       <MerchandiseCard
