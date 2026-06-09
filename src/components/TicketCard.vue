@@ -1,11 +1,12 @@
 <template>
   <div
-    class="flex flex-col items-start p-5 gap-3 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] flex-1 min-w-0 box-border"
+    class="flex flex-col items-start p-5 gap-3 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] flex-1 min-w-0 box-border cursor-pointer transition-all duration-200"
     :class="
-      isVip
+      selected
         ? 'bg-[#EEF6F7] border-2 border-solid border-[#264D4F]'
-        : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8]'
+        : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-gray-300'
     "
+    @click="emit('select')"
   >
     <!-- Card Header -->
     <div
@@ -51,7 +52,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import PrimaryIcon from '../assets/Primary.svg';
 
 const props = defineProps({
@@ -63,7 +63,11 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  selected: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const isVip = computed(() => props.ticket.id === 'vip');
+const emit = defineEmits(['select']);
 </script>

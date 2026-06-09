@@ -10,10 +10,12 @@
       class="flex flex-row items-stretch gap-4 flex-none flex-nowrap self-stretch"
     >
       <TicketCard
+        v-for="ticket in tickets"
         :key="ticket.id"
         :ticket="ticket"
-        v-for="ticket in tickets"
+        :selected="ticket.id === modelValue"
         :badge="ticket.id === 'vip' ? 'Best Value' : ''"
+        @select="emit('update:modelValue', ticket.id)"
       />
     </div>
   </div>
@@ -31,5 +33,11 @@ defineProps({
     type: Array,
     required: true,
   },
+  modelValue: {
+    type: String,
+    default: '',
+  },
 });
+
+const emit = defineEmits(['update:modelValue']);
 </script>

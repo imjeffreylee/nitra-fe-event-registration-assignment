@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -7,6 +8,7 @@ import ActionBar from '../components/ActionBar.vue';
 import { event } from '../mocks/event.js';
 
 const router = useRouter();
+const selectedTicket = ref('vip');
 </script>
 
 <template>
@@ -20,6 +22,7 @@ const router = useRouter();
         <TicketTypeSection
           title="Select Ticket Type"
           :tickets="event.ticketTypes"
+          v-model="selectedTicket"
         />
         <SectionTitle>Attendee Information</SectionTitle>
         <!-- Form Grid -->
