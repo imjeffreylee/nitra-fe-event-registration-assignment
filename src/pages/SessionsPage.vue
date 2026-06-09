@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SessionCard from '../components/sessions/SessionCard.vue';
+import SectionTitle from '../components/SectionTitle.vue';
 import { sessions } from '../mocks/sessions.js';
 
 const router = useRouter();
@@ -27,7 +28,7 @@ watch(
   (newVal) => {
     localStorage.setItem('selected_sessions', JSON.stringify(newVal));
   },
-  { deep: true }
+  { deep: true },
 );
 
 // Grouping logic
@@ -53,12 +54,7 @@ const toggleSession = (id) => {
 
 <template>
   <PageContainer content-class="space-y-8">
-    <div class="space-y-2">
-      <p class="text-sm font-regular text-neutral-muted m-0">
-        Browse and select the sessions you would like to attend on
-        November 15 & 16.
-      </p>
-    </div>
+    <SectionTitle>Select Sessions</SectionTitle>
 
     <!-- Day 1 Sessions Section -->
     <div class="space-y-4">
