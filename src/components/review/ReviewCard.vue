@@ -32,12 +32,14 @@
         class="flex flex-row justify-between items-start p-0 w-full flex-none self-stretch flex-grow-0 min-h-4 gap-4"
       >
         <span
-          class="font-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] flex-1 order-0 flex-grow text-left break-words max-w-[45%]"
+          class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-0 flex-grow text-left break-words max-w-[45%]"
+          :class="item.labelClass || 'font-[485] text-neutral-muted'"
         >
           {{ item.label }}
         </span>
         <span
-          class="font-[485] text-[12px] leading-[16px] text-neutral [font-variation-settings:'slnt'_0] flex-1 order-1 flex-grow text-right break-words max-w-[55%]"
+          class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-1 flex-grow text-right break-words max-w-[55%]"
+          :class="item.valueClass || 'font-[485] text-neutral'"
         >
           {{ item.value }}
         </span>

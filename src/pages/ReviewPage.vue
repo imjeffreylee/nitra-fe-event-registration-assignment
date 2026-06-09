@@ -170,6 +170,114 @@ const addonItems = computed(() => {
   return list;
 });
 
+// Subtotal Calculations for Pricing Summary
+const workshopsPrice = computed(() => {
+  return selectedWorkshops.value.reduce((sum, id) => {
+    const ws = addons.find((a) => a.id === id);
+    return sum + (ws?.price || 0);
+  }, 0);
+});
+
+const mealsPrice = computed(() => {
+  return selectedMeals.value.reduce((sum, id) => {
+    const meal = addons.find((a) => a.id === id);
+    return sum + (meal?.price || 0);
+  }, 0);
+});
+
+const merchPrice = computed(() => {
+  return Object.entries(selectedMerch.value).reduce((sum, [id, data]) => {
+    if (!data || !data.quantity) return sum;
+    const merch = addons.find((a) => a.id === id);
+    return sum + (merch?.price || 0) * data.quantity;
+  }, 0);
+});
+
+const addonsPrice = computed(() => {
+  return workshopsPrice.value + mealsPrice.value + merchPrice.value;
+});
+
+const vipDiscount = computed(() => {
+  if (ticketType.value === 'vip') {
+    return workshopsPrice.value * 0.1;
+  }
+  return 0;
+});
+
+const totalPrice = computed(() => {
+  return ticketPrice.value + addonsPrice.value - vipDiscount.value;
+});
+
+// Format all individual and totaled pricing rows as key-value items
+const pricingSummaryItems = computed(() => {
+  const list = [];
+
+  // 1. Ticket Row
+  list.push({
+    label: `${ticketLabel.value} Ticket`,
+    value: formatCurrency(ticketPrice.value),
+  });
+
+  // 2. Workshops Rows
+  selectedWorkshops.value.forEach((id) => {
+    const ws = addons.find((a) => a.id === id);
+    if (ws) {
+      list.push({
+        label: ws.name,
+        value: formatCurrency(ws.price),
+      });
+    }
+  });
+
+  // 3. Meals Rows
+  selectedMeals.value.forEach((id) => {
+    const meal = addons.find((a) => a.id === id);
+    if (meal) {
+      list.push({
+        label: meal.name,
+        value: formatCurrency(meal.price),
+      });
+    }
+  });
+
+  // 4. Merchandise Rows
+  Object.entries(selectedMerch.value).forEach(([id, data]) => {
+    if (!data || data.quantity <= 0) return;
+    const merch = addons.find((a) => a.id === id);
+    if (merch) {
+      let displayName = merch.name;
+      if (merch.sizes && merch.sizes.length > 0 && data.size) {
+        displayName += ` (${data.size})`;
+      }
+      displayName += ` x ${data.quantity}`;
+      list.push({
+        label: displayName,
+        value: formatCurrency(merch.price * data.quantity),
+      });
+    }
+  });
+
+  // 5. VIP Discount Row
+  if (vipDiscount.value > 0) {
+    list.push({
+      label: 'Workshop discount (VIP 10%)',
+      value: `-${formatCurrency(vipDiscount.value)}`,
+      labelClass: 'font-[485] text-[#264D4F]',
+      valueClass: 'font-[485] text-[#264D4F]',
+    });
+  }
+
+  // 6. Total Row
+  list.push({
+    label: 'Grand Total',
+    value: formatCurrency(totalPrice.value),
+    labelClass: 'font-[550] text-neutral',
+    valueClass: 'font-[550] text-neutral',
+  });
+
+  return list;
+});
+
 // Formats a session date & time range cleanly
 const formatSessionTime = (session) => {
   try {
@@ -232,6 +340,13 @@ const formatCurrency = (value) => {
     <ReviewCard
       title="Selected Add-ons"
       :items="addonItems"
+      @edit="router.push('/addons')"
+    />
+
+    <!-- Review Block 4: Pricing Summary -->
+    <ReviewCard
+      title="Pricing Summary"
+      :items="pricingSummaryItems"
       @edit="router.push('/addons')"
     />
   </PageContainer>
