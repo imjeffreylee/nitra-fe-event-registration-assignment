@@ -7,6 +7,7 @@ import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
 import WorkshopCard from '../components/addons/WorkshopCard.vue';
 import MerchandiseCard from '../components/addons/MerchandiseCard.vue';
+import OrderSummary from '../components/addons/OrderSummary.vue';
 import InfoIcon from '../assets/Info.svg';
 import { addons } from '../mocks/addons.js';
 import { sessions } from '../mocks/sessions.js';
@@ -167,77 +168,93 @@ const hasTimeConflict = (workshop) => {
 
 <template>
   <PageContainer content-class="space-y-8">
-    <SectionTitle>Select Add-ons</SectionTitle>
-    <AppTabs
-      v-model="activeCategory"
-      :options="['Workshops', 'Meal Packages', 'Merchandise']"
-    />
+    <div class="flex flex-col lg:flex-row items-start gap-8 w-full">
+      <!-- Left Column: SectionTitle, Tabs, and Lists -->
+      <div class="flex-1 flex flex-col items-start gap-6 w-full">
+        <SectionTitle class="m-0">Select Add-ons</SectionTitle>
+        <AppTabs
+          v-model="activeCategory"
+          :options="['Workshops', 'Meal Packages', 'Merchandise']"
+          class="w-full"
+        />
 
-    <!-- Workshops Tab view -->
-    <div
-      v-if="activeCategory === 'Workshops'"
-      class="flex flex-col items-start gap-4 w-full"
-    >
-      <WorkshopCard
-        v-for="workshop in workshops"
-        :key="workshop.id"
-        :workshop="workshop"
-        :selected="isSelected(workshop.id)"
-        :conflict="hasTimeConflict(workshop)"
-        @select="toggleWorkshop(workshop.id)"
-      />
-    </div>
-
-    <!-- Meal Packages Tab view -->
-    <div
-      v-else-if="activeCategory === 'Meal Packages'"
-      class="flex flex-col items-start gap-4 w-full"
-    >
-      <WorkshopCard
-        v-for="meal in meals"
-        :key="meal.id"
-        :workshop="meal"
-        :selected="isMealSelected(meal.id)"
-        @select="toggleMeal(meal.id)"
-      />
-    </div>
-
-    <!-- Merchandise Tab view -->
-    <div
-      v-else-if="activeCategory === 'Merchandise'"
-      class="flex flex-col items-start gap-4 w-full"
-    >
-      <!-- Shipping Banner -->
-      <div
-        class="box-border flex flex-row items-start p-4 gap-3 w-full max-w-[788px] min-h-[96px] bg-[#EDF6FD] border border-solid border-[rgba(26,126,199,0.5)] rounded-lg shipping-banner-pop"
-      >
-        <InfoIcon class="flex-none w-4 h-4 mt-[2px]" />
+        <!-- Workshops Tab view -->
         <div
-          class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 w-full max-w-[724px] md:h-10 flex-none order-1 self-stretch flex-grow-0"
+          v-if="activeCategory === 'Workshops'"
+          class="flex flex-col items-start gap-4 w-full"
         >
-          <span class="font-bold text-[14px] leading-5"
-            >Shipping Information</span
+          <WorkshopCard
+            v-for="workshop in workshops"
+            :key="workshop.id"
+            :workshop="workshop"
+            :selected="isSelected(workshop.id)"
+            :conflict="hasTimeConflict(workshop)"
+            @select="toggleWorkshop(workshop.id)"
+          />
+        </div>
+
+        <!-- Meal Packages Tab view -->
+        <div
+          v-else-if="activeCategory === 'Meal Packages'"
+          class="flex flex-col items-start gap-4 w-full"
+        >
+          <WorkshopCard
+            v-for="meal in meals"
+            :key="meal.id"
+            :workshop="meal"
+            :selected="isMealSelected(meal.id)"
+            @select="toggleMeal(meal.id)"
+          />
+        </div>
+
+        <!-- Merchandise Tab view -->
+        <div
+          v-else-if="activeCategory === 'Merchandise'"
+          class="flex flex-col items-start gap-4 w-full"
+        >
+          <!-- Shipping Banner -->
+          <div
+            class="box-border flex flex-row items-start p-4 gap-3 w-full max-w-[788px] min-h-[96px] bg-[#EDF6FD] border border-solid border-[rgba(26,126,199,0.5)] rounded-lg shipping-banner-pop"
           >
-          <span class="text-[14px] leading-5 font-regular">
-            Merchandise items will be shipped to your address one week before
-            the conference. Please ensure your shipping address in Step 1 is
-            correct.
-          </span>
+            <InfoIcon class="flex-none w-4 h-4 mt-[2px]" />
+            <div
+              class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 w-full max-w-[724px] md:h-10 flex-none order-1 self-stretch flex-grow-0"
+            >
+              <span class="font-bold text-[14px] leading-5"
+                >Shipping Information</span
+              >
+              <span class="text-[14px] leading-5 font-regular">
+                Merchandise items will be shipped to your address one week
+                before the conference. Please ensure your shipping address in
+                Step 1 is correct.
+              </span>
+            </div>
+          </div>
+
+          <MerchandiseCard
+            v-for="item in merchandise"
+            :key="item.id"
+            :item="item"
+            :quantity="selectedMerch[item.id]?.quantity || 0"
+            :selected-size="selectedMerch[item.id]?.size || ''"
+            @update:quantity="
+              (qty) => updateMerchQty(item.id, qty, item.sizes?.[0] || '')
+            "
+            @update:selected-size="(size) => updateMerchSize(item.id, size)"
+          />
         </div>
       </div>
+      <!-- Closes Left Column -->
 
-      <MerchandiseCard
-        v-for="item in merchandise"
-        :key="item.id"
-        :item="item"
-        :quantity="selectedMerch[item.id]?.quantity || 0"
-        :selected-size="selectedMerch[item.id]?.size || ''"
-        @update:quantity="
-          (qty) => updateMerchQty(item.id, qty, item.sizes?.[0] || '')
-        "
-        @update:selected-size="(size) => updateMerchSize(item.id, size)"
+      <!-- Right Column: Order Summary -->
+      <OrderSummary
+        :ticket-type="selectedTicket"
+        :selected-workshops="selectedWorkshops"
+        :selected-meals="selectedMeals"
+        :selected-merch="selectedMerch"
       />
     </div>
+    <!-- Closes Outer row container -->
   </PageContainer>
   <ActionBar
     next-label="Next: Review"
