@@ -5,7 +5,8 @@ import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
-import WorkshopCard from '../components/addOns/WorkshopCard.vue';
+import WorkshopCard from '../components/addons/WorkshopCard.vue';
+import MerchandiseCard from '../components/addons/MerchandiseCard.vue';
 import { addons } from '../mocks/addons.js';
 import { sessions } from '../mocks/sessions.js';
 
@@ -17,6 +18,7 @@ const selectedTicket = ref('vip');
 const selectedSessionIds = ref([]);
 const selectedWorkshops = ref([]);
 const selectedMeals = ref([]);
+const selectedMerch = ref({});
 
 onMounted(() => {
   // Load selected ticket type
@@ -48,6 +50,14 @@ onMounted(() => {
       selectedMeals.value = JSON.parse(savedMeals);
     } catch (e) {}
   }
+
+  // Load selected merchandise
+  const savedMerch = localStorage.getItem('selected_merchandise');
+  if (savedMerch) {
+    try {
+      selectedMerch.value = JSON.parse(savedMerch);
+    } catch (e) {}
+  }
 });
 
 // Watch and save workshops
@@ -64,6 +74,15 @@ watch(
   selectedMeals,
   (newVal) => {
     localStorage.setItem('selected_meals', JSON.stringify(newVal));
+  },
+  { deep: true },
+);
+
+// Watch and save merchandise
+watch(
+  selectedMerch,
+  (newVal) => {
+    localStorage.setItem('selected_merchandise', JSON.stringify(newVal));
   },
   { deep: true },
 );
@@ -86,6 +105,15 @@ const meals = computed(() => {
   return addons.filter((addon) => addon.category === 'meal');
 });
 
+// Filter merchandise from mixed addons mock
+const merchandise = computed(() => {
+  return addons.filter((addon) => addon.category === 'merchandise');
+});
+
+const hasSelectedMerch = computed(() => {
+  return Object.values(selectedMerch.value).some((m) => m && m.quantity > 0);
+});
+
 const isSelected = (id) => selectedWorkshops.value.includes(id);
 
 const toggleWorkshop = (id) => {
@@ -105,6 +133,21 @@ const toggleMeal = (id) => {
     selectedMeals.value.splice(idx, 1);
   } else {
     selectedMeals.value.push(id);
+  }
+};
+
+const updateMerchQty = (id, qty, defaultSize) => {
+  if (!selectedMerch.value[id]) {
+    selectedMerch.value[id] = { quantity: 0, size: defaultSize };
+  }
+  selectedMerch.value[id].quantity = qty;
+};
+
+const updateMerchSize = (id, size) => {
+  if (!selectedMerch.value[id]) {
+    selectedMerch.value[id] = { quantity: 0, size: size };
+  } else {
+    selectedMerch.value[id].size = size;
   }
 };
 
@@ -157,6 +200,35 @@ const hasTimeConflict = (workshop) => {
         @select="toggleMeal(meal.id)"
       />
     </div>
+
+    <!-- Merchandise Tab view -->
+    <div
+      v-else-if="activeCategory === 'Merchandise'"
+      class="flex flex-col items-start gap-4 w-full"
+    >
+      <!-- Shipping Banner -->
+      <div
+        class="p-4 bg-info-subtle-rest border border-info-muted rounded-md flex items-center gap-3 w-full max-w-[788px] text-sm text-info-emphasis box-border shipping-banner-pop"
+      >
+        <span class="text-lg leading-none">ℹ️</span>
+        <p class="m-0 leading-5">
+          Merchandise items will be shipped to your address one week before the
+          conference. Please ensure your shipping address in Step 1 is correct.
+        </p>
+      </div>
+
+      <MerchandiseCard
+        v-for="item in merchandise"
+        :key="item.id"
+        :item="item"
+        :quantity="selectedMerch[item.id]?.quantity || 0"
+        :selected-size="selectedMerch[item.id]?.size || ''"
+        @update:quantity="
+          (qty) => updateMerchQty(item.id, qty, item.sizes?.[0] || '')
+        "
+        @update:selected-size="(size) => updateMerchSize(item.id, size)"
+      />
+    </div>
   </PageContainer>
   <ActionBar
     next-label="Next: Review"
@@ -164,3 +236,20 @@ const hasTimeConflict = (workshop) => {
     @next="router.push('/review')"
   />
 </template>
+
+<style scoped>
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.97) translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.shipping-banner-pop {
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+</style>
