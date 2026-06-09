@@ -12,6 +12,7 @@
         {{ title }}
       </h3>
       <div
+        v-if="!showLastItemDivider"
         class="flex flex-row items-center p-0 gap-[2px] w-[76px] h-4 flex-none order-1 flex-grow-0"
       >
         <button
