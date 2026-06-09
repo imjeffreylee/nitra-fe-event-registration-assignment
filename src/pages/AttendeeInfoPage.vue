@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
+import ActionBar from '../components/ActionBar.vue';
 import { event } from '../mocks/event.js';
 
 const router = useRouter();
@@ -21,9 +22,11 @@ const router = useRouter();
         />
         <SectionTitle>Attendee Information</SectionTitle>
       </div>
-      <div class="flex justify-end p-4">
-        <q-btn color="primary" label="Next" @click="router.push('/sessions')" />
-      </div>
     </div>
   </main>
+  <ActionBar
+    :show-back="false"
+    @next="router.push('/sessions')"
+    next-label="Next: Session Selection"
+  />
 </template>

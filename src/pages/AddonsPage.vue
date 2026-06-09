@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import ActionBar from '../components/ActionBar.vue';
 const router = useRouter();
 </script>
 
@@ -21,10 +22,11 @@ const router = useRouter();
           Add-on items organized by category will be displayed here.
         </div>
       </div>
-      <div class="flex justify-between p-4">
-        <q-btn flat label="Back" @click="router.push('/sessions')" />
-        <q-btn color="primary" label="Next" @click="router.push('/review')" />
-      </div>
     </div>
   </main>
+  <ActionBar
+    next-label="Next: Review"
+    @back="router.push('/sessions')"
+    @next="router.push('/review')"
+  />
 </template>

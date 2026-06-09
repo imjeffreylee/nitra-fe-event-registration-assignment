@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import ActionBar from '../components/ActionBar.vue';
 const router = useRouter();
 </script>
 
@@ -22,10 +23,11 @@ const router = useRouter();
           displayed here.
         </div>
       </div>
-      <div class="flex justify-between p-4">
-        <q-btn flat label="Back" @click="router.push('/attendeeinfo')" />
-        <q-btn color="primary" label="Next" @click="router.push('/addons')" />
-      </div>
     </div>
   </main>
+  <ActionBar
+    next-label="Next: Add-ons"
+    @back="router.push('/attendeeinfo')"
+    @next="router.push('/addons')"
+  />
 </template>
