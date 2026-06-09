@@ -14,7 +14,6 @@
         :key="ticket.id"
         :ticket="ticket"
         :selected="ticket.id === modelValue"
-        :badge="ticket.id === 'vip' ? 'Best Value' : ''"
         @select="emit('update:modelValue', ticket.id)"
       />
     </div>
