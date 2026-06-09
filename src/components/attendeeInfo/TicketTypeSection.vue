@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import TicketCard from './attendeeInfo/TicketCard.vue';
+import TicketCard from './TicketCard.vue';
 
 defineProps({
   title: {

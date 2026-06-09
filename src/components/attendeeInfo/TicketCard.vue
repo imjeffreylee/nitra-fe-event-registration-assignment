@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import PrimaryIcon from '../assets/Primary.svg';
+import PrimaryIcon from '../../assets/Primary.svg';
 
 const props = defineProps({
   ticket: {
