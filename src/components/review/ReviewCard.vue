@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box-border flex flex-col items-start p-5 gap-3 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] border border-solid border-[#E3E6E8] rounded-[6px] flex-none self-stretch flex-grow-0"
+    class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] border border-solid border-[#E3E6E8] rounded-[6px] flex-none self-stretch flex-grow-0"
   >
     <!-- Header: Title and Edit Button -->
     <div
@@ -13,20 +13,20 @@
       </h3>
       <div
         v-if="!showLastItemDivider"
-        class="flex flex-row items-center p-0 gap-[2px] w-[76px] h-4 flex-none order-1 flex-grow-0"
+        class="flex flex-row items-center p-0 gap-[2px] h-4 flex-none order-1 flex-grow-0"
       >
         <button
           type="button"
-          class="w-[76px] h-4 font-[610] text-[12px] leading-[16px] text-[#3A7679] underline [font-variation-settings:'slnt'_0] border-none bg-transparent cursor-pointer p-0 flex-none order-0 flex-grow-0 text-right"
+          class="h-4 font-semibold text-[12px] leading-[16px] text-[#3A7679] underline [font-variation-settings:'slnt'_0] border-none bg-transparent cursor-pointer p-0 flex-none order-0 flex-grow-0 text-right whitespace-nowrap"
           @click="$emit('edit')"
         >
-          Edit
+          {{ editText }}
         </button>
       </div>
     </div>
 
     <!-- Details Rows -->
-    <div class="flex flex-col gap-3 w-full mt-2">
+    <div class="flex flex-col gap-3 w-full mt-3">
       <template v-for="(item, index) in items" :key="index">
         <!-- Divider before the last item if requested -->
         <div
@@ -87,6 +87,10 @@ defineProps({
   showLastItemDivider: {
     type: Boolean,
     default: false,
+  },
+  editText: {
+    type: String,
+    default: 'Edit',
   },
 });
 

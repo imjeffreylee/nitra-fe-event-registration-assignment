@@ -327,6 +327,7 @@ const formatCurrency = (value) => {
       title="Attendee Information"
       :items="attendeeItems"
       @edit="router.push('/attendeeinfo')"
+      editText="Edit → Step 1"
     />
 
     <!-- Review Block 2: Selected Sessions -->
@@ -334,6 +335,7 @@ const formatCurrency = (value) => {
       title="Selected Sessions"
       :items="sessionItems"
       @edit="router.push('/sessions')"
+      editText="Edit → Step 2"
     />
 
     <!-- Review Block 3: Selected Add-ons -->
@@ -341,6 +343,7 @@ const formatCurrency = (value) => {
       title="Selected Add-ons"
       :items="addonItems"
       @edit="router.push('/addons')"
+      editText="Edit → Step 3"
     />
 
     <!-- Review Block 4: Pricing Summary -->
