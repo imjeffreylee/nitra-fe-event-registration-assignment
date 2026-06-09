@@ -97,12 +97,14 @@
           max {{ item.maxQuantity }}
         </span>
       </div>
+    </div>
 
-      <!-- Added to Order Indicator -->
-      <span
-        v-if="quantity > 0"
-        class="font-semibold text-[11px] leading-[13px] text-success"
-      >
+    <!-- Added to Order Indicator -->
+    <div
+      v-if="quantity > 0"
+      class="flex flex-row items-center p-0 self-stretch mt-1"
+    >
+      <span class="font-semibold text-[11px] leading-[13px] text-success">
         ✓ Added to order
       </span>
     </div>
