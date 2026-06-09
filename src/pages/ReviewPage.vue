@@ -6,6 +6,7 @@ import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import ReviewCard from '../components/review/ReviewCard.vue';
 import { sessions } from '../mocks/sessions.js';
+import { addons } from '../mocks/addons.js';
 import { event } from '../mocks/event.js';
 
 const router = useRouter();
@@ -22,6 +23,11 @@ const ticketType = ref('vip');
 // Persisted selected sessions
 const selectedSessionIds = ref([]);
 
+// Persisted selected addons
+const selectedWorkshops = ref([]);
+const selectedMeals = ref([]);
+const selectedMerch = ref({});
+
 onMounted(() => {
   fullName.value = localStorage.getItem('attendee_full_name') || '';
   email.value = localStorage.getItem('attendee_email') || '';
@@ -36,6 +42,30 @@ onMounted(() => {
   if (savedSessions) {
     try {
       selectedSessionIds.value = JSON.parse(savedSessions);
+    } catch (e) {}
+  }
+
+  // Load workshops
+  const savedWorkshops = localStorage.getItem('selected_workshops');
+  if (savedWorkshops) {
+    try {
+      selectedWorkshops.value = JSON.parse(savedWorkshops);
+    } catch (e) {}
+  }
+
+  // Load meals
+  const savedMeals = localStorage.getItem('selected_meals');
+  if (savedMeals) {
+    try {
+      selectedMeals.value = JSON.parse(savedMeals);
+    } catch (e) {}
+  }
+
+  // Load merchandise
+  const savedMerch = localStorage.getItem('selected_merchandise');
+  if (savedMerch) {
+    try {
+      selectedMerch.value = JSON.parse(savedMerch);
     } catch (e) {}
   }
 });
@@ -86,6 +116,58 @@ const sessionItems = computed(() => {
     label: formatSessionTime(s),
     value: s.title,
   }));
+});
+
+// Format selected addons list by kind
+const addonItems = computed(() => {
+  const list = [];
+
+  // 1. Selected Workshops
+  selectedWorkshops.value.forEach((id) => {
+    const ws = addons.find((a) => a.id === id);
+    if (ws) {
+      list.push({
+        label: 'Workshop',
+        value: `${ws.name} (${formatCurrency(ws.price)})`,
+      });
+    }
+  });
+
+  // 2. Selected Meals
+  selectedMeals.value.forEach((id) => {
+    const meal = addons.find((a) => a.id === id);
+    if (meal) {
+      list.push({
+        label: 'Meal Package',
+        value: `${meal.name} (${formatCurrency(meal.price)})`,
+      });
+    }
+  });
+
+  // 3. Selected Merchandise
+  Object.entries(selectedMerch.value).forEach(([id, data]) => {
+    if (!data || data.quantity <= 0) return;
+    const merch = addons.find((a) => a.id === id);
+    if (merch) {
+      let displayName = merch.name;
+      if (merch.sizes && merch.sizes.length > 0 && data.size) {
+        displayName += ` (${data.size})`;
+      }
+      displayName += ` x ${data.quantity}`;
+
+      const itemTotal = merch.price * data.quantity;
+      list.push({
+        label: 'Merchandise',
+        value: `${displayName} (${formatCurrency(itemTotal)})`,
+      });
+    }
+  });
+
+  if (list.length === 0) {
+    return [{ label: 'Add-ons', value: 'No add-ons selected' }];
+  }
+
+  return list;
 });
 
 // Formats a session date & time range cleanly
@@ -144,6 +226,13 @@ const formatCurrency = (value) => {
       title="Selected Sessions"
       :items="sessionItems"
       @edit="router.push('/sessions')"
+    />
+
+    <!-- Review Block 3: Selected Add-ons -->
+    <ReviewCard
+      title="Selected Add-ons"
+      :items="addonItems"
+      @edit="router.push('/addons')"
     />
   </PageContainer>
   <ActionBar
