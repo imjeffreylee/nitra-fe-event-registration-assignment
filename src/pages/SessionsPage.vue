@@ -55,10 +55,20 @@ const toggleSession = (id) => {
 </script>
 
 <template>
-  <PageContainer content-class="space-y-8">
+  <PageContainer content-class="space-y-6">
     <SectionTitle>Select Sessions</SectionTitle>
     <AppTabs v-model="activeDay" :options="['Nov 15', 'Nov 16']" />
-
+    <!-- Selected Sessions Count -->
+    <div>
+      <span
+        class="text-[12px] leading-4 font-[550] text-[#264D4F] [font-variation-settings:'slnt'_0] flex-none"
+      >
+        {{ selectedSessions.length }} session{{
+          selectedSessions.length === 1 ? '' : 's'
+        }}
+        selected
+      </span>
+    </div>
     <!-- Day 1 Sessions Section -->
     <div v-if="activeDay === 'Nov 15'" class="w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
@@ -71,7 +81,6 @@ const toggleSession = (id) => {
         />
       </div>
     </div>
-
     <!-- Day 2 Sessions Section -->
     <div v-else-if="activeDay === 'Nov 16'" class="w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
