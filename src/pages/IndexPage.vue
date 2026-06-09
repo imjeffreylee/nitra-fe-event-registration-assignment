@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import AppHeader from '../components/AppHeader.vue';
 import AppStepper from '../components/AppStepper.vue';
+import TicketTypeSection from '../components/TicketTypeSection.vue';
+import { event } from '../mocks/event.js';
 
 // Step definitions matching the README requirements
 const steps = ['Attendee Info', 'Sessions', 'Add-ons', 'Review'];
@@ -32,7 +34,9 @@ const prevStep = () => {
     <q-page-container>
       <q-page class="min-h-screen flex flex-col">
         <!-- Progress Stepper Row -->
-        <div class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none">
+        <div
+          class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none"
+        >
           <AppStepper v-model="currentStep" :steps="steps" clickable />
         </div>
 
@@ -41,29 +45,14 @@ const prevStep = () => {
           class="flex-1 flex flex-col justify-center items-center px-4 py-8 max-w-[1440px] mx-auto w-full"
         >
           <div
-            class="bg-white border border-gray-100 rounded-lg p-8 w-full max-w-[800px] shadow-sm flex flex-col min-h-[350px] justify-between"
+            class="bg-white border border-gray-100 rounded-lg p-8 w-full shadow-sm flex flex-col min-h-[350px] justify-between"
           >
             <div>
-              <div
-                class="text-neutral-quiet text-[12px] font-bold uppercase tracking-wider mb-2"
-              >
-                Step {{ currentStep }} of {{ steps.length }}
-              </div>
-              <h2 class="text-h2 text-neutral font-bold mb-4">
-                {{ steps[currentStep - 1] }}
-              </h2>
-
-              <!-- Dummy Content Placeholders -->
               <div v-if="currentStep === 1" class="space-y-4">
-                <p class="text-neutral-muted">
-                  Please enter your contact details and select your ticket type.
-                </p>
-                <div
-                  class="p-4 bg-surface-l2 rounded border border-gray-100 text-sm text-neutral-muted"
-                >
-                  Ticket Selection & Personal Details fields will be displayed
-                  here.
-                </div>
+                <TicketTypeSection
+                  title="Select Ticket Type"
+                  :tickets="event.ticketTypes"
+                />
               </div>
 
               <div v-else-if="currentStep === 2" class="space-y-4">
