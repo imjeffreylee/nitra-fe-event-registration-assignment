@@ -5,19 +5,21 @@
       isFull && !selected
         ? 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] opacity-60 cursor-not-allowed'
         : selected
-        ? 'bg-[#EEF6F7] border-2 border-solid border-[#264D4F] cursor-pointer'
-        : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-gray-300 cursor-pointer',
+          ? 'bg-[#EEF6F7] border-2 border-solid border-[#264D4F] cursor-pointer'
+          : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-gray-300 cursor-pointer',
     ]"
     @click="handleCardClick"
   >
     <!-- Top Row (Badge + Selection Checkbox) -->
-    <div class="flex flex-row justify-between items-center w-full self-stretch flex-none h-5">
+    <div
+      class="flex flex-row justify-between items-center w-full self-stretch flex-none h-5"
+    >
       <!-- Track Badge -->
       <div
         class="flex flex-row justify-center items-center px-[5px] py-[3px] bg-[#EBEEEF] rounded-full flex-none h-5"
       >
         <span
-          class="text-[11px] leading-[14px] font-[570] text-[#5C6970] px-1 capitalize [font-variation-settings:'slnt'_0]"
+          class="text-[11px] leading-[14px] font-[570] text-[#5C6970] px-1 uppercase [font-variation-settings:'slnt'_0]"
         >
           {{ session.track }}
         </span>
@@ -27,9 +29,7 @@
       <div
         class="relative w-4 h-4 flex-none rounded-[2px] transition-all duration-200"
         :class="[
-          selected
-            ? 'bg-[#264D4F]'
-            : 'border border-solid border-[#5C6970]',
+          selected ? 'bg-[#264D4F]' : 'border border-solid border-[#5C6970]',
         ]"
       >
         <!-- Checkmark SVG -->
@@ -74,7 +74,9 @@
     </div>
 
     <!-- Capacity Bar -->
-    <div class="relative w-full h-[6px] bg-[#EBEEEF] rounded-[3px] self-stretch flex-none mt-1">
+    <div
+      class="relative w-full h-[6px] bg-[#EBEEEF] rounded-[3px] self-stretch flex-none mt-1"
+    >
       <div
         class="absolute left-0 top-0 h-[6px] rounded-[3px] transition-all duration-300"
         :class="isFull ? 'bg-[#9EAFB8]' : 'bg-[#C94A03]'"
@@ -87,7 +89,7 @@
       class="text-[11px] leading-[14px] font-medium flex-none"
       :class="isFull ? 'text-[#5C6970]' : 'text-[#A13B02]'"
     >
-      <span v-if="isFull">Fully Booked</span>
+      <span v-if="isFull">Sold Out</span>
       <span v-else>{{ spotsLeft }} spots left</span>
     </div>
   </div>
@@ -110,7 +112,9 @@ const props = defineProps({
 const emit = defineEmits(['select']);
 
 // Check if fully booked
-const isFull = computed(() => props.session.registered >= props.session.capacity);
+const isFull = computed(
+  () => props.session.registered >= props.session.capacity,
+);
 
 // Spots left calculation
 const spotsLeft = computed(() => {
@@ -120,7 +124,10 @@ const spotsLeft = computed(() => {
 // Capacity percentage
 const registeredPercentage = computed(() => {
   if (!props.session.capacity) return 0;
-  return Math.min((props.session.registered / props.session.capacity) * 100, 100);
+  return Math.min(
+    (props.session.registered / props.session.capacity) * 100,
+    100,
+  );
 });
 
 // Clean time formatting helper (UTC-based to ensure machine consistency)
