@@ -89,13 +89,13 @@ watch(shippingAddress, (newVal) => {
       <!-- Row 1: Full Name + Email -->
       <div class="flex flex-row items-start p-0 gap-6 self-stretch">
         <FormField
-          label="Full Name"
+          label="Full Name *"
           placeholder="Enter your full name"
           v-model="fullName"
           required
         />
         <FormField
-          label="Email"
+          label="Email *"
           type="email"
           placeholder="Enter your email"
           v-model="email"
@@ -105,14 +105,14 @@ watch(shippingAddress, (newVal) => {
       <!-- Row 2: Phone + Company -->
       <div class="flex flex-row items-start p-0 gap-6 self-stretch">
         <FormField
-          label="Phone"
+          label="Phone *"
           type="tel"
           placeholder="Enter your phone number"
           v-model="phone"
           required
         />
         <FormField
-          label="Company"
+          label="Company *"
           placeholder="Enter your company name"
           v-model="company"
           required

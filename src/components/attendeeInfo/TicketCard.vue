@@ -42,9 +42,15 @@
     <!-- Badge -->
     <div
       class="flex flex-row justify-center items-center px-[5px] py-[3px] bg-[#0D7248] rounded-full flex-none transition-all duration-200"
-      :class="selected ? 'visible opacity-100 scale-100' : 'invisible opacity-0 scale-95'"
+      :class="
+        selected
+          ? 'visible opacity-100 scale-100'
+          : 'invisible opacity-0 scale-95'
+      "
     >
-      <span class="text-[11px] leading-[14px] font-medium text-white px-1">Selected</span>
+      <span class="text-[11px] leading-[14px] font-medium text-white px-1"
+        >✓ Selected</span
+      >
     </div>
   </div>
 </template>
