@@ -5,6 +5,7 @@ import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import ReviewCard from '../components/review/ReviewCard.vue';
+import ErrorBanner from '../components/review/ErrorBanner.vue';
 import { sessions } from '../mocks/sessions.js';
 import { addons } from '../mocks/addons.js';
 import { event } from '../mocks/event.js';
@@ -290,15 +291,25 @@ const formatCurrency = (value) => {
   }).format(value);
 };
 
-// Check if any required field is missing in order to disable Submit button
-const hasMissingRequired = computed(() => {
-  if (isRequired.value.fullName && !fullName.value) return true;
-  if (isRequired.value.email && !email.value) return true;
-  if (isRequired.value.phone && !phone.value) return true;
-  if (isRequired.value.company && !company.value) return true;
-  if (isRequired.value.jobTitle && !jobTitle.value) return true;
-  if (isRequired.value.shippingAddress && !shippingAddress.value) return true;
-  return false;
+// Compile active missing errors to pass to ErrorBanner
+const validationErrors = computed(() => {
+  const errs = [];
+  if (isRequired.value.fullName && !fullName.value) {
+    errs.push('Step 1: Full name is required');
+  }
+  if (isRequired.value.email && !email.value) {
+    errs.push('Step 1: Email is required');
+  }
+  if (isRequired.value.phone && !phone.value) {
+    errs.push('Step 1: Phone number is required');
+  }
+  if (isRequired.value.company && !company.value) {
+    errs.push('Step 1: Company is required');
+  }
+  if (isRequired.value.shippingAddress && !shippingAddress.value) {
+    errs.push('Step 1: Shipping address is required for merchandise orders');
+  }
+  return errs;
 });
 
 // Submission action handler
@@ -312,6 +323,12 @@ const submitRegistration = () => {
 <template>
   <PageContainer content-class="space-y-8">
     <SectionTitle>Review Your Registration</SectionTitle>
+
+    <!-- Error Banner (only shown if there are errors) -->
+    <ErrorBanner
+      v-if="validationErrors.length > 0"
+      :errors="validationErrors"
+    />
 
     <!-- Review Block 1: Attendee Information -->
     <ReviewCard
@@ -347,7 +364,7 @@ const submitRegistration = () => {
   </PageContainer>
   <ActionBar
     :show-next="true"
-    :disable-next="hasMissingRequired"
+    :disable-next="validationErrors.length > 0"
     @back="router.push('/addons')"
     @next="submitRegistration"
     next-label="Submit Registration"
