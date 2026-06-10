@@ -15,15 +15,7 @@
       class="flex flex-row justify-between items-center w-full self-stretch flex-none h-5"
     >
       <!-- Track Badge -->
-      <div
-        class="flex flex-row justify-center items-center px-[5px] py-[3px] bg-[#EBEEEF] rounded-full flex-none h-5"
-      >
-        <span
-          class="text-[11px] leading-[14px] font-[570] text-[#5C6970] px-1 uppercase [font-variation-settings:'slnt'_0]"
-        >
-          {{ session.track }}
-        </span>
-      </div>
+      <TrackBadge :track="session.track" />
 
       <!-- Selection Checkbox -->
       <div
@@ -97,6 +89,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import TrackBadge from './TrackBadge.vue';
 
 const props = defineProps({
   session: {
