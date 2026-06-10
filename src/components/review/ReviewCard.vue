@@ -1,13 +1,19 @@
 <template>
   <div
-    class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] border border-solid border-[#E3E6E8] rounded-[6px] flex-none self-stretch flex-grow-0"
+    class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] rounded-[6px] flex-none self-stretch flex-grow-0"
+    :class="
+      hasMissingRequired
+        ? 'border-2 border-solid border-danger-emphasis'
+        : 'border border-solid border-[#E3E6E8]'
+    "
   >
     <!-- Header: Title and Edit Button -->
     <div
       class="flex flex-row justify-between items-center p-0 w-full flex-none self-stretch flex-grow-0 h-5"
     >
       <h3
-        class="font-semibold text-[16px] leading-[20px] text-neutral flex-none order-0 flex-grow-0 m-0"
+        class="font-semibold text-[16px] leading-[20px] flex-none order-0 flex-grow-0 m-0"
+        :class="hasMissingRequired ? 'text-danger' : 'text-neutral'"
       >
         {{ title }}
       </h3>
@@ -117,5 +123,14 @@ const visibleItems = computed(() => {
     if (item.required) return true;
     return item.value !== undefined && item.value !== null && item.value !== '';
   });
+});
+
+// Detect if any required field is missing/empty
+const hasMissingRequired = computed(() => {
+  return props.items.some(
+    (item) =>
+      item.required &&
+      (item.value === undefined || item.value === null || item.value === ''),
+  );
 });
 </script>
