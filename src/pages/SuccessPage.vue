@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { event } from '../mocks/event.js';
+import SuccessIcon from '../assets/SuccessIcon.svg';
 
 const route = useRoute();
 const router = useRouter();
@@ -26,21 +27,10 @@ const startNewRegistration = () => {
     class="flex flex-col justify-center items-center py-[60px] px-4 gap-4 w-full max-w-[1440px] min-h-[827px] bg-white self-stretch flex-1 mx-auto"
   >
     <!-- Success Icon -->
-    <div
-      class="flex flex-col justify-center items-center p-0 w-20 h-20 bg-[#15B471] rounded-full flex-none order-0 flex-grow-0"
+    <SuccessIcon
+      class="flex-none order-0 flex-grow-0 w-20 h-20"
       aria-hidden="true"
-    >
-      <svg
-        class="w-[36px] h-[28px] stroke-white flex-none order-0 flex-grow-0"
-        viewBox="0 0 24 24"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        fill="none"
-      >
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    </div>
+    />
 
     <!-- Title -->
     <h2
