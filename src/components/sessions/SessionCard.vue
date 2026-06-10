@@ -71,7 +71,7 @@
     >
       <div
         class="absolute left-0 top-0 h-[6px] rounded-[3px] transition-all duration-300"
-        :class="isFull ? 'bg-[#9EAFB8]' : 'bg-[#C94A03]'"
+        :class="capacityBarColorClass"
         :style="{ width: `${registeredPercentage}%` }"
       />
     </div>
@@ -121,6 +121,21 @@ const registeredPercentage = computed(() => {
     (props.session.registered / props.session.capacity) * 100,
     100,
   );
+});
+
+// Capacity bar color based on registration percentage
+const capacityBarColorClass = computed(() => {
+  if (isFull.value) {
+    return 'bg-[#9EAFB8]';
+  }
+  const percentage = registeredPercentage.value;
+  if (percentage >= 75) {
+    return 'bg-accent-bold-rest';
+  }
+  if (percentage >= 50) {
+    return 'bg-[var(--text-warning-default)]';
+  }
+  return 'bg-brand-emphasis-rest';
 });
 
 // Clean time formatting helper (UTC-based to ensure machine consistency)
