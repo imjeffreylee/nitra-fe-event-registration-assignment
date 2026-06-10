@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
@@ -11,83 +11,19 @@ import OrderSummary from '../components/addons/OrderSummary.vue';
 import InfoIcon from '../assets/Info.svg';
 import { addons } from '../mocks/addons.js';
 import { sessions } from '../mocks/sessions.js';
+import { useRegistration } from '../composables/useRegistration.js';
 
 const router = useRouter();
 const activeCategory = ref('Workshops');
 
-// Persistent state variables
-const selectedTicket = ref('vip');
-const selectedSessionIds = ref([]);
-const selectedWorkshops = ref([]);
-const selectedMeals = ref([]);
-const selectedMerch = ref({});
-
-onMounted(() => {
-  // Load selected ticket type
-  const savedTicket = localStorage.getItem('selected_ticket');
-  if (savedTicket) {
-    selectedTicket.value = savedTicket;
-  }
-
-  // Load selected sessions
-  const savedSessions = localStorage.getItem('selected_sessions');
-  if (savedSessions) {
-    try {
-      selectedSessionIds.value = JSON.parse(savedSessions);
-    } catch (e) {}
-  }
-
-  // Load selected workshops
-  const savedWorkshops = localStorage.getItem('selected_workshops');
-  if (savedWorkshops) {
-    try {
-      selectedWorkshops.value = JSON.parse(savedWorkshops);
-    } catch (e) {}
-  }
-
-  // Load selected meals
-  const savedMeals = localStorage.getItem('selected_meals');
-  if (savedMeals) {
-    try {
-      selectedMeals.value = JSON.parse(savedMeals);
-    } catch (e) {}
-  }
-
-  // Load selected merchandise
-  const savedMerch = localStorage.getItem('selected_merchandise');
-  if (savedMerch) {
-    try {
-      selectedMerch.value = JSON.parse(savedMerch);
-    } catch (e) {}
-  }
-});
-
-// Watch and save workshops
-watch(
+// Connect component variables to the shared registration composable
+const {
+  ticketType: selectedTicket,
+  selectedSessions: selectedSessionIds,
   selectedWorkshops,
-  (newVal) => {
-    localStorage.setItem('selected_workshops', JSON.stringify(newVal));
-  },
-  { deep: true },
-);
-
-// Watch and save meals
-watch(
   selectedMeals,
-  (newVal) => {
-    localStorage.setItem('selected_meals', JSON.stringify(newVal));
-  },
-  { deep: true },
-);
-
-// Watch and save merchandise
-watch(
-  selectedMerch,
-  (newVal) => {
-    localStorage.setItem('selected_merchandise', JSON.stringify(newVal));
-  },
-  { deep: true },
-);
+  selectedMerchandise: selectedMerch,
+} = useRegistration();
 
 // Check if current user is VIP
 const isVip = computed(() => selectedTicket.value === 'vip');

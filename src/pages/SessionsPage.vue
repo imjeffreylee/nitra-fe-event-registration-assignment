@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
@@ -7,31 +7,13 @@ import SessionCard from '../components/sessions/SessionCard.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
 import { sessions } from '../mocks/sessions.js';
+import { useRegistration } from '../composables/useRegistration.js';
 
 const router = useRouter();
 
-// Persistent selection state
-const selectedSessions = ref([]);
+// Retrieve selectedSessions directly from global state
+const { selectedSessions } = useRegistration();
 const activeDay = ref('Nov 15');
-
-onMounted(() => {
-  const saved = localStorage.getItem('selected_sessions');
-  if (saved) {
-    try {
-      selectedSessions.value = JSON.parse(saved);
-    } catch (e) {
-      selectedSessions.value = [];
-    }
-  }
-});
-
-watch(
-  selectedSessions,
-  (newVal) => {
-    localStorage.setItem('selected_sessions', JSON.stringify(newVal));
-  },
-  { deep: true },
-);
 
 // Grouping logic
 const day1Sessions = computed(() => {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
@@ -8,67 +8,25 @@ import ReviewCard from '../components/review/ReviewCard.vue';
 import { sessions } from '../mocks/sessions.js';
 import { addons } from '../mocks/addons.js';
 import { event } from '../mocks/event.js';
+import { useRegistration } from '../composables/useRegistration.js';
 
 const router = useRouter();
 
-// Persisted attendee details loaded from localStorage
-const fullName = ref('');
-const email = ref('');
-const phone = ref('');
-const company = ref('');
-const jobTitle = ref('');
-const shippingAddress = ref('');
-const ticketType = ref('vip');
-
-// Persisted selected sessions
-const selectedSessionIds = ref([]);
-
-// Persisted selected addons
-const selectedWorkshops = ref([]);
-const selectedMeals = ref([]);
-const selectedMerch = ref({});
-
-onMounted(() => {
-  fullName.value = localStorage.getItem('attendee_full_name') || '';
-  email.value = localStorage.getItem('attendee_email') || '';
-  phone.value = localStorage.getItem('attendee_phone') || '';
-  company.value = localStorage.getItem('attendee_company') || '';
-  jobTitle.value = localStorage.getItem('attendee_job_title') || '';
-  shippingAddress.value =
-    localStorage.getItem('attendee_shipping_address') || '';
-  ticketType.value = localStorage.getItem('selected_ticket') || 'vip';
-
-  const savedSessions = localStorage.getItem('selected_sessions');
-  if (savedSessions) {
-    try {
-      selectedSessionIds.value = JSON.parse(savedSessions);
-    } catch (e) {}
-  }
-
-  // Load workshops
-  const savedWorkshops = localStorage.getItem('selected_workshops');
-  if (savedWorkshops) {
-    try {
-      selectedWorkshops.value = JSON.parse(savedWorkshops);
-    } catch (e) {}
-  }
-
-  // Load meals
-  const savedMeals = localStorage.getItem('selected_meals');
-  if (savedMeals) {
-    try {
-      selectedMeals.value = JSON.parse(savedMeals);
-    } catch (e) {}
-  }
-
-  // Load merchandise
-  const savedMerch = localStorage.getItem('selected_merchandise');
-  if (savedMerch) {
-    try {
-      selectedMerch.value = JSON.parse(savedMerch);
-    } catch (e) {}
-  }
-});
+// Retrieve all reactive values and actions from the global composable
+const {
+  fullName,
+  email,
+  phone,
+  company,
+  jobTitle,
+  shippingAddress,
+  ticketType,
+  selectedSessions: selectedSessionIds,
+  selectedWorkshops,
+  selectedMeals,
+  selectedMerchandise: selectedMerch,
+  clearRegistration,
+} = useRegistration();
 
 const ticketTypeObj = computed(() => {
   return (
@@ -316,6 +274,13 @@ const formatCurrency = (value) => {
     currency: 'USD',
   }).format(value);
 };
+
+// Submission action handler
+const submitRegistration = () => {
+  alert('Registration submitted successfully!');
+  clearRegistration();
+  router.push('/attendeeinfo');
+};
 </script>
 
 <template>
@@ -355,8 +320,9 @@ const formatCurrency = (value) => {
     />
   </PageContainer>
   <ActionBar
-    :show-next="false"
+    :show-next="true"
     @back="router.push('/addons')"
+    @next="submitRegistration"
     next-label="Submit Registration"
   />
 </template>

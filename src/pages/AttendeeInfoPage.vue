@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/attendeeInfo/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -7,72 +7,25 @@ import FormField from '../components/attendeeInfo/FormField.vue';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import { event } from '../mocks/event.js';
+import { useRegistration } from '../composables/useRegistration.js';
 
 const router = useRouter();
-const selectedTicket = ref('vip');
 
-// Form state variables
-const fullName = ref('');
-const email = ref('');
-const phone = ref('');
-const company = ref('');
-const jobTitle = ref('');
-const shippingAddress = ref('');
-const hasMerchandise = ref(false);
+const {
+  ticketType: selectedTicket,
+  fullName,
+  email,
+  phone,
+  company,
+  jobTitle,
+  shippingAddress,
+  selectedMerchandise,
+} = useRegistration();
 
-onMounted(() => {
-  const saved = localStorage.getItem('selected_ticket');
-  if (saved) {
-    selectedTicket.value = saved;
-  } else {
-    localStorage.setItem('selected_ticket', 'vip');
-  }
-
-  fullName.value = localStorage.getItem('attendee_full_name') || '';
-  email.value = localStorage.getItem('attendee_email') || '';
-  phone.value = localStorage.getItem('attendee_phone') || '';
-  company.value = localStorage.getItem('attendee_company') || '';
-  jobTitle.value = localStorage.getItem('attendee_job_title') || '';
-  shippingAddress.value =
-    localStorage.getItem('attendee_shipping_address') || '';
-
-  const savedMerch = localStorage.getItem('selected_merchandise');
-  if (savedMerch) {
-    try {
-      const merch = JSON.parse(savedMerch);
-      hasMerchandise.value = Object.values(merch).some(
-        (m) => m && m.quantity > 0,
-      );
-    } catch (e) {}
-  }
-});
-
-watch(selectedTicket, (newVal) => {
-  localStorage.setItem('selected_ticket', newVal);
-});
-
-watch(fullName, (newVal) => {
-  localStorage.setItem('attendee_full_name', newVal);
-});
-
-watch(email, (newVal) => {
-  localStorage.setItem('attendee_email', newVal);
-});
-
-watch(phone, (newVal) => {
-  localStorage.setItem('attendee_phone', newVal);
-});
-
-watch(company, (newVal) => {
-  localStorage.setItem('attendee_company', newVal);
-});
-
-watch(jobTitle, (newVal) => {
-  localStorage.setItem('attendee_job_title', newVal);
-});
-
-watch(shippingAddress, (newVal) => {
-  localStorage.setItem('attendee_shipping_address', newVal);
+const hasMerchandise = computed(() => {
+  return Object.values(selectedMerchandise.value).some(
+    (m) => m && m.quantity > 0,
+  );
 });
 </script>
 
