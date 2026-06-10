@@ -18,6 +18,7 @@ const phone = ref('');
 const company = ref('');
 const jobTitle = ref('');
 const shippingAddress = ref('');
+const hasMerchandise = ref(false);
 
 onMounted(() => {
   const saved = localStorage.getItem('selected_ticket');
@@ -34,6 +35,16 @@ onMounted(() => {
   jobTitle.value = localStorage.getItem('attendee_job_title') || '';
   shippingAddress.value =
     localStorage.getItem('attendee_shipping_address') || '';
+
+  const savedMerch = localStorage.getItem('selected_merchandise');
+  if (savedMerch) {
+    try {
+      const merch = JSON.parse(savedMerch);
+      hasMerchandise.value = Object.values(merch).some(
+        (m) => m && m.quantity > 0,
+      );
+    } catch (e) {}
+  }
 });
 
 watch(selectedTicket, (newVal) => {
@@ -118,9 +129,14 @@ watch(shippingAddress, (newVal) => {
       <!-- Row 4: Shipping Address (full width) -->
       <div class="flex flex-row items-start p-0 gap-6 self-stretch">
         <FormField
-          label="Shipping Address (Optional)"
+          :label="
+            hasMerchandise
+              ? 'Shipping Address *'
+              : 'Shipping Address (Optional)'
+          "
           placeholder="Enter your shipping address"
           v-model="shippingAddress"
+          :required="hasMerchandise"
         />
       </div>
     </div>
