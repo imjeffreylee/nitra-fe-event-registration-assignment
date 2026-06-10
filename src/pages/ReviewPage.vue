@@ -88,11 +88,11 @@ const ticketLabel = computed(() => {
 // Format attendee information as generic key-value items
 const attendeeItems = computed(() => {
   return [
-    { label: 'Name', value: fullName.value || '—' },
-    { label: 'Email', value: email.value || '—' },
-    { label: 'Phone', value: phone.value || '—' },
-    { label: 'Company', value: company.value || '—' },
-    { label: 'Job Title', value: jobTitle.value || '—' },
+    { label: 'Name', value: fullName.value, required: true },
+    { label: 'Email', value: email.value, required: true },
+    { label: 'Phone', value: phone.value, required: true },
+    { label: 'Company', value: company.value, required: true },
+    { label: 'Job Title', value: jobTitle.value },
     {
       label: 'Ticket Type',
       value: `${ticketLabel.value} (${formatCurrency(ticketPrice.value)})`,

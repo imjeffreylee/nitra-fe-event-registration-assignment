@@ -27,13 +27,13 @@
 
     <!-- Details Rows -->
     <div class="flex flex-col gap-3 w-full mt-3">
-      <template v-for="(item, index) in items" :key="index">
+      <template v-for="(item, index) in visibleItems" :key="index">
         <!-- Divider before the last item if requested -->
         <div
           v-if="
             showLastItemDivider &&
-            index === items.length - 1 &&
-            items.length > 0
+            index === visibleItems.length - 1 &&
+            visibleItems.length > 0
           "
           class="w-full h-[1px] bg-[rgba(0,0,0,0.05)] self-stretch flex-none"
         />
@@ -45,7 +45,7 @@
             class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-0 flex-grow text-left break-words max-w-[45%]"
             :class="[
               item.labelClass || 'text-neutral-muted',
-              showLastItemDivider && index === items.length - 1
+              showLastItemDivider && index === visibleItems.length - 1
                 ? 'font-[550]'
                 : item.labelClass
                   ? ''
@@ -57,15 +57,29 @@
           <span
             class="text-[12px] leading-[16px] [font-variation-settings:'slnt'_0] flex-1 order-1 flex-grow text-right break-words max-w-[55%]"
             :class="[
-              item.valueClass || 'text-neutral',
-              showLastItemDivider && index === items.length - 1
-                ? 'font-[550]'
-                : item.valueClass
-                  ? ''
-                  : 'font-[485]',
+              item.required &&
+              (item.value === undefined ||
+                item.value === null ||
+                item.value === '')
+                ? 'text-[#C71A1A] font-[485]'
+                : [
+                    item.valueClass || 'text-neutral',
+                    showLastItemDivider && index === visibleItems.length - 1
+                      ? 'font-[550]'
+                      : item.valueClass
+                        ? ''
+                        : 'font-[485]',
+                  ],
             ]"
           >
-            {{ item.value }}
+            {{
+              item.required &&
+              (item.value === undefined ||
+                item.value === null ||
+                item.value === '')
+                ? '— (required)'
+                : item.value
+            }}
           </span>
         </div>
       </template>
@@ -74,7 +88,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -82,7 +98,7 @@ defineProps({
   items: {
     type: Array,
     required: true,
-    // Expects: { label: String, value: String }[]
+    // Expects: { label: String, value: String, required?: Boolean }[]
   },
   showLastItemDivider: {
     type: Boolean,
@@ -95,4 +111,11 @@ defineProps({
 });
 
 defineEmits(['edit']);
+
+const visibleItems = computed(() => {
+  return props.items.filter((item) => {
+    if (item.required) return true;
+    return item.value !== undefined && item.value !== null && item.value !== '';
+  });
+});
 </script>
