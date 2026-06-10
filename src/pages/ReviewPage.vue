@@ -25,6 +25,7 @@ const {
   selectedWorkshops,
   selectedMeals,
   selectedMerchandise: selectedMerch,
+  isRequired,
   clearRegistration,
 } = useRegistration();
 
@@ -46,11 +47,11 @@ const ticketLabel = computed(() => {
 // Format attendee information as generic key-value items
 const attendeeItems = computed(() => {
   return [
-    { label: 'Name', value: fullName.value, required: true },
-    { label: 'Email', value: email.value, required: true },
-    { label: 'Phone', value: phone.value, required: true },
-    { label: 'Company', value: company.value, required: true },
-    { label: 'Job Title', value: jobTitle.value },
+    { label: 'Name', value: fullName.value, required: isRequired.value.fullName },
+    { label: 'Email', value: email.value, required: isRequired.value.email },
+    { label: 'Phone', value: phone.value, required: isRequired.value.phone },
+    { label: 'Company', value: company.value, required: isRequired.value.company },
+    { label: 'Job Title', value: jobTitle.value, required: isRequired.value.jobTitle },
     {
       label: 'Ticket Type',
       value: `${ticketLabel.value} (${formatCurrency(ticketPrice.value)})`,
@@ -58,6 +59,7 @@ const attendeeItems = computed(() => {
     {
       label: 'Shipping Address',
       value: shippingAddress.value || 'Not provided',
+      required: isRequired.value.shippingAddress,
     },
   ];
 });

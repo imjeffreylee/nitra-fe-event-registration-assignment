@@ -1,4 +1,4 @@
-import { reactive, watch, toRefs } from 'vue';
+import { reactive, watch, toRefs, computed } from 'vue';
 
 // Helper for safe JSON parsing
 const safeParseJson = (key, fallback) => {
@@ -29,54 +29,106 @@ const state = reactive({
 });
 
 // 2. Individual properties synchronization watchers
-watch(() => state.ticketType, (val) => {
-  localStorage.setItem('selected_ticket', val);
-});
+watch(
+  () => state.ticketType,
+  (val) => {
+    localStorage.setItem('selected_ticket', val);
+  },
+);
 
-watch(() => state.fullName, (val) => {
-  localStorage.setItem('attendee_full_name', val);
-});
+watch(
+  () => state.fullName,
+  (val) => {
+    localStorage.setItem('attendee_full_name', val);
+  },
+);
 
-watch(() => state.email, (val) => {
-  localStorage.setItem('attendee_email', val);
-});
+watch(
+  () => state.email,
+  (val) => {
+    localStorage.setItem('attendee_email', val);
+  },
+);
 
-watch(() => state.phone, (val) => {
-  localStorage.setItem('attendee_phone', val);
-});
+watch(
+  () => state.phone,
+  (val) => {
+    localStorage.setItem('attendee_phone', val);
+  },
+);
 
-watch(() => state.company, (val) => {
-  localStorage.setItem('attendee_company', val);
-});
+watch(
+  () => state.company,
+  (val) => {
+    localStorage.setItem('attendee_company', val);
+  },
+);
 
-watch(() => state.jobTitle, (val) => {
-  localStorage.setItem('attendee_job_title', val);
-});
+watch(
+  () => state.jobTitle,
+  (val) => {
+    localStorage.setItem('attendee_job_title', val);
+  },
+);
 
-watch(() => state.shippingAddress, (val) => {
-  localStorage.setItem('attendee_shipping_address', val);
-});
+watch(
+  () => state.shippingAddress,
+  (val) => {
+    localStorage.setItem('attendee_shipping_address', val);
+  },
+);
 
 // Deep watchers for collections
-watch(() => state.selectedSessions, (val) => {
-  localStorage.setItem('selected_sessions', JSON.stringify(val));
-}, { deep: true });
+watch(
+  () => state.selectedSessions,
+  (val) => {
+    localStorage.setItem('selected_sessions', JSON.stringify(val));
+  },
+  { deep: true },
+);
 
-watch(() => state.selectedWorkshops, (val) => {
-  localStorage.setItem('selected_workshops', JSON.stringify(val));
-}, { deep: true });
+watch(
+  () => state.selectedWorkshops,
+  (val) => {
+    localStorage.setItem('selected_workshops', JSON.stringify(val));
+  },
+  { deep: true },
+);
 
-watch(() => state.selectedMeals, (val) => {
-  localStorage.setItem('selected_meals', JSON.stringify(val));
-}, { deep: true });
+watch(
+  () => state.selectedMeals,
+  (val) => {
+    localStorage.setItem('selected_meals', JSON.stringify(val));
+  },
+  { deep: true },
+);
 
-watch(() => state.selectedMerchandise, (val) => {
-  localStorage.setItem('selected_merchandise', JSON.stringify(val));
-}, { deep: true });
+watch(
+  () => state.selectedMerchandise,
+  (val) => {
+    localStorage.setItem('selected_merchandise', JSON.stringify(val));
+  },
+  { deep: true },
+);
 
 // 3. Export composable hook function
 export function useRegistration() {
-  
+  // Single source of truth for required fields (some are dynamic based on state)
+  const isRequired = computed(() => {
+    const hasMerch = Object.values(state.selectedMerchandise).some(
+      (m) => m && m.quantity > 0,
+    );
+
+    return {
+      fullName: true,
+      email: true,
+      phone: true,
+      company: true,
+      jobTitle: false,
+      shippingAddress: hasMerch,
+    };
+  });
+
   // Clean registration in-memory state and target-remove localStorage entries
   const clearRegistration = () => {
     // Reset in-memory values to defaults (prevents stale state in SPA sessions)
@@ -109,6 +161,7 @@ export function useRegistration() {
   return {
     // Use toRefs so components can safely destructure properties
     ...toRefs(state),
+    isRequired,
     clearRegistration,
   };
 }

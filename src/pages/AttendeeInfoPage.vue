@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/attendeeInfo/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -19,14 +18,8 @@ const {
   company,
   jobTitle,
   shippingAddress,
-  selectedMerchandise,
+  isRequired,
 } = useRegistration();
-
-const hasMerchandise = computed(() => {
-  return Object.values(selectedMerchandise.value).some(
-    (m) => m && m.quantity > 0,
-  );
-});
 </script>
 
 <template>
@@ -45,14 +38,14 @@ const hasMerchandise = computed(() => {
           label="Full Name *"
           placeholder="Enter your full name"
           v-model="fullName"
-          required
+          :required="isRequired.fullName"
         />
         <FormField
           label="Email *"
           type="email"
           placeholder="Enter your email"
           v-model="email"
-          required
+          :required="isRequired.email"
         />
       </div>
       <!-- Row 2: Phone + Company -->
@@ -62,13 +55,13 @@ const hasMerchandise = computed(() => {
           type="tel"
           placeholder="Enter your phone number"
           v-model="phone"
-          required
+          :required="isRequired.phone"
         />
         <FormField
           label="Company *"
           placeholder="Enter your company name"
           v-model="company"
-          required
+          :required="isRequired.company"
         />
       </div>
       <!-- Row 3: Job Title (full width) -->
@@ -77,19 +70,20 @@ const hasMerchandise = computed(() => {
           label="Job Title"
           placeholder="Enter your job title"
           v-model="jobTitle"
+          :required="isRequired.jobTitle"
         />
       </div>
       <!-- Row 4: Shipping Address (full width) -->
       <div class="flex flex-row items-start p-0 gap-6 self-stretch">
         <FormField
           :label="
-            hasMerchandise
+            isRequired.shippingAddress
               ? 'Shipping Address *'
               : 'Shipping Address (Optional)'
           "
           placeholder="Enter your shipping address"
           v-model="shippingAddress"
-          :required="hasMerchandise"
+          :required="isRequired.shippingAddress"
           hint="Shipping address is required for merchandise orders"
         />
       </div>
