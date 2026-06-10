@@ -77,7 +77,7 @@
               (item.value === undefined ||
                 item.value === null ||
                 item.value === '')
-                ? '— (required)'
+                ? item.errorMessage || '— (required)'
                 : item.value
             }}
           </span>
@@ -98,7 +98,7 @@ const props = defineProps({
   items: {
     type: Array,
     required: true,
-    // Expects: { label: String, value: String, required?: Boolean }[]
+    // Expects: { label: String, value: String, required?: Boolean, errorMessage?: String }[]
   },
   showLastItemDivider: {
     type: Boolean,

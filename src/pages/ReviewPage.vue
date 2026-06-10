@@ -47,19 +47,32 @@ const ticketLabel = computed(() => {
 // Format attendee information as generic key-value items
 const attendeeItems = computed(() => {
   return [
-    { label: 'Name', value: fullName.value, required: isRequired.value.fullName },
+    {
+      label: 'Name',
+      value: fullName.value,
+      required: isRequired.value.fullName,
+    },
     { label: 'Email', value: email.value, required: isRequired.value.email },
     { label: 'Phone', value: phone.value, required: isRequired.value.phone },
-    { label: 'Company', value: company.value, required: isRequired.value.company },
-    { label: 'Job Title', value: jobTitle.value, required: isRequired.value.jobTitle },
+    {
+      label: 'Company',
+      value: company.value,
+      required: isRequired.value.company,
+    },
+    {
+      label: 'Job Title',
+      value: jobTitle.value,
+      required: isRequired.value.jobTitle,
+    },
     {
       label: 'Ticket Type',
       value: `${ticketLabel.value} (${formatCurrency(ticketPrice.value)})`,
     },
     {
       label: 'Shipping Address',
-      value: shippingAddress.value || 'Not provided',
+      value: shippingAddress.value,
       required: isRequired.value.shippingAddress,
+      errorMessage: '— (required for merchandise)',
     },
   ];
 });
