@@ -16,6 +16,10 @@ defineProps({
     type: String,
     default: 'Next',
   },
+  disableNext: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['back', 'next']);
@@ -41,10 +45,18 @@ const emit = defineEmits(['back', 'next']);
 
       <button
         v-if="showNext"
-        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#FB7429] rounded-[10px] cursor-pointer border-none"
+        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 rounded-[10px] border-none transition-all duration-200"
+        :class="[
+          disableNext
+            ? 'bg-[#ABB5BA] cursor-not-allowed opacity-60'
+            : 'bg-[#FB7429] cursor-pointer hover:bg-[#E05E1A]',
+        ]"
+        :disabled="disableNext"
         @click="emit('next')"
       >
-        <span class="text-[14px] font-semibold leading-5 text-center text-white">
+        <span
+          class="text-[14px] font-semibold leading-5 text-center text-white"
+        >
           {{ nextLabel }}
         </span>
       </button>

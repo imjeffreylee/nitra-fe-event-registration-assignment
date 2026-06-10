@@ -290,6 +290,17 @@ const formatCurrency = (value) => {
   }).format(value);
 };
 
+// Check if any required field is missing in order to disable Submit button
+const hasMissingRequired = computed(() => {
+  if (isRequired.value.fullName && !fullName.value) return true;
+  if (isRequired.value.email && !email.value) return true;
+  if (isRequired.value.phone && !phone.value) return true;
+  if (isRequired.value.company && !company.value) return true;
+  if (isRequired.value.jobTitle && !jobTitle.value) return true;
+  if (isRequired.value.shippingAddress && !shippingAddress.value) return true;
+  return false;
+});
+
 // Submission action handler
 const submitRegistration = () => {
   alert('Registration submitted successfully!');
@@ -336,6 +347,7 @@ const submitRegistration = () => {
   </PageContainer>
   <ActionBar
     :show-next="true"
+    :disable-next="hasMissingRequired"
     @back="router.push('/addons')"
     @next="submitRegistration"
     next-label="Submit Registration"
