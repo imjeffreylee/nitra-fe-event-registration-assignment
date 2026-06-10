@@ -137,6 +137,7 @@ watch(shippingAddress, (newVal) => {
           placeholder="Enter your shipping address"
           v-model="shippingAddress"
           :required="hasMerchandise"
+          hint="Shipping address is required for merchandise orders"
         />
       </div>
     </div>
