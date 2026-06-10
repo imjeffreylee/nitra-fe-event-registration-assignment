@@ -19,6 +19,13 @@
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="isTouched = true"
     />
+    <!-- Hint text shown under the input when error occurs -->
+    <span
+      v-if="hasError && hint"
+      class="text-[11px] leading-[14px] font-[485] text-[#C71A1A] [font-variation-settings:'slnt'_0] transition-opacity duration-200 mt-[-2px] ml-[2px]"
+    >
+      {{ hint }}
+    </span>
   </div>
 </template>
 
@@ -45,6 +52,10 @@ const props = defineProps({
   required: {
     type: Boolean,
     default: false,
+  },
+  hint: {
+    type: String,
+    default: '',
   },
 });
 
