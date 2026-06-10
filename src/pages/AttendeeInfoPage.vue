@@ -81,12 +81,14 @@ watch(shippingAddress, (newVal) => {
           label="Full Name"
           placeholder="Enter your full name"
           v-model="fullName"
+          required
         />
         <FormField
           label="Email"
           type="email"
           placeholder="Enter your email"
           v-model="email"
+          required
         />
       </div>
       <!-- Row 2: Phone + Company -->
@@ -96,11 +98,13 @@ watch(shippingAddress, (newVal) => {
           type="tel"
           placeholder="Enter your phone number"
           v-model="phone"
+          required
         />
         <FormField
           label="Company"
           placeholder="Enter your company name"
           v-model="company"
+          required
         />
       </div>
       <!-- Row 3: Job Title (full width) -->
