@@ -11,6 +11,8 @@ const stepRoutes = ['/attendeeinfo', '/sessions', '/addons', '/review'];
 const route = useRoute();
 const router = useRouter();
 
+const isSuccessPage = computed(() => route.path === '/success');
+
 const currentStep = computed({
   get: () => {
     const idx = stepRoutes.indexOf(route.path);
@@ -27,6 +29,7 @@ const currentStep = computed({
     <q-header class="bg-white text-neutral">
       <AppHeader />
       <div
+        v-if="!isSuccessPage"
         class="w-full bg-white border-b-1 border-b-solid border-b-gray-100 flex-none"
       >
         <AppStepper v-model="currentStep" :steps="steps" clickable />

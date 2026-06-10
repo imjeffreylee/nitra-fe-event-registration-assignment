@@ -314,9 +314,22 @@ const validationErrors = computed(() => {
 
 // Submission action handler
 const submitRegistration = () => {
-  alert('Registration submitted successfully!');
+  // Generate a random confirmation number
+  const confNumber = 'TC2028-' + Math.floor(10000 + Math.random() * 90000);
+
+  // Navigate to success page with query parameters
+  router.push({
+    path: '/success',
+    query: {
+      name: fullName.value,
+      email: email.value,
+      ticket: ticketType.value,
+      conf: confNumber,
+    },
+  });
+
+  // Clear registration in-memory and local storage
   clearRegistration();
-  router.push('/attendeeinfo');
 };
 </script>
 
