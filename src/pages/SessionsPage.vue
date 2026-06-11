@@ -13,7 +13,7 @@ import { useEvent } from '../composables/useEvent.js';
 const router = useRouter();
 
 // Retrieve selectedSessions directly from global state
-const { selectedSessions } = useRegistration();
+const { selectedSessions, hasWorkshopConflict } = useRegistration();
 const { event } = useEvent();
 
 const activeDay = ref('');
@@ -88,6 +88,7 @@ const toggleSession = (id) => {
           :key="session.id"
           :session="session"
           :selected="isSelected(session.id)"
+          :conflict="hasWorkshopConflict(session)"
           @select="toggleSession(session.id)"
         />
       </div>

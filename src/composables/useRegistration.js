@@ -1,4 +1,6 @@
 import { reactive, watch, toRefs, computed } from 'vue';
+import { sessions } from '../mocks/sessions.js';
+import { addons } from '../mocks/addons.js';
 
 // Helper for safe JSON parsing
 const safeParseJson = (key, fallback) => {
@@ -205,6 +207,32 @@ export function useRegistration() {
     return '';
   });
 
+  // Helper to check if two schedule intervals overlap
+  const areOverlapping = (itemA, itemB) => {
+    if (!itemA?.date || !itemA?.endDate || !itemB?.date || !itemB?.endDate)
+      return false;
+    const sA = new Date(itemA.date).getTime();
+    const eA = new Date(itemA.endDate).getTime();
+    const sB = new Date(itemB.date).getTime();
+    const eB = new Date(itemB.endDate).getTime();
+    return sA < eB && sB < eA;
+  };
+
+  const hasSessionConflict = (workshop) => {
+    const activeSessions = sessions.filter((s) =>
+      state.selectedSessions.includes(s.id),
+    );
+    return activeSessions.some((s) => areOverlapping(workshop, s));
+  };
+
+  const hasWorkshopConflict = (session) => {
+    const activeWorkshops = addons.filter(
+      (a) =>
+        a.category === 'workshop' && state.selectedWorkshops.includes(a.id),
+    );
+    return activeWorkshops.some((w) => areOverlapping(session, w));
+  };
+
   return {
     // Use toRefs so components can safely destructure properties
     ...toRefs(state),
@@ -216,6 +244,8 @@ export function useRegistration() {
     phoneErrorMessage,
     companyErrorMessage,
     shippingAddressErrorMessage,
+    hasSessionConflict,
+    hasWorkshopConflict,
     clearRegistration,
   };
 }

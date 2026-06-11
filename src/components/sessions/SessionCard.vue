@@ -14,8 +14,11 @@
     <div
       class="flex flex-row justify-between items-center w-full self-stretch flex-none h-5"
     >
-      <!-- Track Badge -->
-      <TrackBadge :track="session.track" />
+      <!-- Left part: Track Badge & Time Conflict Badge -->
+      <div class="flex flex-row items-center gap-2">
+        <TrackBadge :track="session.track" />
+        <ConflictBadge v-if="conflict" />
+      </div>
 
       <!-- Selection Checkbox -->
       <div
@@ -89,6 +92,7 @@
 <script setup>
 import { computed } from 'vue';
 import TrackBadge from './TrackBadge.vue';
+import ConflictBadge from '../ConflictBadge.vue';
 
 const props = defineProps({
   session: {
@@ -96,6 +100,10 @@ const props = defineProps({
     required: true,
   },
   selected: {
+    type: Boolean,
+    default: false,
+  },
+  conflict: {
     type: Boolean,
     default: false,
   },

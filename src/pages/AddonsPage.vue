@@ -10,7 +10,6 @@ import MerchandiseCard from '../components/addons/MerchandiseCard.vue';
 import OrderSummary from '../components/addons/OrderSummary.vue';
 import InfoIcon from '../assets/Info.svg';
 import { addons } from '../mocks/addons.js';
-import { sessions } from '../mocks/sessions.js';
 import { useRegistration } from '../composables/useRegistration.js';
 
 const router = useRouter();
@@ -19,19 +18,14 @@ const activeCategory = ref('Workshops');
 // Connect component variables to the shared registration composable
 const {
   ticketType: selectedTicket,
-  selectedSessions: selectedSessionIds,
   selectedWorkshops,
   selectedMeals,
   selectedMerchandise: selectedMerch,
+  hasSessionConflict,
 } = useRegistration();
 
 // Check if current user is VIP
 const isVip = computed(() => selectedTicket.value === 'vip');
-
-// Get full session objects for those selected (needed for conflict detection)
-const activeSelectedSessions = computed(() => {
-  return sessions.filter((s) => selectedSessionIds.value.includes(s.id));
-});
 
 // Filter workshops from mixed addons mock
 const workshops = computed(() => {
@@ -88,18 +82,6 @@ const updateMerchSize = (id, size) => {
     selectedMerch.value[id].size = size;
   }
 };
-
-// Conflict detection logic (returns true if workshop overlaps with any selected session)
-const hasTimeConflict = (workshop) => {
-  const wStart = new Date(workshop.date).getTime();
-  const wEnd = new Date(workshop.endDate).getTime();
-
-  return activeSelectedSessions.value.some((s) => {
-    const sStart = new Date(s.date).getTime();
-    const sEnd = new Date(s.endDate).getTime();
-    return wStart < sEnd && sStart < wEnd;
-  });
-};
 </script>
 
 <template>
@@ -124,7 +106,7 @@ const hasTimeConflict = (workshop) => {
             :key="workshop.id"
             :workshop="workshop"
             :selected="isSelected(workshop.id)"
-            :conflict="hasTimeConflict(workshop)"
+            :conflict="hasSessionConflict(workshop)"
             @select="toggleWorkshop(workshop.id)"
           />
         </div>

@@ -19,12 +19,7 @@
         >
           {{ workshop.name }}
         </h4>
-        <span
-          v-if="conflict"
-          class="text-[10px] leading-3 font-semibold px-2 py-0.5 bg-[#FFF2E6] text-[#D86400] rounded-full border border-solid border-[#FFE0CC] [font-variation-settings:'slnt'_0]"
-        >
-          Time Conflict
-        </span>
+        <ConflictBadge v-if="conflict" />
       </div>
 
       <!-- Description -->
@@ -62,6 +57,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import ConflictBadge from '../ConflictBadge.vue';
 
 const props = defineProps({
   workshop: {
