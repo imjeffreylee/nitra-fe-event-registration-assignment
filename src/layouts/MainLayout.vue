@@ -37,7 +37,7 @@ const currentStep = computed({
     </q-header>
 
     <q-page-container>
-      <q-page class="min-h-screen flex flex-col">
+      <q-page class="flex flex-col">
         <router-view />
       </q-page>
     </q-page-container>

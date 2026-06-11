@@ -24,7 +24,7 @@ const startNewRegistration = () => {
 
 <template>
   <div
-    class="flex flex-col justify-center items-center py-[60px] px-4 gap-4 w-full max-w-[1440px] min-h-[827px] bg-white self-stretch flex-1 mx-auto"
+    class="flex flex-col justify-center items-center py-[60px] px-4 gap-4 w-full max-w-[1440px] bg-white self-stretch flex-1 mx-auto"
   >
     <!-- Success Icon -->
     <SuccessIcon
