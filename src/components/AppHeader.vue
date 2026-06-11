@@ -8,7 +8,7 @@
     <!-- Event Name -->
     <div class="w-[218px] h-6 flex items-center flex-none">
       <span class="text-h4 fw-[680] text-neutral truncate">
-        <slot>WebDev Summit 2025</slot>
+        <slot>{{ event ? event.name : 'Loading...' }}</slot>
       </span>
     </div>
   </header>
@@ -16,4 +16,7 @@
 
 <script setup>
 import Logo from '../assets/Logo.svg';
+import { useEvent } from '../composables/useEvent.js';
+
+const { event } = useEvent();
 </script>

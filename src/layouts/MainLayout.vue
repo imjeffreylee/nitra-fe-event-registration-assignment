@@ -1,8 +1,15 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import AppHeader from '../components/AppHeader.vue';
 import AppStepper from '../components/AppStepper.vue';
+import { useEvent } from '../composables/useEvent.js';
+
+const { fetchEvent } = useEvent();
+
+onMounted(() => {
+  fetchEvent();
+});
 
 const steps = ['Attendee Info', 'Sessions', 'Add-ons', 'Review'];
 
