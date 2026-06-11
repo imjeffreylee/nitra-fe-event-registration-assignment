@@ -4,25 +4,25 @@ import { useAddons } from './useAddons.js';
 
 // Helper for safe JSON parsing
 const safeParseJson = (key, fallback) => {
-  const data = localStorage.getItem(key);
+  const data = sessionStorage.getItem(key);
   if (!data) return fallback;
   try {
     return JSON.parse(data);
   } catch (e) {
-    console.error(`Error parsing JSON for localStorage key "${key}":`, e);
+    console.error(`Error parsing JSON for sessionStorage key "${key}":`, e);
     return fallback;
   }
 };
 
 // 1. Singleton Reactive State (defined outside the function to share across all imports)
 const state = reactive({
-  ticketType: localStorage.getItem('selected_ticket') || 'vip',
-  fullName: localStorage.getItem('attendee_full_name') || '',
-  email: localStorage.getItem('attendee_email') || '',
-  phone: localStorage.getItem('attendee_phone') || '',
-  company: localStorage.getItem('attendee_company') || '',
-  jobTitle: localStorage.getItem('attendee_job_title') || '',
-  shippingAddress: localStorage.getItem('attendee_shipping_address') || '',
+  ticketType: sessionStorage.getItem('selected_ticket') || 'vip',
+  fullName: sessionStorage.getItem('attendee_full_name') || '',
+  email: sessionStorage.getItem('attendee_email') || '',
+  phone: sessionStorage.getItem('attendee_phone') || '',
+  company: sessionStorage.getItem('attendee_company') || '',
+  jobTitle: sessionStorage.getItem('attendee_job_title') || '',
+  shippingAddress: sessionStorage.getItem('attendee_shipping_address') || '',
 
   selectedSessions: safeParseJson('selected_sessions', []),
   selectedWorkshops: safeParseJson('selected_workshops', []),
@@ -34,49 +34,49 @@ const state = reactive({
 watch(
   () => state.ticketType,
   (val) => {
-    localStorage.setItem('selected_ticket', val);
+    sessionStorage.setItem('selected_ticket', val);
   },
 );
 
 watch(
   () => state.fullName,
   (val) => {
-    localStorage.setItem('attendee_full_name', val);
+    sessionStorage.setItem('attendee_full_name', val);
   },
 );
 
 watch(
   () => state.email,
   (val) => {
-    localStorage.setItem('attendee_email', val);
+    sessionStorage.setItem('attendee_email', val);
   },
 );
 
 watch(
   () => state.phone,
   (val) => {
-    localStorage.setItem('attendee_phone', val);
+    sessionStorage.setItem('attendee_phone', val);
   },
 );
 
 watch(
   () => state.company,
   (val) => {
-    localStorage.setItem('attendee_company', val);
+    sessionStorage.setItem('attendee_company', val);
   },
 );
 
 watch(
   () => state.jobTitle,
   (val) => {
-    localStorage.setItem('attendee_job_title', val);
+    sessionStorage.setItem('attendee_job_title', val);
   },
 );
 
 watch(
   () => state.shippingAddress,
   (val) => {
-    localStorage.setItem('attendee_shipping_address', val);
+    sessionStorage.setItem('attendee_shipping_address', val);
   },
 );
 
@@ -84,7 +84,7 @@ watch(
 watch(
   () => state.selectedSessions,
   (val) => {
-    localStorage.setItem('selected_sessions', JSON.stringify(val));
+    sessionStorage.setItem('selected_sessions', JSON.stringify(val));
   },
   { deep: true },
 );
@@ -92,7 +92,7 @@ watch(
 watch(
   () => state.selectedWorkshops,
   (val) => {
-    localStorage.setItem('selected_workshops', JSON.stringify(val));
+    sessionStorage.setItem('selected_workshops', JSON.stringify(val));
   },
   { deep: true },
 );
@@ -100,7 +100,7 @@ watch(
 watch(
   () => state.selectedMeals,
   (val) => {
-    localStorage.setItem('selected_meals', JSON.stringify(val));
+    sessionStorage.setItem('selected_meals', JSON.stringify(val));
   },
   { deep: true },
 );
@@ -108,7 +108,7 @@ watch(
 watch(
   () => state.selectedMerchandise,
   (val) => {
-    localStorage.setItem('selected_merchandise', JSON.stringify(val));
+    sessionStorage.setItem('selected_merchandise', JSON.stringify(val));
   },
   { deep: true },
 );
@@ -134,7 +134,7 @@ export function useRegistration() {
     };
   });
 
-  // Clean registration in-memory state and target-remove localStorage entries
+  // Clean registration in-memory state and target-remove sessionStorage entries
   const clearRegistration = () => {
     // Reset in-memory values to defaults (prevents stale state in SPA sessions)
     state.ticketType = 'vip';
@@ -149,18 +149,18 @@ export function useRegistration() {
     state.selectedMeals = [];
     state.selectedMerchandise = {};
 
-    // Targeted removal of localStorage items
-    localStorage.removeItem('selected_ticket');
-    localStorage.removeItem('attendee_full_name');
-    localStorage.removeItem('attendee_email');
-    localStorage.removeItem('attendee_phone');
-    localStorage.removeItem('attendee_company');
-    localStorage.removeItem('attendee_job_title');
-    localStorage.removeItem('attendee_shipping_address');
-    localStorage.removeItem('selected_sessions');
-    localStorage.removeItem('selected_workshops');
-    localStorage.removeItem('selected_meals');
-    localStorage.removeItem('selected_merchandise');
+    // Targeted removal of sessionStorage items
+    sessionStorage.removeItem('selected_ticket');
+    sessionStorage.removeItem('attendee_full_name');
+    sessionStorage.removeItem('attendee_email');
+    sessionStorage.removeItem('attendee_phone');
+    sessionStorage.removeItem('attendee_company');
+    sessionStorage.removeItem('attendee_job_title');
+    sessionStorage.removeItem('attendee_shipping_address');
+    sessionStorage.removeItem('selected_sessions');
+    sessionStorage.removeItem('selected_workshops');
+    sessionStorage.removeItem('selected_meals');
+    sessionStorage.removeItem('selected_merchandise');
   };
 
   const isEmailValid = computed(() => {
