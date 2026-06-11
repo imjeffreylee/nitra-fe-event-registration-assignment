@@ -34,6 +34,7 @@ export const typographyShortcuts = [{
 }]
 
 export const breakpoints = {
+  sm: '600px',
   tablet: '768px',
   desktop: '1024px',
 }

@@ -7,7 +7,7 @@
 
     <!-- Ticket Cards Row -->
     <div
-      class="flex flex-row items-stretch gap-4 flex-none flex-nowrap self-stretch"
+      class="flex flex-col md:flex-row items-stretch gap-4 flex-none self-stretch"
     >
       <TicketCard
         v-for="ticket in tickets"

@@ -41,7 +41,9 @@ const {
     <!-- Form Grid -->
     <div class="flex flex-col items-start p-0 gap-5 self-stretch">
       <!-- Row 1: Full Name + Email -->
-      <div class="flex flex-row items-start p-0 gap-6 self-stretch">
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
+      >
         <FormField
           label="Full Name *"
           placeholder="Enter your full name"
@@ -61,7 +63,9 @@ const {
         />
       </div>
       <!-- Row 2: Phone + Company -->
-      <div class="flex flex-row items-start p-0 gap-6 self-stretch">
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
+      >
         <FormField
           label="Phone *"
           type="tel"
@@ -82,7 +86,9 @@ const {
         />
       </div>
       <!-- Row 3: Job Title (full width) -->
-      <div class="flex flex-row items-start p-0 gap-6 self-stretch">
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
+      >
         <FormField
           label="Job Title"
           placeholder="Enter your job title"
@@ -91,7 +97,9 @@ const {
         />
       </div>
       <!-- Row 4: Shipping Address (full width) -->
-      <div class="flex flex-row items-start p-0 gap-6 self-stretch">
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
+      >
         <FormField
           :label="
             isRequired.shippingAddress
