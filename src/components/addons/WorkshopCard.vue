@@ -87,7 +87,7 @@ const isFull = computed(
 
 // Check if card is unselectable
 const isDisabled = computed(
-  () => (isFull.value || props.conflict) && !props.selected,
+  () => isFull.value && !props.selected,
 );
 
 // Spots left calculation
