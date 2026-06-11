@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box-border flex flex-col items-start p-6 gap-4 w-full md:w-[380px] min-h-[211px] bg-[#F4F5F6] border border-solid border-[#E3E6E8] rounded-[6px] flex-none"
+    class="box-border flex flex-col items-start p-6 gap-4 w-full md:w-[380px] min-h-[211px] bg-surface-l1 border border-solid border-neutral-muted rounded-[6px] flex-none"
   >
     <h3
       class="text-neutral font-semibold text-[16px] leading-[20px] m-0 flex-none order-0 self-stretch flex-grow-0"
@@ -49,11 +49,11 @@
         class="flex justify-between items-start gap-4 w-full text-success"
       >
         <span
-          class="flex-1 min-w-0 text-left fw-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
+          class="flex-1 min-w-0 text-left fw-[485] text-[11px] leading-[14px] text-brand [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
           >Workshop discount (VIP 10%)</span
         >
         <span
-          class="fw-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
+          class="fw-[485] text-[11px] leading-[14px] text-brand [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
         >
           -{{ formatCurrency(vipDiscount) }}
         </span>
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Divider -->
-    <hr class="w-full border-t border-solid border-[#E3E6E8] m-0" />
+    <hr class="w-full border-t border-solid border-neutral-muted m-0" />
 
     <!-- Total -->
     <div class="flex justify-between items-center w-full text-neutral">

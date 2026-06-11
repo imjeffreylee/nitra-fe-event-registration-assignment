@@ -141,7 +141,7 @@ const updateMerchSize = (id, size) => {
         >
           <!-- Shipping Banner -->
           <div
-            class="box-border flex flex-row items-start p-4 gap-3 w-full max-w-[788px] min-h-[96px] bg-[#EDF6FD] border border-solid border-[rgba(26,126,199,0.5)] rounded-lg shipping-banner-pop"
+            class="box-border flex flex-row items-start p-4 gap-3 w-full max-w-[788px] min-h-[96px] bg-info-subtle-rest border border-solid border-info-opacity rounded-lg shipping-banner-pop"
           >
             <InfoIcon class="flex-none w-4 h-4 mt-[2px]" />
             <div

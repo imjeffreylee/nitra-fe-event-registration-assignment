@@ -117,6 +117,9 @@ export const semanticColors = {
         hover: gray[0],
         active: gray[50],
       },
+      disabled: {
+        rest: gray[400],
+      },
     },
     success: {
       bold: { rest: green[700] },
@@ -334,6 +337,7 @@ export const semanticBgShortcut = {
   'bg-neutral-subtle-rest': 'bg-[var(--bg-neutral-subtle-rest)]',
   'bg-neutral-subtle-hover': 'bg-[var(--bg-neutral-subtle-hover)]',
   'bg-neutral-subtle-active': 'bg-[var(--bg-neutral-subtle-active)]',
+  'bg-neutral-disabled-rest': 'bg-[var(--bg-neutral-disabled-rest)]',
   'bg-success-emphasis-rest': 'bg-[var(--bg-success-emphasis-rest)]',
   'bg-success-emphasis-hover': 'bg-[var(--bg-success-emphasis-hover)]',
   'bg-success-emphasis-active': 'bg-[var(--bg-success-emphasis-active)]',

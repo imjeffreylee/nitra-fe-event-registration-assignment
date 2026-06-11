@@ -1,10 +1,10 @@
 <template>
   <div
-    class="box-border flex flex-col items-start p-4 gap-2 w-full max-w-[1200px] bg-[#FCE4E4] border border-solid border-[#F6B7B7] rounded-[6px] self-stretch flex-none"
+    class="box-border flex flex-col items-start p-4 gap-2 w-full max-w-[1200px] bg-danger-muted-rest border border-solid border-danger-muted rounded-[6px] self-stretch flex-none"
   >
     <!-- Header Message -->
     <div
-      class="text-[12px] leading-4 fw-[550] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
+      class="text-[12px] leading-4 fw-[550] text-danger [font-variation-settings:'slnt'_0] self-stretch flex-none"
     >
       Please fix the following errors before submitting
     </div>
@@ -13,7 +13,7 @@
     <div
       v-for="(error, index) in errors"
       :key="index"
-      class="text-[12px] leading-4 fw-[485] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
+      class="text-[12px] leading-4 fw-[485] text-danger [font-variation-settings:'slnt'_0] self-stretch flex-none"
     >
       • {{ error }}
     </div>

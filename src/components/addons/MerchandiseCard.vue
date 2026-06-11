@@ -3,8 +3,8 @@
     class="box-border flex flex-col items-start p-4 gap-2 w-full max-w-[788px] min-h-[131px] shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-lg transition-all duration-200"
     :class="[
       quantity > 0
-        ? 'bg-[#EEF6F7] border border-solid border-[#264D4F]'
-        : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-[#C1C7CD]',
+        ? 'bg-brand-subtle-rest border border-solid border-brand-emphasis'
+        : 'bg-surface-l1 border border-solid border-neutral-muted hover:border-gray-300',
     ]"
   >
     <!-- Header: Name & Price -->
@@ -33,7 +33,7 @@
           Size:
         </span>
         <div
-          class="box-border relative flex flex-row items-center justify-between px-3 py-1.5 gap-1.5 min-w-[45px] h-[27px] bg-white border border-solid border-[#E3E6E8] rounded-md"
+          class="box-border relative flex flex-row items-center justify-between px-3 py-1.5 gap-1.5 min-w-[45px] h-[27px] bg-white border border-solid border-neutral-muted rounded-md"
         >
           <span class="font-medium text-[12px] leading-[15px] text-neutral">
             {{ localSize }}
@@ -60,7 +60,7 @@
           Qty:
         </span>
         <button
-          class="flex flex-col justify-center items-center p-0 w-7 h-7 bg-[#EBEEEF] rounded-md border-none cursor-pointer transition-colors duration-150 hover:enabled:bg-[#DFE2E4] disabled:opacity-40 disabled:cursor-not-allowed"
+          class="flex flex-col justify-center items-center p-0 w-7 h-7 bg-neutral-subtle-rest rounded-md border-none cursor-pointer transition-colors duration-150 hover:enabled:bg-neutral-subtle-hover disabled:opacity-40 disabled:cursor-not-allowed"
           :disabled="quantity <= 0"
           type="button"
           aria-label="Decrease quantity"
@@ -76,7 +76,7 @@
           </span>
         </div>
         <button
-          class="flex flex-col justify-center items-center p-0 w-7 h-7 bg-[#EBEEEF] rounded-md border-none cursor-pointer transition-colors duration-150 hover:enabled:bg-[#DFE2E4] disabled:opacity-40 disabled:cursor-not-allowed"
+          class="flex flex-col justify-center items-center p-0 w-7 h-7 bg-neutral-subtle-rest rounded-md border-none cursor-pointer transition-colors duration-150 hover:enabled:bg-neutral-subtle-hover disabled:opacity-40 disabled:cursor-not-allowed"
           :disabled="quantity >= item.maxQuantity"
           type="button"
           aria-label="Increase quantity"

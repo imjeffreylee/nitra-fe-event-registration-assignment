@@ -1,10 +1,10 @@
 <template>
   <div
-    class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] rounded-[6px] flex-none self-stretch flex-grow-0"
+    class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-surface-l1 rounded-[6px] flex-none self-stretch flex-grow-0"
     :class="
       hasAnyError
         ? 'border-2 border-solid border-danger-emphasis'
-        : 'border border-solid border-[#E3E6E8]'
+        : 'border border-solid border-neutral-muted'
     "
   >
     <!-- Header: Title and Edit Button -->
@@ -23,7 +23,7 @@
       >
         <button
           type="button"
-          class="h-4 font-semibold text-[12px] leading-[16px] text-[#3A7679] underline [font-variation-settings:'slnt'_0] border-none bg-transparent cursor-pointer p-0 flex-none order-0 flex-grow-0 text-right whitespace-nowrap"
+          class="h-4 font-semibold text-[12px] leading-[16px] text-brand underline [font-variation-settings:'slnt'_0] border-none bg-transparent cursor-pointer p-0 flex-none order-0 flex-grow-0 text-right whitespace-nowrap"
           @click="$emit('edit')"
         >
           {{ editText }}
@@ -67,13 +67,13 @@
               (item.value === undefined ||
                 item.value === null ||
                 item.value === '')
-                ? 'text-[#C71A1A] fw-[485]'
+                ? 'text-danger fw-[485]'
                 : [
                     item.invalid &&
                     item.value !== undefined &&
                     item.value !== null &&
                     item.value !== ''
-                      ? 'text-[#C71A1A]'
+                      ? 'text-danger'
                       : item.valueClass || 'text-neutral',
                     showLastItemDivider && index === visibleItems.length - 1
                       ? 'fw-[550]'

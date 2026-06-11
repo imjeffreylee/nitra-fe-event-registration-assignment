@@ -73,7 +73,7 @@ const toggleSession = (id) => {
     <!-- Selected Sessions Count -->
     <div>
       <span
-        class="text-[12px] leading-4 fw-[550] text-[#264D4F] [font-variation-settings:'slnt'_0] flex-none"
+        class="text-[12px] leading-4 fw-[550] text-brand [font-variation-settings:'slnt'_0] flex-none"
       >
         {{ $t('sessionsSelected', { count: selectedSessions.length }, selectedSessions.length) }}
       </span>

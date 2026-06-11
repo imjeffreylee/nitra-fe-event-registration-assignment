@@ -2,10 +2,10 @@
   <div
     class="flex flex-row justify-center items-center px-[5px] py-[3px] rounded-full flex-none h-5 order-0 grow-0"
     :class="{
-      'bg-[#D2E9F9] w-[72px]': track === 'backend',
-      'bg-[#FFF6B3] w-[79px]': track === 'frontend',
-      'bg-[#FEE5D7] w-[63px]': track === 'devops',
-      'bg-[#EBEEEF] w-[47px]': !['backend', 'frontend', 'devops'].includes(
+      'bg-info-muted-rest w-[72px]': track === 'backend',
+      'bg-warning-muted-rest w-[79px]': track === 'frontend',
+      'bg-accent-muted-rest w-[63px]': track === 'devops',
+      'bg-disable w-[47px]': !['backend', 'frontend', 'devops'].includes(
         track,
       ),
     }"
@@ -24,10 +24,10 @@
       <span
         class="text-[11px] leading-[14px] fw-[570] uppercase [font-variation-settings:'slnt'_0] flex-none order-0 grow-0 h-[14px]"
         :class="{
-          'text-[#1567A2] w-[54px]': track === 'backend',
-          'text-[#6A5F06] w-[61px]': track === 'frontend',
-          'text-[#C94A03] w-[45px]': track === 'devops',
-          'text-[#5C6970] w-[29px]': ![
+          'text-info-emphasis w-[54px]': track === 'backend',
+          'text-warning-emphasis w-[61px]': track === 'frontend',
+          'text-accent-emphasis w-[45px]': track === 'devops',
+          'text-neutral-muted w-[29px]': ![
             'backend',
             'frontend',
             'devops',

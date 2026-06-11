@@ -80,7 +80,7 @@ const handleStepClick = (step) => {
           :class="[
             step.index <= props.modelValue
               ? 'bg-brand-emphasis-rest text-white'
-              : 'bg-[#EBEEEF] text-neutral-quiet',
+              : 'bg-disable text-neutral-quiet',
           ]"
         >
           <!-- Show step number -->
@@ -119,7 +119,7 @@ const handleStepClick = (step) => {
           :class="[
             step.index < props.modelValue
               ? 'bg-brand-emphasis-rest'
-              : 'bg-[#EBEEEF]',
+              : 'bg-disable',
           ]"
         ></div>
       </div>

@@ -3,10 +3,10 @@
     class="flex flex-col md:flex-row md:items-start justify-between p-4 gap-4 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] w-full max-w-[788px] min-h-[120px] box-border transition-all duration-200"
     :class="[
       isDisabled
-        ? 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] opacity-60 cursor-not-allowed'
+        ? 'bg-surface-l1 border border-solid border-neutral-muted opacity-60 cursor-not-allowed'
         : selected
-          ? 'bg-[#EEF6F7] border-2 border-solid border-[#264D4F] cursor-pointer'
-          : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-gray-300 cursor-pointer',
+          ? 'bg-brand-subtle-rest border-2 border-solid border-brand-emphasis cursor-pointer'
+          : 'bg-surface-l1 border border-solid border-neutral-muted hover:border-gray-300 cursor-pointer',
     ]"
     @click="handleCardClick"
   >
@@ -48,7 +48,7 @@
 
     <!-- Right Column: Price -->
     <div class="flex flex-col items-start md:items-end flex-none">
-      <span class="text-[16px] leading-5 font-bold text-[#264D4F]">
+      <span class="text-[16px] leading-5 font-bold text-brand">
         ${{ workshop.price }}
       </span>
     </div>

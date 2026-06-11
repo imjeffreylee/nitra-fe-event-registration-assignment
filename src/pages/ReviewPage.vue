@@ -267,8 +267,8 @@ const pricingSummaryItems = computed(() => {
     list.push({
       label: t('vipDiscountLabel'),
       value: `-${formatCurrency(vipDiscount.value)}`,
-      labelClass: 'fw-[485] text-[#264D4F]',
-      valueClass: 'fw-[485] text-[#264D4F]',
+      labelClass: 'fw-[485] text-brand',
+      valueClass: 'fw-[485] text-brand',
     });
   }
 

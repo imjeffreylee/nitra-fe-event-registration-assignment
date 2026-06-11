@@ -3,10 +3,10 @@
     class="flex flex-col items-start p-4 gap-2 shadow-[0px_4px_16px_rgba(0,0,0,0.08),0px_1px_3px_rgba(0,0,0,0.04)] rounded-[6px] w-full max-w-[592px] min-h-[162px] box-border transition-all duration-200"
     :class="[
       isFull && !selected
-        ? 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] opacity-60 cursor-not-allowed'
+        ? 'bg-surface-l1 border border-solid border-neutral-muted opacity-60 cursor-not-allowed'
         : selected
-          ? 'bg-[#EEF6F7] border-2 border-solid border-[#264D4F] cursor-pointer'
-          : 'bg-[#F4F5F6] border border-solid border-[#E3E6E8] hover:border-gray-300 cursor-pointer',
+          ? 'bg-brand-subtle-rest border-2 border-solid border-brand-emphasis cursor-pointer'
+          : 'bg-surface-l1 border border-solid border-neutral-muted hover:border-gray-300 cursor-pointer',
     ]"
     @click="handleCardClick"
   >
@@ -24,7 +24,7 @@
       <div
         class="relative w-4 h-4 flex-none rounded-[2px] transition-all duration-200"
         :class="[
-          selected ? 'bg-[#264D4F]' : 'border border-solid border-[#5C6970]',
+          selected ? 'bg-brand-emphasis-rest' : 'border border-solid border-neutral-emphasis',
         ]"
       >
         <!-- Checkmark SVG -->
@@ -69,7 +69,7 @@
 
     <!-- Capacity Bar -->
     <div
-      class="relative w-full h-[6px] bg-[#EBEEEF] rounded-[3px] self-stretch flex-none mt-1"
+      class="relative w-full h-[6px] bg-disable rounded-[3px] self-stretch flex-none mt-1"
     >
       <div
         class="absolute left-0 top-0 h-[6px] rounded-[3px] transition-all duration-300"
@@ -81,7 +81,7 @@
     <!-- Spots Left Status -->
     <div
       class="text-[11px] leading-[14px] font-medium flex-none"
-      :class="isFull ? 'text-[#5C6970]' : 'text-[#A13B02]'"
+      :class="isFull ? 'text-neutral-muted' : 'text-accent-emphasis'"
     >
       <span v-if="isFull" class="fw-[600]">{{ $t('workshopSoldOut') }}</span>
       <span v-else class="fw-[500]">{{ $t('spotsLeft', { count: spotsLeft }, spotsLeft) }}</span>
@@ -133,7 +133,7 @@ const registeredPercentage = computed(() => {
 // Capacity bar color based on registration percentage
 const capacityBarColorClass = computed(() => {
   if (isFull.value) {
-    return 'bg-[#9EAFB8]';
+    return 'bg-neutral-disabled-rest';
   }
   const percentage = registeredPercentage.value;
   if (percentage >= 75) {

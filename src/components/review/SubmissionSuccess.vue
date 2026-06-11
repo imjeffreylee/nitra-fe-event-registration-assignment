@@ -55,28 +55,28 @@ const startNewRegistration = () => {
 
     <!-- Title -->
     <h2
-      class="font-sans not-italic fw-[680] text-[28px] leading-[32px] text-[#11925C] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-1 flex-grow-0"
+      class="font-sans not-italic fw-[680] text-[28px] leading-[32px] text-success [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-1 flex-grow-0"
     >
       {{ $t('registrationCompleteTitle') }}
     </h2>
 
     <!-- Confirmation Number -->
     <div
-      class="font-sans not-italic fw-[485] text-[16px] leading-[24px] text-[rgba(0,0,0,0.9)] [font-variation-settings:'slnt'_0] text-center flex-none order-2 flex-grow-0"
+      class="font-sans not-italic fw-[485] text-[16px] leading-[24px] text-neutral [font-variation-settings:'slnt'_0] text-center flex-none order-2 flex-grow-0"
     >
       {{ $t('confirmationNumberLabel', { conf: confirmationNumber }) }}
     </div>
 
     <!-- Thank you message -->
     <p
-      class="w-[408px] h-[32px] font-sans not-italic fw-[485] text-[12px] leading-[16px] text-[rgba(0,0,0,0.6)] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-3 flex-grow-0"
+      class="w-[408px] h-[32px] font-sans not-italic fw-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-3 flex-grow-0"
     >
       {{ $t('successMessagePattern', { name, ticketType, eventName, email }) }}
     </p>
 
     <!-- Action Button to return to start / book another -->
     <button
-      class="flex flex-row justify-center items-center py-[10px] px-[8px] w-[126px] min-w-[72px] h-[40px] bg-[#FB7429] rounded-[10px] border-none cursor-pointer outline-none transition-all duration-200 ease flex-none order-4 flex-grow-0 hover:bg-[#e2611a] active:bg-[#c95112]"
+      class="flex flex-row justify-center items-center py-[10px] px-[8px] w-[126px] min-w-[72px] h-[40px] bg-accent-emphasis-rest rounded-[10px] border-none cursor-pointer outline-none transition-all duration-200 ease flex-none order-4 flex-grow-0 hover:bg-accent-emphasis-hover active:bg-accent-emphasis-active"
       @click="startNewRegistration"
       :aria-label="$t('bookAnotherRegAriaLabel')"
     >

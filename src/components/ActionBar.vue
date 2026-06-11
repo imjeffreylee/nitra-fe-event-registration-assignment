@@ -27,8 +27,12 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const computedBackLabel = computed(() => props.backLabel === 'Back' ? t('backBtn') : props.backLabel);
-const computedNextLabel = computed(() => props.nextLabel === 'Next' ? t('nextBtn') : props.nextLabel);
+const computedBackLabel = computed(() =>
+  props.backLabel === 'Back' ? t('backBtn') : props.backLabel,
+);
+const computedNextLabel = computed(() =>
+  props.nextLabel === 'Next' ? t('nextBtn') : props.nextLabel,
+);
 
 const emit = defineEmits(['back', 'next']);
 </script>
@@ -40,7 +44,7 @@ const emit = defineEmits(['back', 'next']);
     >
       <button
         v-if="showBack"
-        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-[#E3E6E8] rounded-[10px] cursor-pointer border-none"
+        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 bg-neutral-muted-rest rounded-[10px] cursor-pointer border-none"
         @click="emit('back')"
       >
         <span
@@ -53,11 +57,11 @@ const emit = defineEmits(['back', 'next']);
 
       <button
         v-if="showNext"
-        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 rounded-[10px] border-none transition-all duration-200"
+        class="flex flex-row justify-center items-center min-w-[72px] h-10 px-4 rounded-[10px] border-none transition-all duration-200 bg-accent-emphasis-rest"
         :class="[
           disableNext
-            ? 'bg-[#ABB5BA] cursor-not-allowed opacity-60'
-            : 'bg-[#FB7429] cursor-pointer hover:bg-[#E05E1A]',
+            ? 'cursor-not-allowed opacity-60'
+            : 'cursor-pointer hover:bg-accent-emphasis-hover',
         ]"
         :disabled="disableNext"
         @click="emit('next')"
