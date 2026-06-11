@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import TicketTypeSection from '../components/attendeeInfo/TicketTypeSection.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -20,6 +21,19 @@ const {
   shippingAddress,
   isRequired,
 } = useRegistration();
+
+const isPhoneValid = computed(() => {
+  if (!phone.value) return true; // Let the required validator handle empty state
+  return /^09\d{8}$/.test(phone.value);
+});
+
+const phoneErrorMessage = computed(() => {
+  if (!phone.value) return 'Phone number is required';
+  if (!isPhoneValid.value) {
+    return 'Must be 10 digits starting with 09';
+  }
+  return '';
+});
 </script>
 
 <template>
@@ -39,6 +53,7 @@ const {
           placeholder="Enter your full name"
           v-model="fullName"
           :required="isRequired.fullName"
+          hint="Full name is required"
         />
         <FormField
           label="Email *"
@@ -46,6 +61,7 @@ const {
           placeholder="Enter your email"
           v-model="email"
           :required="isRequired.email"
+          hint="Email is required"
         />
       </div>
       <!-- Row 2: Phone + Company -->
@@ -56,12 +72,17 @@ const {
           placeholder="Enter your phone number"
           v-model="phone"
           :required="isRequired.phone"
+          :error="!isPhoneValid"
+          :error-message="phoneErrorMessage"
+          hint="Phone number is required"
+          numeric-only
         />
         <FormField
           label="Company *"
           placeholder="Enter your company name"
           v-model="company"
           :required="isRequired.company"
+          hint="Company is required"
         />
       </div>
       <!-- Row 3: Job Title (full width) -->

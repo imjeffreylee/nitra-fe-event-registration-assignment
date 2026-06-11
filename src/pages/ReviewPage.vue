@@ -302,6 +302,8 @@ const validationErrors = computed(() => {
   }
   if (isRequired.value.phone && !phone.value) {
     errs.push('Step 1: Phone number is required');
+  } else if (phone.value && !/^09\d{8}$/.test(phone.value)) {
+    errs.push('Step 1: Phone number must start with 09 and contain exactly 10 digits');
   }
   if (isRequired.value.company && !company.value) {
     errs.push('Step 1: Company is required');
