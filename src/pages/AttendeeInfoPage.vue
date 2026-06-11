@@ -20,33 +20,14 @@ const {
   jobTitle,
   shippingAddress,
   isRequired,
+  isEmailValid,
+  isPhoneValid,
+  fullNameErrorMessage,
+  emailErrorMessage,
+  phoneErrorMessage,
+  companyErrorMessage,
+  shippingAddressErrorMessage,
 } = useRegistration();
-
-const isEmailValid = computed(() => {
-  if (!email.value) return true; // Let the required validator handle empty state
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
-});
-
-const emailErrorMessage = computed(() => {
-  if (!email.value) return 'Email is required';
-  if (!isEmailValid.value) {
-    return 'Invalid email address';
-  }
-  return '';
-});
-
-const isPhoneValid = computed(() => {
-  if (!phone.value) return true; // Let the required validator handle empty state
-  return /^09\d{8}$/.test(phone.value);
-});
-
-const phoneErrorMessage = computed(() => {
-  if (!phone.value) return 'Phone number is required';
-  if (!isPhoneValid.value) {
-    return 'Must be 10 digits starting with 09';
-  }
-  return '';
-});
 </script>
 
 <template>
@@ -66,7 +47,8 @@ const phoneErrorMessage = computed(() => {
           placeholder="Enter your full name"
           v-model="fullName"
           :required="isRequired.fullName"
-          hint="Full name is required"
+          :error="!!fullNameErrorMessage"
+          :error-message="fullNameErrorMessage"
         />
         <FormField
           label="Email *"
@@ -76,7 +58,6 @@ const phoneErrorMessage = computed(() => {
           :required="isRequired.email"
           :error="!isEmailValid"
           :error-message="emailErrorMessage"
-          hint="Email is required"
         />
       </div>
       <!-- Row 2: Phone + Company -->
@@ -89,7 +70,6 @@ const phoneErrorMessage = computed(() => {
           :required="isRequired.phone"
           :error="!isPhoneValid"
           :error-message="phoneErrorMessage"
-          hint="Phone number is required"
           numeric-only
         />
         <FormField
@@ -97,7 +77,8 @@ const phoneErrorMessage = computed(() => {
           placeholder="Enter your company name"
           v-model="company"
           :required="isRequired.company"
-          hint="Company is required"
+          :error="!!companyErrorMessage"
+          :error-message="companyErrorMessage"
         />
       </div>
       <!-- Row 3: Job Title (full width) -->
@@ -120,7 +101,8 @@ const phoneErrorMessage = computed(() => {
           placeholder="Enter your shipping address"
           v-model="shippingAddress"
           :required="isRequired.shippingAddress"
-          hint="Shipping address is required for merchandise orders"
+          :error="!!shippingAddressErrorMessage"
+          :error-message="shippingAddressErrorMessage"
         />
       </div>
     </div>

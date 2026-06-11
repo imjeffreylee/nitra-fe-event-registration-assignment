@@ -20,12 +20,12 @@
       @focus="isFocused = true"
       @blur="handleBlur"
     />
-    <!-- Hint text shown under the input when error occurs -->
+    <!-- Error message shown under the input when error occurs -->
     <span
-      v-if="hasError && (errorMessage || hint)"
+      v-if="hasError && errorMessage"
       class="text-[11px] leading-[14px] fw-[485] text-[#C71A1A] [font-variation-settings:'slnt'_0] transition-opacity duration-200 mt-[-2px] ml-[2px]"
     >
-      {{ errorMessage || hint }}
+      {{ errorMessage }}
     </span>
   </div>
 </template>
@@ -53,10 +53,6 @@ const props = defineProps({
   required: {
     type: Boolean,
     default: false,
-  },
-  hint: {
-    type: String,
-    default: '',
   },
   error: {
     type: Boolean,

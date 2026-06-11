@@ -27,6 +27,13 @@ const {
   selectedMeals,
   selectedMerchandise: selectedMerch,
   isRequired,
+  isEmailValid,
+  isPhoneValid,
+  fullNameErrorMessage,
+  emailErrorMessage,
+  phoneErrorMessage,
+  companyErrorMessage,
+  shippingAddressErrorMessage,
   clearRegistration,
 } = useRegistration();
 
@@ -294,24 +301,20 @@ const formatCurrency = (value) => {
 // Compile active missing errors to pass to ErrorBanner
 const validationErrors = computed(() => {
   const errs = [];
-  if (isRequired.value.fullName && !fullName.value) {
-    errs.push('Step 1: Full name is required');
+  if (fullNameErrorMessage.value) {
+    errs.push(`Step 1: ${fullNameErrorMessage.value}`);
   }
-  if (isRequired.value.email && !email.value) {
-    errs.push('Step 1: Email is required');
-  } else if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-    errs.push('Step 1: Invalid email address');
+  if (emailErrorMessage.value) {
+    errs.push(`Step 1: ${emailErrorMessage.value}`);
   }
-  if (isRequired.value.phone && !phone.value) {
-    errs.push('Step 1: Phone number is required');
-  } else if (phone.value && !/^09\d{8}$/.test(phone.value)) {
-    errs.push('Step 1: Phone number must start with 09 and contain exactly 10 digits');
+  if (phoneErrorMessage.value) {
+    errs.push(`Step 1: ${phoneErrorMessage.value}`);
   }
-  if (isRequired.value.company && !company.value) {
-    errs.push('Step 1: Company is required');
+  if (companyErrorMessage.value) {
+    errs.push(`Step 1: ${companyErrorMessage.value}`);
   }
-  if (isRequired.value.shippingAddress && !shippingAddress.value) {
-    errs.push('Step 1: Shipping address is required for merchandise orders');
+  if (shippingAddressErrorMessage.value) {
+    errs.push(`Step 1: ${shippingAddressErrorMessage.value}`);
   }
   return errs;
 });

@@ -158,10 +158,64 @@ export function useRegistration() {
     localStorage.removeItem('selected_merchandise');
   };
 
+  const isEmailValid = computed(() => {
+    if (!state.email) return true; // Let required check handle empty state
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email);
+  });
+
+  const isPhoneValid = computed(() => {
+    if (!state.phone) return true; // Let required check handle empty state
+    return /^09\d{8}$/.test(state.phone);
+  });
+
+  const fullNameErrorMessage = computed(() => {
+    if (isRequired.value.fullName && !state.fullName) {
+      return 'Full name is required';
+    }
+    return '';
+  });
+
+  const emailErrorMessage = computed(() => {
+    if (!state.email) return 'Email is required';
+    if (!isEmailValid.value) {
+      return 'Invalid email address';
+    }
+    return '';
+  });
+
+  const phoneErrorMessage = computed(() => {
+    if (!state.phone) return 'Phone number is required';
+    if (!isPhoneValid.value) {
+      return 'Must be 10 digits starting with 09';
+    }
+    return '';
+  });
+
+  const companyErrorMessage = computed(() => {
+    if (isRequired.value.company && !state.company) {
+      return 'Company is required';
+    }
+    return '';
+  });
+
+  const shippingAddressErrorMessage = computed(() => {
+    if (isRequired.value.shippingAddress && !state.shippingAddress) {
+      return 'Shipping address is required for merchandise orders';
+    }
+    return '';
+  });
+
   return {
     // Use toRefs so components can safely destructure properties
     ...toRefs(state),
     isRequired,
+    isEmailValid,
+    isPhoneValid,
+    fullNameErrorMessage,
+    emailErrorMessage,
+    phoneErrorMessage,
+    companyErrorMessage,
+    shippingAddressErrorMessage,
     clearRegistration,
   };
 }
