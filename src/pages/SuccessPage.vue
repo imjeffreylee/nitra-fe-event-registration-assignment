@@ -34,21 +34,21 @@ const startNewRegistration = () => {
 
     <!-- Title -->
     <h2
-      class="font-sans not-italic font-[680] text-[28px] leading-[32px] text-[#11925C] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-1 flex-grow-0"
+      class="font-sans not-italic fw-[680] text-[28px] leading-[32px] text-[#11925C] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-1 flex-grow-0"
     >
       Registration Complete!
     </h2>
 
     <!-- Confirmation Number -->
     <div
-      class="font-sans not-italic font-[485] text-[16px] leading-[24px] text-[rgba(0,0,0,0.9)] [font-variation-settings:'slnt'_0] text-center flex-none order-2 flex-grow-0"
+      class="font-sans not-italic fw-[485] text-[16px] leading-[24px] text-[rgba(0,0,0,0.9)] [font-variation-settings:'slnt'_0] text-center flex-none order-2 flex-grow-0"
     >
       Confirmation #{{ confirmationNumber }}
     </div>
 
     <!-- Thank you message -->
     <p
-      class="font-sans not-italic font-[485] text-[12px] leading-[16px] text-[rgba(0,0,0,0.6)] [font-variation-settings:'slnt'_0] max-w-[408px] w-full m-0 text-center flex-none order-3 flex-grow-0"
+      class="w-[408px] h-[32px] font-sans not-italic fw-[485] text-[12px] leading-[16px] text-[rgba(0,0,0,0.6)] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-3 flex-grow-0"
     >
       Thank you, {{ name }}! Your {{ ticketType }} registration for
       {{ eventName }} is confirmed. You will receive a confirmation email at
@@ -65,9 +65,9 @@ const startNewRegistration = () => {
         class="flex flex-row justify-center items-center py-0 px-[8px] gap-[8px] w-[110px] h-[20px] flex-none order-1 flex-grow-0"
       >
         <span
-          class="font-sans not-italic font-[610] text-[14px] leading-[20px] text-center text-white [font-variation-settings:'slnt'_0] flex-none order-0 flex-grow-0"
+          class="font-sans not-italic fw-[610] text-[14px] leading-[20px] text-center text-white [font-variation-settings:'slnt'_0] flex-none order-0 flex-grow-0"
         >
-          Book Another
+          Back to Home
         </span>
       </div>
     </button>
