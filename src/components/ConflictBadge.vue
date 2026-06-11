@@ -2,7 +2,7 @@
   <span
     class="text-[10px] leading-3 font-semibold px-2 py-0.5 bg-[#FFF2E6] text-[#D86400] rounded-full border border-solid border-[#FFE0CC] [font-variation-settings:'slnt'_0] whitespace-nowrap"
   >
-    Time Conflict<span v-if="conflictingName" class="font-normal opacity-85"> (with: {{ conflictingName }})</span>
+    {{ $t('timeConflict') }}<span v-if="conflictingName" class="font-normal opacity-85">{{ $t('conflictWith', { name: conflictingName }) }}</span>
   </span>
 </template>
 

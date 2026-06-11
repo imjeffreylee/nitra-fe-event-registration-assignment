@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -14,7 +15,14 @@ import { useAddons } from '../composables/useAddons.js';
 
 const router = useRouter();
 const { addons } = useAddons();
-const activeCategory = ref('Workshops');
+const { t } = useI18n();
+const activeCategory = ref(t('workshopsTab'));
+
+const tabOptions = computed(() => [
+  t('workshopsTab'),
+  t('mealsTab'),
+  t('merchandiseTab')
+]);
 
 // Connect component variables to the shared registration composable
 const {
@@ -90,16 +98,16 @@ const updateMerchSize = (id, size) => {
     <div class="flex flex-col lg:flex-row items-start gap-8 w-full">
       <!-- Left Column: SectionTitle, Tabs, and Lists -->
       <div class="flex-1 flex flex-col items-start gap-6 w-full">
-        <SectionTitle class="m-0">Select Add-ons</SectionTitle>
+        <SectionTitle class="m-0">{{ $t('selectAddons') }}</SectionTitle>
         <AppTabs
           v-model="activeCategory"
-          :options="['Workshops', 'Meal Packages', 'Merchandise']"
+          :options="tabOptions"
           class="w-full"
         />
 
         <!-- Workshops Tab view -->
         <div
-          v-if="activeCategory === 'Workshops'"
+          v-if="activeCategory === t('workshopsTab')"
           class="flex flex-col items-start gap-4 w-full"
         >
           <WorkshopCard
@@ -114,7 +122,7 @@ const updateMerchSize = (id, size) => {
 
         <!-- Meal Packages Tab view -->
         <div
-          v-else-if="activeCategory === 'Meal Packages'"
+          v-else-if="activeCategory === t('mealsTab')"
           class="flex flex-col items-start gap-4 w-full"
         >
           <WorkshopCard
@@ -128,7 +136,7 @@ const updateMerchSize = (id, size) => {
 
         <!-- Merchandise Tab view -->
         <div
-          v-else-if="activeCategory === 'Merchandise'"
+          v-else-if="activeCategory === t('merchandiseTab')"
           class="flex flex-col items-start gap-4 w-full"
         >
           <!-- Shipping Banner -->
@@ -140,12 +148,10 @@ const updateMerchSize = (id, size) => {
               class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 flex-1"
             >
               <span class="font-bold text-[14px] leading-5"
-                >Shipping Information</span
+                >{{ $t('shippingInfoTitle') }}</span
               >
               <span class="text-[14px] leading-5 font-regular">
-                Merchandise items will be shipped to your address one week
-                before the conference. Please ensure your shipping address in
-                Step 1 is correct.
+                {{ $t('shippingInfoBody') }}
               </span>
             </div>
           </div>
@@ -176,7 +182,7 @@ const updateMerchSize = (id, size) => {
     <!-- Closes Outer row container -->
   </PageContainer>
   <ActionBar
-    next-label="Next: Review"
+    :next-label="$t('nextReviewBtn')"
     @back="router.push('/sessions')"
     @next="router.push('/review')"
   />

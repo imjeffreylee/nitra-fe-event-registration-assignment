@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import AppHeader from '../components/AppHeader.vue';
 import AppStepper from '../components/AppStepper.vue';
 import { useEvent } from '../composables/useEvent.js';
@@ -17,7 +18,13 @@ onMounted(() => {
   fetchAddons();
 });
 
-const steps = ['Attendee Info', 'Sessions', 'Add-ons', 'Review'];
+const { t } = useI18n();
+const steps = computed(() => [
+  t('stepAttendeeInfo'),
+  t('stepSessions'),
+  t('stepAddons'),
+  t('stepReview')
+]);
 
 const stepRoutes = ['/attendeeinfo', '/sessions', '/addons', '/review'];
 

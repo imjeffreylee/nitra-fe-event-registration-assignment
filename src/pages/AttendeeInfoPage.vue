@@ -37,7 +37,7 @@ const {
       :tickets="event?.ticketTypes || []"
       v-model="selectedTicket"
     />
-    <SectionTitle>Attendee Information</SectionTitle>
+    <SectionTitle>{{ $t('attendeeInfoTitle') }}</SectionTitle>
     <!-- Form Grid -->
     <div class="flex flex-col items-start p-0 gap-5 self-stretch">
       <!-- Row 1: Full Name + Email -->
@@ -45,17 +45,17 @@ const {
         class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
       >
         <FormField
-          label="Full Name *"
-          placeholder="Enter your full name"
+          :label="$t('fullNameLabel')"
+          :placeholder="$t('fullNamePlaceholder')"
           v-model="fullName"
           :required="isRequired.fullName"
           :error="!!fullNameErrorMessage"
           :error-message="fullNameErrorMessage"
         />
         <FormField
-          label="Email *"
+          :label="$t('emailLabel')"
           type="email"
-          placeholder="Enter your email"
+          :placeholder="$t('emailPlaceholder')"
           v-model="email"
           :required="isRequired.email"
           :error="!isEmailValid"
@@ -67,9 +67,9 @@ const {
         class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
       >
         <FormField
-          label="Phone *"
+          :label="$t('phoneLabel')"
           type="tel"
-          placeholder="Enter your phone number"
+          :placeholder="$t('phonePlaceholder')"
           v-model="phone"
           :required="isRequired.phone"
           :error="!isPhoneValid"
@@ -77,8 +77,8 @@ const {
           numeric-only
         />
         <FormField
-          label="Company *"
-          placeholder="Enter your company name"
+          :label="$t('companyLabel')"
+          :placeholder="$t('companyPlaceholder')"
           v-model="company"
           :required="isRequired.company"
           :error="!!companyErrorMessage"
@@ -90,8 +90,8 @@ const {
         class="flex flex-col sm:flex-row items-stretch sm:items-start p-0 gap-6 self-stretch"
       >
         <FormField
-          label="Job Title"
-          placeholder="Enter your job title"
+          :label="$t('jobTitleLabel')"
+          :placeholder="$t('jobTitlePlaceholder')"
           v-model="jobTitle"
           :required="isRequired.jobTitle"
         />
@@ -103,10 +103,10 @@ const {
         <FormField
           :label="
             isRequired.shippingAddress
-              ? 'Shipping Address *'
-              : 'Shipping Address (Optional)'
+              ? $t('shippingAddressRequired')
+              : $t('shippingAddressOptional')
           "
-          placeholder="Enter your shipping address"
+          :placeholder="$t('shippingAddressPlaceholder')"
           v-model="shippingAddress"
           :required="isRequired.shippingAddress"
           :error="!!shippingAddressErrorMessage"
@@ -118,6 +118,6 @@ const {
   <ActionBar
     :show-back="false"
     @next="router.push('/sessions')"
-    next-label="Next: Session Selection"
+    :next-label="$t('nextSessionsBtn')"
   />
 </template>

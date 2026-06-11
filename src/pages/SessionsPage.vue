@@ -68,17 +68,14 @@ const toggleSession = (id) => {
 
 <template>
   <PageContainer content-class="space-y-6">
-    <SectionTitle>Select Sessions</SectionTitle>
+    <SectionTitle>{{ $t('selectSessionsTitle') }}</SectionTitle>
     <AppTabs v-model="activeDay" :options="dayOptions" />
     <!-- Selected Sessions Count -->
     <div>
       <span
         class="text-[12px] leading-4 fw-[550] text-[#264D4F] [font-variation-settings:'slnt'_0] flex-none"
       >
-        {{ selectedSessions.length }} session{{
-          selectedSessions.length === 1 ? '' : 's'
-        }}
-        selected
+        {{ $t('sessionsSelected', { count: selectedSessions.length }, selectedSessions.length) }}
       </span>
     </div>
     <!-- Sessions Section -->
@@ -96,7 +93,7 @@ const toggleSession = (id) => {
     </div>
   </PageContainer>
   <ActionBar
-    next-label="Next: Add-ons"
+    :next-label="$t('nextAddonsBtn')"
     @back="router.push('/attendeeinfo')"
     @next="router.push('/addons')"
   />

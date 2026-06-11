@@ -1,19 +1,21 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useEvent } from '../composables/useEvent.js';
 import SuccessIcon from '../assets/SuccessIcon.svg';
 
 const route = useRoute();
 const router = useRouter();
 const { event } = useEvent();
+const { t } = useI18n();
 
 // Retrieve registration details from route query params
-const name = computed(() => route.query.name || 'Attendee');
-const email = computed(() => route.query.email || 'your email');
+const name = computed(() => route.query.name || t('defaultAttendeeName'));
+const email = computed(() => route.query.email || t('defaultEmailPlaceholder'));
 const ticketType = computed(() => {
-  const t = route.query.ticket || 'vip';
-  return t.toUpperCase();
+  const tType = route.query.ticket || 'vip';
+  return tType.toUpperCase();
 });
 const confirmationNumber = computed(() => route.query.conf || 'TC2028-47291');
 const eventName = computed(() => event.value?.name || 'TechConf 2025');
@@ -37,30 +39,28 @@ const startNewRegistration = () => {
     <h2
       class="font-sans not-italic fw-[680] text-[28px] leading-[32px] text-[#11925C] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-1 flex-grow-0"
     >
-      Registration Complete!
+      {{ $t('registrationCompleteTitle') }}
     </h2>
 
     <!-- Confirmation Number -->
     <div
       class="font-sans not-italic fw-[485] text-[16px] leading-[24px] text-[rgba(0,0,0,0.9)] [font-variation-settings:'slnt'_0] text-center flex-none order-2 flex-grow-0"
     >
-      Confirmation #{{ confirmationNumber }}
+      {{ $t('confirmationNumberLabel', { conf: confirmationNumber }) }}
     </div>
 
     <!-- Thank you message -->
     <p
       class="w-[408px] h-[32px] font-sans not-italic fw-[485] text-[12px] leading-[16px] text-[rgba(0,0,0,0.6)] [font-variation-settings:'slnt'_0] m-0 text-center flex-none order-3 flex-grow-0"
     >
-      Thank you, {{ name }}! Your {{ ticketType }} registration for
-      {{ eventName }} is confirmed. You will receive a confirmation email at
-      {{ email }}.
+      {{ $t('successMessagePattern', { name, ticketType, eventName, email }) }}
     </p>
 
     <!-- Action Button to return to start / book another -->
     <button
       class="flex flex-row justify-center items-center py-[10px] px-[8px] w-[126px] min-w-[72px] h-[40px] bg-[#FB7429] rounded-[10px] border-none cursor-pointer outline-none transition-all duration-200 ease flex-none order-4 flex-grow-0 hover:bg-[#e2611a] active:bg-[#c95112]"
       @click="startNewRegistration"
-      aria-label="Book another registration"
+      :aria-label="$t('bookAnotherRegAriaLabel')"
     >
       <div
         class="flex flex-row justify-center items-center py-0 px-[8px] gap-[8px] w-[110px] h-[20px] flex-none order-1 flex-grow-0"
@@ -68,7 +68,7 @@ const startNewRegistration = () => {
         <span
           class="font-sans not-italic fw-[610] text-[14px] leading-[20px] text-center text-white [font-variation-settings:'slnt'_0] flex-none order-0 flex-grow-0"
         >
-          Back to Home
+          {{ $t('backToHomeBtn') }}
         </span>
       </div>
     </button>

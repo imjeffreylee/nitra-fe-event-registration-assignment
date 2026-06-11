@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
@@ -12,6 +13,7 @@ import { useSessions } from '../composables/useSessions.js';
 import { useAddons } from '../composables/useAddons.js';
 
 const router = useRouter();
+const { t } = useI18n();
 const { event } = useEvent();
 const { sessions } = useSessions();
 const { addons } = useAddons();
@@ -65,41 +67,41 @@ const ticketLabel = computed(() => {
 const attendeeItems = computed(() => {
   return [
     {
-      label: 'Name',
+      label: t('reviewLabelName'),
       value: fullName.value,
       required: isRequired.value.fullName,
     },
     {
-      label: 'Email',
+      label: t('reviewLabelEmail'),
       value: email.value,
       required: isRequired.value.email,
       invalid: !isEmailValid.value,
     },
     {
-      label: 'Phone',
+      label: t('reviewLabelPhone'),
       value: phone.value,
       required: isRequired.value.phone,
       invalid: !isPhoneValid.value,
     },
     {
-      label: 'Company',
+      label: t('reviewLabelCompany'),
       value: company.value,
       required: isRequired.value.company,
     },
     {
-      label: 'Job Title',
+      label: t('reviewLabelJobTitle'),
       value: jobTitle.value,
       required: isRequired.value.jobTitle,
     },
     {
-      label: 'Ticket Type',
+      label: t('reviewLabelTicketType'),
       value: `${ticketLabel.value} (${formatCurrency(ticketPrice.value)})`,
     },
     {
-      label: 'Shipping Address',
+      label: t('reviewLabelShippingAddress'),
       value: shippingAddress.value,
       required: isRequired.value.shippingAddress,
-      errorMessage: '— (required for merchandise)',
+      errorMessage: t('requiredForMerchError'),
     },
   ];
 });
@@ -110,7 +112,7 @@ const sessionItems = computed(() => {
     selectedSessionIds.value.includes(s.id),
   );
   if (selected.length === 0) {
-    return [{ label: 'Sessions', value: 'No sessions selected' }];
+    return [{ label: t('stepSessions'), value: t('noSessionsSelected') }];
   }
   return selected.map((s) => ({
     label: formatSessionTime(s),
@@ -128,7 +130,7 @@ const addonItems = computed(() => {
     const ws = addonsList.value.find((a) => a.id === id);
     if (ws) {
       list.push({
-        label: 'Workshop',
+        label: t('reviewLabelWorkshop'),
         value: `${ws.name} (${formatCurrency(ws.price)})`,
         invalid: !!hasSessionConflict(ws),
       });
@@ -140,7 +142,7 @@ const addonItems = computed(() => {
     const meal = addonsList.value.find((a) => a.id === id);
     if (meal) {
       list.push({
-        label: 'Meal Package',
+        label: t('reviewLabelMealPackage'),
         value: `${meal.name} (${formatCurrency(meal.price)})`,
       });
     }
@@ -159,14 +161,14 @@ const addonItems = computed(() => {
 
       const itemTotal = merch.price * data.quantity;
       list.push({
-        label: 'Merchandise',
+        label: t('reviewLabelMerchandise'),
         value: `${displayName} (${formatCurrency(itemTotal)})`,
       });
     }
   });
 
   if (list.length === 0) {
-    return [{ label: 'Add-ons', value: 'No add-ons selected' }];
+    return [{ label: t('stepAddons'), value: t('noAddonsSelected') }];
   }
 
   return list;
@@ -216,7 +218,7 @@ const pricingSummaryItems = computed(() => {
 
   // 1. Ticket Row
   list.push({
-    label: `${ticketLabel.value} Ticket`,
+    label: `${ticketLabel.value} ${t('reviewTicketSuffix')}`,
     value: formatCurrency(ticketPrice.value),
   });
 
@@ -262,7 +264,7 @@ const pricingSummaryItems = computed(() => {
   // 5. VIP Discount Row
   if (vipDiscount.value > 0) {
     list.push({
-      label: 'Workshop discount (VIP 10%)',
+      label: t('vipDiscountLabel'),
       value: `-${formatCurrency(vipDiscount.value)}`,
       labelClass: 'fw-[485] text-[#264D4F]',
       valueClass: 'fw-[485] text-[#264D4F]',
@@ -271,7 +273,7 @@ const pricingSummaryItems = computed(() => {
 
   // 6. Total Row
   list.push({
-    label: 'Grand Total',
+    label: t('grandTotalLabel'),
     value: formatCurrency(totalPrice.value),
     labelClass: 'fw-[550] text-neutral',
     valueClass: 'fw-[550] text-neutral',
@@ -323,19 +325,19 @@ const formatCurrency = (value) => {
 const validationErrors = computed(() => {
   const errs = [];
   if (fullNameErrorMessage.value) {
-    errs.push(`Step 1: ${fullNameErrorMessage.value}`);
+    errs.push(t('stepErrorPrefix', { step: 1, error: fullNameErrorMessage.value }));
   }
   if (emailErrorMessage.value) {
-    errs.push(`Step 1: ${emailErrorMessage.value}`);
+    errs.push(t('stepErrorPrefix', { step: 1, error: emailErrorMessage.value }));
   }
   if (phoneErrorMessage.value) {
-    errs.push(`Step 1: ${phoneErrorMessage.value}`);
+    errs.push(t('stepErrorPrefix', { step: 1, error: phoneErrorMessage.value }));
   }
   if (companyErrorMessage.value) {
-    errs.push(`Step 1: ${companyErrorMessage.value}`);
+    errs.push(t('stepErrorPrefix', { step: 1, error: companyErrorMessage.value }));
   }
   if (shippingAddressErrorMessage.value) {
-    errs.push(`Step 1: ${shippingAddressErrorMessage.value}`);
+    errs.push(t('stepErrorPrefix', { step: 1, error: shippingAddressErrorMessage.value }));
   }
 
   // Check for time conflicts between sessions (Step 2) and workshops (Step 3)
@@ -343,7 +345,7 @@ const validationErrors = computed(() => {
   selectedSessionsObj.forEach((s) => {
     const conflictWorkshopName = hasWorkshopConflict(s);
     if (conflictWorkshopName) {
-      errs.push(`Step 2: Time conflict between session '${s.title}' and workshop '${conflictWorkshopName}'`);
+      errs.push(t('step2ConflictError', { session: s.title, workshop: conflictWorkshopName }));
     }
   });
 
@@ -373,7 +375,7 @@ const submitRegistration = () => {
 
 <template>
   <PageContainer content-class="space-y-8">
-    <SectionTitle>Review Your Registration</SectionTitle>
+    <SectionTitle>{{ $t('reviewTitle') }}</SectionTitle>
 
     <!-- Error Banner (only shown if there are errors) -->
     <ErrorBanner
@@ -383,31 +385,31 @@ const submitRegistration = () => {
 
     <!-- Review Block 1: Attendee Information -->
     <ReviewCard
-      title="Attendee Information"
+      :title="$t('attendeeInfoTitle')"
       :items="attendeeItems"
       @edit="router.push('/attendeeinfo')"
-      editText="Edit → Step 1"
+      :editText="$t('editStep1')"
     />
 
     <!-- Review Block 2: Selected Sessions -->
     <ReviewCard
-      title="Selected Sessions"
+      :title="$t('selectedSessionsHeader')"
       :items="sessionItems"
       @edit="router.push('/sessions')"
-      editText="Edit → Step 2"
+      :editText="$t('editStep2')"
     />
 
     <!-- Review Block 3: Selected Add-ons -->
     <ReviewCard
-      title="Selected Add-ons"
+      :title="$t('selectedAddonsHeader')"
       :items="addonItems"
       @edit="router.push('/addons')"
-      editText="Edit → Step 3"
+      :editText="$t('editStep3')"
     />
 
     <!-- Review Block 4: Pricing Summary -->
     <ReviewCard
-      title="Pricing Summary"
+      :title="$t('pricingSummaryHeader')"
       :items="pricingSummaryItems"
       show-last-item-divider
       @edit="router.push('/addons')"
@@ -418,6 +420,6 @@ const submitRegistration = () => {
     :disable-next="validationErrors.length > 0"
     @back="router.push('/addons')"
     @next="submitRegistration"
-    next-label="Submit Registration"
+    :next-label="$t('btnSubmitRegistration')"
   />
 </template>

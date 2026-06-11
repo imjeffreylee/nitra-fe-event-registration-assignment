@@ -83,8 +83,8 @@
       class="text-[11px] leading-[14px] font-medium flex-none"
       :class="isFull ? 'text-[#5C6970]' : 'text-[#A13B02]'"
     >
-      <span v-if="isFull" class="fw-[600]">Sold Out</span>
-      <span v-else class="fw-[500]">{{ spotsLeft }} spots left</span>
+      <span v-if="isFull" class="fw-[600]">{{ $t('workshopSoldOut') }}</span>
+      <span v-else class="fw-[500]">{{ $t('spotsLeft', { count: spotsLeft }, spotsLeft) }}</span>
     </div>
   </div>
 </template>

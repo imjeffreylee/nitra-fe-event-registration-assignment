@@ -8,7 +8,7 @@
     <!-- Event Name -->
     <div class="w-[218px] h-6 flex items-center flex-none">
       <span class="text-h4 fw-[680] text-neutral truncate">
-        <slot>{{ event ? event.name : 'Loading...' }}</slot>
+        <slot>{{ event ? event.name : $t('loadingLabel') }}</slot>
       </span>
     </div>
   </header>

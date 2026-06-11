@@ -41,7 +41,7 @@
           v-if="workshop.capacity !== undefined"
           :class="isFull ? 'fw-[600]' : 'fw-[485]'"
         >
-          {{ isFull ? 'Sold Out' : `${spotsLeft} spots remaining` }}
+          {{ isFull ? $t('workshopSoldOut') : $t('spotsRemaining', { count: spotsLeft }, spotsLeft) }}
         </span>
       </div>
     </div>

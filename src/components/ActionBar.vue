@@ -1,5 +1,8 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const props = defineProps({
   showBack: {
     type: Boolean,
     default: true,
@@ -22,6 +25,11 @@ defineProps({
   },
 });
 
+const { t } = useI18n();
+
+const computedBackLabel = computed(() => props.backLabel === 'Back' ? t('backBtn') : props.backLabel);
+const computedNextLabel = computed(() => props.nextLabel === 'Next' ? t('nextBtn') : props.nextLabel);
+
 const emit = defineEmits(['back', 'next']);
 </script>
 
@@ -38,7 +46,7 @@ const emit = defineEmits(['back', 'next']);
         <span
           class="text-[14px] font-semibold leading-5 text-center text-black/60"
         >
-          {{ backLabel }}
+          {{ computedBackLabel }}
         </span>
       </button>
       <div v-else />
@@ -57,7 +65,7 @@ const emit = defineEmits(['back', 'next']);
         <span
           class="text-[14px] font-semibold leading-5 text-center text-white"
         >
-          {{ nextLabel }}
+          {{ computedNextLabel }}
         </span>
       </button>
       <div v-else />
