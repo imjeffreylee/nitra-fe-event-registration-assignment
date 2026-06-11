@@ -52,10 +52,10 @@
             :class="[
               item.labelClass || 'text-neutral-muted',
               showLastItemDivider && index === visibleItems.length - 1
-                ? 'font-[550]'
+                ? 'fw-[550]'
                 : item.labelClass
                   ? ''
-                  : 'font-[485]',
+                  : 'fw-[485]',
             ]"
           >
             {{ item.label }}
@@ -67,14 +67,14 @@
               (item.value === undefined ||
                 item.value === null ||
                 item.value === '')
-                ? 'text-[#C71A1A] font-[485]'
+                ? 'text-[#C71A1A] fw-[485]'
                 : [
                     item.valueClass || 'text-neutral',
                     showLastItemDivider && index === visibleItems.length - 1
-                      ? 'font-[550]'
+                      ? 'fw-[550]'
                       : item.valueClass
                         ? ''
-                        : 'font-[485]',
+                        : 'fw-[485]',
                   ],
             ]"
           >

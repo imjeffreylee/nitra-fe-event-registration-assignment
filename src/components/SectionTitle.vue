@@ -1,7 +1,7 @@
 <template>
   <component
     :is="as"
-    class="font-sans not-italic font-[680] text-h3 text-neutral [font-variation-settings:'slnt'_0] w-full max-w-[1200px] min-h-[28px] flex-none grow-0 self-stretch"
+    class="font-sans not-italic fw-[680] text-h3 text-neutral [font-variation-settings:'slnt'_0] w-full max-w-[1200px] min-h-[28px] flex-none grow-0 self-stretch"
   >
     <slot />
   </component>

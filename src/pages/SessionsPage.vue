@@ -43,7 +43,7 @@ const toggleSession = (id) => {
     <!-- Selected Sessions Count -->
     <div>
       <span
-        class="text-[12px] leading-4 font-[550] text-[#264D4F] [font-variation-settings:'slnt'_0] flex-none"
+        class="text-[12px] leading-4 fw-[550] text-[#264D4F] [font-variation-settings:'slnt'_0] flex-none"
       >
         {{ selectedSessions.length }} session{{
           selectedSessions.length === 1 ? '' : 's'

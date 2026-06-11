@@ -15,11 +15,11 @@
         class="flex justify-between items-start gap-4 w-full text-neutral-muted"
       >
         <span
-          class="flex-1 min-w-0 text-left font-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
+          class="flex-1 min-w-0 text-left fw-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
           >{{ ticketLabel }} Ticket</span
         >
         <span
-          class="font-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
+          class="fw-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
         >
           {{ formatCurrency(ticketPrice) }}
         </span>
@@ -32,12 +32,12 @@
         class="flex justify-between items-start gap-4 w-full text-neutral-muted"
       >
         <span
-          class="flex-1 min-w-0 text-left font-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
+          class="flex-1 min-w-0 text-left fw-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
         >
           {{ item.name }}
         </span>
         <span
-          class="font-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
+          class="fw-[485] text-[12px] leading-[16px] text-neutral-muted [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
         >
           {{ formatCurrency(item.price) }}
         </span>
@@ -49,11 +49,11 @@
         class="flex justify-between items-start gap-4 w-full text-success"
       >
         <span
-          class="flex-1 min-w-0 text-left font-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
+          class="flex-1 min-w-0 text-left fw-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] break-words flex-none order-0 flex-grow-0"
           >Workshop discount (VIP 10%)</span
         >
         <span
-          class="font-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
+          class="fw-[485] text-[11px] leading-[14px] text-[#264D4F] [font-variation-settings:'slnt'_0] shrink-0 text-right flex-none order-1 flex-grow-0"
         >
           -{{ formatCurrency(vipDiscount) }}
         </span>
@@ -66,11 +66,11 @@
     <!-- Total -->
     <div class="flex justify-between items-center w-full text-neutral">
       <span
-        class="font-[550] text-[12px] leading-[16px] text-neutral [font-variation-settings:'slnt'_0] flex-none order-0 flex-grow-0"
+        class="fw-[550] text-[12px] leading-[16px] text-neutral [font-variation-settings:'slnt'_0] flex-none order-0 flex-grow-0"
         >Total</span
       >
       <span
-        class="font-[550] text-[12px] leading-[16px] text-neutral [font-variation-settings:'slnt'_0] flex-none order-1 flex-grow-0"
+        class="fw-[550] text-[12px] leading-[16px] text-neutral [font-variation-settings:'slnt'_0] flex-none order-1 flex-grow-0"
         >{{ formatCurrency(totalPrice) }}</span
       >
     </div>

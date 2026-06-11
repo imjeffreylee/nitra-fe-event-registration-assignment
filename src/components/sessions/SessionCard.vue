@@ -46,21 +46,20 @@
     <!-- Title -->
     <h4
       class="text-[16px] leading-5 font-semibold text-neutral self-stretch flex-none m-0 truncate"
-      title="session.title"
     >
       {{ session.title }}
     </h4>
 
     <!-- Speaker -->
     <div
-      class="text-[12px] leading-4 font-[485] text-neutral-muted self-stretch flex-none truncate [font-variation-settings:'slnt'_0]"
+      class="text-[12px] leading-4 fw-[485] text-neutral-muted self-stretch flex-none truncate [font-variation-settings:'slnt'_0]"
     >
       {{ session.speaker }}, {{ session.speakerTitle }}
     </div>
 
     <!-- Time Range -->
     <div
-      class="text-[11px] leading-[14px] font-[485] text-neutral-quiet self-stretch flex-none [font-variation-settings:'slnt'_0]"
+      class="text-[11px] leading-[14px] fw-[485] text-neutral-quiet self-stretch flex-none [font-variation-settings:'slnt'_0]"
     >
       {{ formattedTimeRange }}
     </div>
@@ -81,8 +80,8 @@
       class="text-[11px] leading-[14px] font-medium flex-none"
       :class="isFull ? 'text-[#5C6970]' : 'text-[#A13B02]'"
     >
-      <span v-if="isFull">Sold Out</span>
-      <span v-else>{{ spotsLeft }} spots left</span>
+      <span v-if="isFull" class="fw-[600]">Sold Out</span>
+      <span v-else class="fw-[500]">{{ spotsLeft }} spots left</span>
     </div>
   </div>
 </template>

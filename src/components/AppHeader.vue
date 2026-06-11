@@ -7,7 +7,7 @@
 
     <!-- Event Name -->
     <div class="w-[218px] h-6 flex items-center flex-none">
-      <span class="text-h4 font-[680] text-neutral truncate">
+      <span class="text-h4 fw-[680] text-neutral truncate">
         <slot>WebDev Summit 2025</slot>
       </span>
     </div>

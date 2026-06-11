@@ -42,7 +42,10 @@
         <span v-if="workshop.date" class="[font-variation-settings:'slnt'_0]">{{
           formattedTimeRange
         }}</span>
-        <span v-if="workshop.capacity !== undefined">
+        <span
+          v-if="workshop.capacity !== undefined"
+          :class="isFull ? 'fw-[600]' : 'fw-[485]'"
+        >
           {{ isFull ? 'Sold Out' : `${spotsLeft} spots remaining` }}
         </span>
       </div>

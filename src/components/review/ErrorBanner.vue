@@ -4,7 +4,7 @@
   >
     <!-- Header Message -->
     <div
-      class="text-[12px] leading-4 font-[550] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
+      class="text-[12px] leading-4 fw-[550] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
     >
       Please fix the following errors before submitting
     </div>
@@ -13,7 +13,7 @@
     <div
       v-for="(error, index) in errors"
       :key="index"
-      class="text-[12px] leading-4 font-[485] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
+      class="text-[12px] leading-4 fw-[485] text-[#C71A1A] [font-variation-settings:'slnt'_0] self-stretch flex-none"
     >
       • {{ error }}
     </div>

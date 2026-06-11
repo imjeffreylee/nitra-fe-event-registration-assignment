@@ -22,7 +22,7 @@
     >
       <!-- Placeholder (Text) -->
       <span
-        class="text-[11px] leading-[14px] font-[570] uppercase [font-variation-settings:'slnt'_0] flex-none order-0 grow-0 h-[14px]"
+        class="text-[11px] leading-[14px] fw-[570] uppercase [font-variation-settings:'slnt'_0] flex-none order-0 grow-0 h-[14px]"
         :class="{
           'text-[#1567A2] w-[54px]': track === 'backend',
           'text-[#6A5F06] w-[61px]': track === 'frontend',

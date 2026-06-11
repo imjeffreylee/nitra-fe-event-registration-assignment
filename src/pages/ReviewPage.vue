@@ -236,8 +236,8 @@ const pricingSummaryItems = computed(() => {
     list.push({
       label: 'Workshop discount (VIP 10%)',
       value: `-${formatCurrency(vipDiscount.value)}`,
-      labelClass: 'font-[485] text-[#264D4F]',
-      valueClass: 'font-[485] text-[#264D4F]',
+      labelClass: 'fw-[485] text-[#264D4F]',
+      valueClass: 'fw-[485] text-[#264D4F]',
     });
   }
 
@@ -245,8 +245,8 @@ const pricingSummaryItems = computed(() => {
   list.push({
     label: 'Grand Total',
     value: formatCurrency(totalPrice.value),
-    labelClass: 'font-[550] text-neutral',
-    valueClass: 'font-[550] text-neutral',
+    labelClass: 'fw-[550] text-neutral',
+    valueClass: 'fw-[550] text-neutral',
   });
 
   return list;
