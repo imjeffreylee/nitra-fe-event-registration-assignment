@@ -1,9 +1,9 @@
-import UnoCSS from 'unocss/vite'
-import svgLoader from 'vite-svg-loader'
+import UnoCSS from 'unocss/vite';
+import svgLoader from 'vite-svg-loader';
 
 export default function () {
   return {
-    boot: ['unocss'],
+    boot: ['unocss', 'i18n'],
 
     css: ['app.scss'],
 
@@ -15,21 +15,18 @@ export default function () {
       },
       extendViteConf(viteConf) {
         viteConf.plugins = viteConf.plugins || [];
-        viteConf.plugins.push(
-          ...UnoCSS(),
-          svgLoader()
-        );
+        viteConf.plugins.push(...UnoCSS(), svgLoader());
       },
     },
 
     devServer: {
       open: true,
-      port: 9001
+      port: 9001,
     },
 
     framework: {
       config: {},
       plugins: [],
     },
-  }
+  };
 }
