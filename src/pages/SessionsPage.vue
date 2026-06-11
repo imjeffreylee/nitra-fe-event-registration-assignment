@@ -6,15 +6,16 @@ import PageContainer from '../components/PageContainer.vue';
 import SessionCard from '../components/sessions/SessionCard.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
-import { sessions } from '../mocks/sessions.js';
 import { useRegistration } from '../composables/useRegistration.js';
 import { useEvent } from '../composables/useEvent.js';
+import { useSessions } from '../composables/useSessions.js';
 
 const router = useRouter();
 
 // Retrieve selectedSessions directly from global state
 const { selectedSessions, hasWorkshopConflict } = useRegistration();
 const { event } = useEvent();
+const { sessions } = useSessions();
 
 const activeDay = ref('');
 
@@ -50,7 +51,7 @@ const filteredSessions = computed(() => {
   const activeIndex = dayOptions.value.indexOf(activeDay.value);
   if (activeIndex === -1) return [];
   const activeDateStr = event.value.dates[activeIndex];
-  return sessions.filter((s) => s.date.startsWith(activeDateStr));
+  return (sessions.value || []).filter((s) => s.date.startsWith(activeDateStr));
 });
 
 const isSelected = (id) => selectedSessions.value.includes(id);

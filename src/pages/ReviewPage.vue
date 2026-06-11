@@ -6,12 +6,18 @@ import PageContainer from '../components/PageContainer.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import ReviewCard from '../components/review/ReviewCard.vue';
 import ErrorBanner from '../components/review/ErrorBanner.vue';
-import { sessions } from '../mocks/sessions.js';
-import { addons } from '../mocks/addons.js';
-import { event } from '../mocks/event.js';
 import { useRegistration } from '../composables/useRegistration.js';
+import { useEvent } from '../composables/useEvent.js';
+import { useSessions } from '../composables/useSessions.js';
+import { useAddons } from '../composables/useAddons.js';
 
 const router = useRouter();
+const { event } = useEvent();
+const { sessions } = useSessions();
+const { addons } = useAddons();
+
+const sessionsList = computed(() => sessions.value || []);
+const addonsList = computed(() => addons.value || []);
 
 // Retrieve all reactive values and actions from the global composable
 const {
@@ -40,9 +46,10 @@ const {
 } = useRegistration();
 
 const ticketTypeObj = computed(() => {
+  if (!event.value || !event.value.ticketTypes) return null;
   return (
-    event.ticketTypes.find((t) => t.id === ticketType.value) ||
-    event.ticketTypes[0]
+    event.value.ticketTypes.find((t) => t.id === ticketType.value) ||
+    event.value.ticketTypes[0]
   );
 });
 
@@ -99,7 +106,7 @@ const attendeeItems = computed(() => {
 
 // Format selected sessions list
 const sessionItems = computed(() => {
-  const selected = sessions.filter((s) =>
+  const selected = sessionsList.value.filter((s) =>
     selectedSessionIds.value.includes(s.id),
   );
   if (selected.length === 0) {
@@ -118,7 +125,7 @@ const addonItems = computed(() => {
 
   // 1. Selected Workshops
   selectedWorkshops.value.forEach((id) => {
-    const ws = addons.find((a) => a.id === id);
+    const ws = addonsList.value.find((a) => a.id === id);
     if (ws) {
       list.push({
         label: 'Workshop',
@@ -130,7 +137,7 @@ const addonItems = computed(() => {
 
   // 2. Selected Meals
   selectedMeals.value.forEach((id) => {
-    const meal = addons.find((a) => a.id === id);
+    const meal = addonsList.value.find((a) => a.id === id);
     if (meal) {
       list.push({
         label: 'Meal Package',
@@ -142,7 +149,7 @@ const addonItems = computed(() => {
   // 3. Selected Merchandise
   Object.entries(selectedMerch.value).forEach(([id, data]) => {
     if (!data || data.quantity <= 0) return;
-    const merch = addons.find((a) => a.id === id);
+    const merch = addonsList.value.find((a) => a.id === id);
     if (merch) {
       let displayName = merch.name;
       if (merch.sizes && merch.sizes.length > 0 && data.size) {
@@ -168,14 +175,14 @@ const addonItems = computed(() => {
 // Subtotal Calculations for Pricing Summary
 const workshopsPrice = computed(() => {
   return selectedWorkshops.value.reduce((sum, id) => {
-    const ws = addons.find((a) => a.id === id);
+    const ws = addonsList.value.find((a) => a.id === id);
     return sum + (ws?.price || 0);
   }, 0);
 });
 
 const mealsPrice = computed(() => {
   return selectedMeals.value.reduce((sum, id) => {
-    const meal = addons.find((a) => a.id === id);
+    const meal = addonsList.value.find((a) => a.id === id);
     return sum + (meal?.price || 0);
   }, 0);
 });
@@ -183,7 +190,7 @@ const mealsPrice = computed(() => {
 const merchPrice = computed(() => {
   return Object.entries(selectedMerch.value).reduce((sum, [id, data]) => {
     if (!data || !data.quantity) return sum;
-    const merch = addons.find((a) => a.id === id);
+    const merch = addonsList.value.find((a) => a.id === id);
     return sum + (merch?.price || 0) * data.quantity;
   }, 0);
 });
@@ -215,7 +222,7 @@ const pricingSummaryItems = computed(() => {
 
   // 2. Workshops Rows
   selectedWorkshops.value.forEach((id) => {
-    const ws = addons.find((a) => a.id === id);
+    const ws = addonsList.value.find((a) => a.id === id);
     if (ws) {
       list.push({
         label: ws.name,
@@ -226,7 +233,7 @@ const pricingSummaryItems = computed(() => {
 
   // 3. Meals Rows
   selectedMeals.value.forEach((id) => {
-    const meal = addons.find((a) => a.id === id);
+    const meal = addonsList.value.find((a) => a.id === id);
     if (meal) {
       list.push({
         label: meal.name,
@@ -238,7 +245,7 @@ const pricingSummaryItems = computed(() => {
   // 4. Merchandise Rows
   Object.entries(selectedMerch.value).forEach(([id, data]) => {
     if (!data || data.quantity <= 0) return;
-    const merch = addons.find((a) => a.id === id);
+    const merch = addonsList.value.find((a) => a.id === id);
     if (merch) {
       let displayName = merch.name;
       if (merch.sizes && merch.sizes.length > 0 && data.size) {
@@ -332,7 +339,7 @@ const validationErrors = computed(() => {
   }
 
   // Check for time conflicts between sessions (Step 2) and workshops (Step 3)
-  const selectedSessionsObj = sessions.filter((s) => selectedSessionIds.value.includes(s.id));
+  const selectedSessionsObj = sessionsList.value.filter((s) => selectedSessionIds.value.includes(s.id));
   selectedSessionsObj.forEach((s) => {
     const conflictWorkshopName = hasWorkshopConflict(s);
     if (conflictWorkshopName) {

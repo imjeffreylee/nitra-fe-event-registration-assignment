@@ -9,10 +9,11 @@ import WorkshopCard from '../components/addons/WorkshopCard.vue';
 import MerchandiseCard from '../components/addons/MerchandiseCard.vue';
 import OrderSummary from '../components/addons/OrderSummary.vue';
 import InfoIcon from '../assets/Info.svg';
-import { addons } from '../mocks/addons.js';
 import { useRegistration } from '../composables/useRegistration.js';
+import { useAddons } from '../composables/useAddons.js';
 
 const router = useRouter();
+const { addons } = useAddons();
 const activeCategory = ref('Workshops');
 
 // Connect component variables to the shared registration composable
@@ -29,17 +30,17 @@ const isVip = computed(() => selectedTicket.value === 'vip');
 
 // Filter workshops from mixed addons mock
 const workshops = computed(() => {
-  return addons.filter((addon) => addon.category === 'workshop');
+  return (addons.value || []).filter((addon) => addon.category === 'workshop');
 });
 
 // Filter meal packages from mixed addons mock
 const meals = computed(() => {
-  return addons.filter((addon) => addon.category === 'meal');
+  return (addons.value || []).filter((addon) => addon.category === 'meal');
 });
 
 // Filter merchandise from mixed addons mock
 const merchandise = computed(() => {
-  return addons.filter((addon) => addon.category === 'merchandise');
+  return (addons.value || []).filter((addon) => addon.category === 'merchandise');
 });
 
 const hasSelectedMerch = computed(() => {

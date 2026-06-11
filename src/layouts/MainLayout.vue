@@ -4,11 +4,17 @@ import { useRoute, useRouter } from 'vue-router';
 import AppHeader from '../components/AppHeader.vue';
 import AppStepper from '../components/AppStepper.vue';
 import { useEvent } from '../composables/useEvent.js';
+import { useSessions } from '../composables/useSessions.js';
+import { useAddons } from '../composables/useAddons.js';
 
 const { fetchEvent } = useEvent();
+const { fetchSessions } = useSessions();
+const { fetchAddons } = useAddons();
 
 onMounted(() => {
   fetchEvent();
+  fetchSessions();
+  fetchAddons();
 });
 
 const steps = ['Attendee Info', 'Sessions', 'Add-ons', 'Review'];

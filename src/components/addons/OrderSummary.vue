@@ -79,8 +79,11 @@
 
 <script setup>
 import { computed } from 'vue';
-import { addons } from '../../mocks/addons.js';
-import { event } from '../../mocks/event.js';
+import { useEvent } from '../../composables/useEvent.js';
+import { useAddons } from '../../composables/useAddons.js';
+
+const { event } = useEvent();
+const { addons } = useAddons();
 
 const props = defineProps({
   ticketType: {
@@ -102,9 +105,10 @@ const props = defineProps({
 });
 
 const ticketTypeObj = computed(() => {
+  if (!event.value || !event.value.ticketTypes) return null;
   return (
-    event.ticketTypes.find((t) => t.id === props.ticketType) ||
-    event.ticketTypes[0]
+    event.value.ticketTypes.find((t) => t.id === props.ticketType) ||
+    event.value.ticketTypes[0]
   );
 });
 
@@ -116,13 +120,15 @@ const ticketLabel = computed(() => {
   return ticketTypeObj.value?.name || '';
 });
 
+const addonsList = computed(() => addons.value || []);
+
 // Compute individual list of all selected add-ons with itemized pricing & labels
 const selectedItemsList = computed(() => {
   const list = [];
 
   // 1. Add Selected Workshops
   props.selectedWorkshops.forEach((id) => {
-    const ws = addons.find((a) => a.id === id);
+    const ws = addonsList.value.find((a) => a.id === id);
     if (ws) {
       list.push({
         key: `ws-${id}`,
@@ -134,7 +140,7 @@ const selectedItemsList = computed(() => {
 
   // 2. Add Selected Meals
   props.selectedMeals.forEach((id) => {
-    const meal = addons.find((a) => a.id === id);
+    const meal = addonsList.value.find((a) => a.id === id);
     if (meal) {
       list.push({
         key: `meal-${id}`,
@@ -147,7 +153,7 @@ const selectedItemsList = computed(() => {
   // 3. Add Selected Merchandise with size details and quantity multipliers
   Object.entries(props.selectedMerch).forEach(([id, data]) => {
     if (!data || data.quantity <= 0) return;
-    const merch = addons.find((a) => a.id === id);
+    const merch = addonsList.value.find((a) => a.id === id);
     if (merch) {
       let displayName = merch.name;
       // Add size in parentheses if item supports size selection
@@ -170,14 +176,14 @@ const selectedItemsList = computed(() => {
 
 const workshopsPrice = computed(() => {
   return props.selectedWorkshops.reduce((sum, id) => {
-    const ws = addons.find((a) => a.id === id);
+    const ws = addonsList.value.find((a) => a.id === id);
     return sum + (ws?.price || 0);
   }, 0);
 });
 
 const mealsPrice = computed(() => {
   return props.selectedMeals.reduce((sum, id) => {
-    const meal = addons.find((a) => a.id === id);
+    const meal = addonsList.value.find((a) => a.id === id);
     return sum + (meal?.price || 0);
   }, 0);
 });
@@ -185,7 +191,7 @@ const mealsPrice = computed(() => {
 const merchPrice = computed(() => {
   return Object.entries(props.selectedMerch).reduce((sum, [id, data]) => {
     if (!data || !data.quantity) return sum;
-    const merch = addons.find((a) => a.id === id);
+    const merch = addonsList.value.find((a) => a.id === id);
     return sum + (merch?.price || 0) * data.quantity;
   }, 0);
 });

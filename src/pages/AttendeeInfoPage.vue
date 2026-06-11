@@ -6,10 +6,11 @@ import SectionTitle from '../components/SectionTitle.vue';
 import FormField from '../components/attendeeInfo/FormField.vue';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
-import { event } from '../mocks/event.js';
 import { useRegistration } from '../composables/useRegistration.js';
+import { useEvent } from '../composables/useEvent.js';
 
 const router = useRouter();
+const { event } = useEvent();
 
 const {
   ticketType: selectedTicket,
@@ -34,7 +35,7 @@ const {
   <PageContainer content-class="space-y-8">
     <TicketTypeSection
       title="Select Ticket Type"
-      :tickets="event.ticketTypes"
+      :tickets="event?.ticketTypes || []"
       v-model="selectedTicket"
     />
     <SectionTitle>Attendee Information</SectionTitle>

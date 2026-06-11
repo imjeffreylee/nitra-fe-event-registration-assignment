@@ -1,11 +1,12 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { event } from '../mocks/event.js';
+import { useEvent } from '../composables/useEvent.js';
 import SuccessIcon from '../assets/SuccessIcon.svg';
 
 const route = useRoute();
 const router = useRouter();
+const { event } = useEvent();
 
 // Retrieve registration details from route query params
 const name = computed(() => route.query.name || 'Attendee');
@@ -15,7 +16,7 @@ const ticketType = computed(() => {
   return t.toUpperCase();
 });
 const confirmationNumber = computed(() => route.query.conf || 'TC2028-47291');
-const eventName = computed(() => event.name || 'TechConf 2025');
+const eventName = computed(() => event.value?.name || 'TechConf 2025');
 
 const startNewRegistration = () => {
   router.push('/attendeeinfo');

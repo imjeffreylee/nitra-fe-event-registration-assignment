@@ -1,6 +1,6 @@
 import { reactive, watch, toRefs, computed } from 'vue';
-import { sessions } from '../mocks/sessions.js';
-import { addons } from '../mocks/addons.js';
+import { useSessions } from './useSessions.js';
+import { useAddons } from './useAddons.js';
 
 // Helper for safe JSON parsing
 const safeParseJson = (key, fallback) => {
@@ -115,6 +115,9 @@ watch(
 
 // 3. Export composable hook function
 export function useRegistration() {
+  const { sessions } = useSessions();
+  const { addons } = useAddons();
+
   // Single source of truth for required fields (some are dynamic based on state)
   const isRequired = computed(() => {
     const hasMerch = Object.values(state.selectedMerchandise).some(
@@ -219,7 +222,8 @@ export function useRegistration() {
   };
 
   const hasSessionConflict = (workshop) => {
-    const activeSessions = sessions.filter((s) =>
+    const list = sessions.value || [];
+    const activeSessions = list.filter((s) =>
       state.selectedSessions.includes(s.id),
     );
     const conflict = activeSessions.find((s) => areOverlapping(workshop, s));
@@ -227,7 +231,8 @@ export function useRegistration() {
   };
 
   const hasWorkshopConflict = (session) => {
-    const activeWorkshops = addons.filter(
+    const list = addons.value || [];
+    const activeWorkshops = list.filter(
       (a) =>
         a.category === 'workshop' && state.selectedWorkshops.includes(a.id),
     );
