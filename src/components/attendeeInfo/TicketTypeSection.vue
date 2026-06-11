@@ -2,7 +2,7 @@
   <div class="flex flex-col items-start gap-4 w-full flex-none">
     <!-- Section Title -->
     <span class="text-subtitle1 text-[rgba(0,0,0,0.9)] flex-none">
-      {{ title }}
+      Select Ticket Type
     </span>
 
     <!-- Ticket Cards Row -->
@@ -24,10 +24,6 @@
 import TicketCard from './TicketCard.vue';
 
 defineProps({
-  title: {
-    type: String,
-    default: 'Select Ticket Type',
-  },
   tickets: {
     type: Array,
     required: true,

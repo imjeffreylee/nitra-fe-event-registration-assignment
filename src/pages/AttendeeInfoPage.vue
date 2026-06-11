@@ -34,7 +34,6 @@ const {
 <template>
   <PageContainer content-class="space-y-8">
     <TicketTypeSection
-      title="Select Ticket Type"
       :tickets="event?.ticketTypes || []"
       v-model="selectedTicket"
     />
