@@ -2,7 +2,7 @@
   <div
     class="box-border flex flex-col items-start p-5 w-full max-w-[1200px] min-h-[120px] bg-[#F4F5F6] rounded-[6px] flex-none self-stretch flex-grow-0"
     :class="
-      hasMissingRequired
+      hasAnyError
         ? 'border-2 border-solid border-danger-emphasis'
         : 'border border-solid border-[#E3E6E8]'
     "
@@ -13,7 +13,7 @@
     >
       <h3
         class="font-semibold text-[16px] leading-[20px] flex-none order-0 flex-grow-0 m-0"
-        :class="hasMissingRequired ? 'text-danger' : 'text-neutral'"
+        :class="hasAnyError ? 'text-danger' : 'text-neutral'"
       >
         {{ title }}
       </h3>
@@ -137,5 +137,10 @@ const hasMissingRequired = computed(() => {
       item.required &&
       (item.value === undefined || item.value === null || item.value === ''),
   );
+});
+
+// Detect if card has any missing required fields or format/conflict errors
+const hasAnyError = computed(() => {
+  return hasMissingRequired.value || props.items.some((item) => item.invalid);
 });
 </script>

@@ -330,6 +330,16 @@ const validationErrors = computed(() => {
   if (shippingAddressErrorMessage.value) {
     errs.push(`Step 1: ${shippingAddressErrorMessage.value}`);
   }
+
+  // Check for time conflicts between sessions (Step 2) and workshops (Step 3)
+  const selectedSessionsObj = sessions.filter((s) => selectedSessionIds.value.includes(s.id));
+  selectedSessionsObj.forEach((s) => {
+    const conflictWorkshopName = hasWorkshopConflict(s);
+    if (conflictWorkshopName) {
+      errs.push(`Step 2: Time conflict between session '${s.title}' and workshop '${conflictWorkshopName}'`);
+    }
+  });
+
   return errs;
 });
 
