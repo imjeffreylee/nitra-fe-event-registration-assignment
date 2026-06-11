@@ -22,6 +22,19 @@ const {
   isRequired,
 } = useRegistration();
 
+const isEmailValid = computed(() => {
+  if (!email.value) return true; // Let the required validator handle empty state
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+});
+
+const emailErrorMessage = computed(() => {
+  if (!email.value) return 'Email is required';
+  if (!isEmailValid.value) {
+    return 'Invalid email address';
+  }
+  return '';
+});
+
 const isPhoneValid = computed(() => {
   if (!phone.value) return true; // Let the required validator handle empty state
   return /^09\d{8}$/.test(phone.value);
@@ -61,6 +74,8 @@ const phoneErrorMessage = computed(() => {
           placeholder="Enter your email"
           v-model="email"
           :required="isRequired.email"
+          :error="!isEmailValid"
+          :error-message="emailErrorMessage"
           hint="Email is required"
         />
       </div>

@@ -299,6 +299,8 @@ const validationErrors = computed(() => {
   }
   if (isRequired.value.email && !email.value) {
     errs.push('Step 1: Email is required');
+  } else if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    errs.push('Step 1: Invalid email address');
   }
   if (isRequired.value.phone && !phone.value) {
     errs.push('Step 1: Phone number is required');
