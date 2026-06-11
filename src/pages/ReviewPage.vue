@@ -34,6 +34,8 @@ const {
   phoneErrorMessage,
   companyErrorMessage,
   shippingAddressErrorMessage,
+  hasSessionConflict,
+  hasWorkshopConflict,
   clearRegistration,
 } = useRegistration();
 
@@ -106,6 +108,7 @@ const sessionItems = computed(() => {
   return selected.map((s) => ({
     label: formatSessionTime(s),
     value: s.title,
+    invalid: !!hasWorkshopConflict(s),
   }));
 });
 
@@ -120,6 +123,7 @@ const addonItems = computed(() => {
       list.push({
         label: 'Workshop',
         value: `${ws.name} (${formatCurrency(ws.price)})`,
+        invalid: !!hasSessionConflict(ws),
       });
     }
   });
