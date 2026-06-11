@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
@@ -8,20 +8,49 @@ import SectionTitle from '../components/SectionTitle.vue';
 import AppTabs from '../components/AppTabs.vue';
 import { sessions } from '../mocks/sessions.js';
 import { useRegistration } from '../composables/useRegistration.js';
+import { useEvent } from '../composables/useEvent.js';
 
 const router = useRouter();
 
 // Retrieve selectedSessions directly from global state
 const { selectedSessions } = useRegistration();
-const activeDay = ref('Nov 15');
+const { event } = useEvent();
 
-// Grouping logic
-const day1Sessions = computed(() => {
-  return sessions.filter((s) => s.date.startsWith('2028-11-15'));
+const activeDay = ref('');
+
+// Format dates dynamically from event
+const dayOptions = computed(() => {
+  if (!event.value || !event.value.dates) {
+    return [];
+  }
+  return event.value.dates.map((dateStr) => {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+  });
 });
 
-const day2Sessions = computed(() => {
-  return sessions.filter((s) => s.date.startsWith('2028-11-16'));
+// Watch options and set first tab as active when options load
+watch(
+  dayOptions,
+  (newOptions) => {
+    if (newOptions.length > 0 && !newOptions.includes(activeDay.value)) {
+      activeDay.value = newOptions[0];
+    }
+  },
+  { immediate: true },
+);
+
+// Grouping and filtering logic
+const filteredSessions = computed(() => {
+  if (!event.value || !event.value.dates) return [];
+  const activeIndex = dayOptions.value.indexOf(activeDay.value);
+  if (activeIndex === -1) return [];
+  const activeDateStr = event.value.dates[activeIndex];
+  return sessions.filter((s) => s.date.startsWith(activeDateStr));
 });
 
 const isSelected = (id) => selectedSessions.value.includes(id);
@@ -39,7 +68,7 @@ const toggleSession = (id) => {
 <template>
   <PageContainer content-class="space-y-6">
     <SectionTitle>Select Sessions</SectionTitle>
-    <AppTabs v-model="activeDay" :options="['Nov 15', 'Nov 16']" />
+    <AppTabs v-model="activeDay" :options="dayOptions" />
     <!-- Selected Sessions Count -->
     <div>
       <span
@@ -51,23 +80,11 @@ const toggleSession = (id) => {
         selected
       </span>
     </div>
-    <!-- Day 1 Sessions Section -->
-    <div v-if="activeDay === 'Nov 15'" class="w-full">
+    <!-- Sessions Section -->
+    <div class="w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         <SessionCard
-          v-for="session in day1Sessions"
-          :key="session.id"
-          :session="session"
-          :selected="isSelected(session.id)"
-          @select="toggleSession(session.id)"
-        />
-      </div>
-    </div>
-    <!-- Day 2 Sessions Section -->
-    <div v-else-if="activeDay === 'Nov 16'" class="w-full">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-        <SessionCard
-          v-for="session in day2Sessions"
+          v-for="session in filteredSessions"
           :key="session.id"
           :session="session"
           :selected="isSelected(session.id)"
