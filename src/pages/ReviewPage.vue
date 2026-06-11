@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Success from '../components/review/SubmissionSuccess.vue';
 import { useI18n } from 'vue-i18n';
 import ActionBar from '../components/ActionBar.vue';
 import PageContainer from '../components/PageContainer.vue';
@@ -325,31 +326,59 @@ const formatCurrency = (value) => {
 const validationErrors = computed(() => {
   const errs = [];
   if (fullNameErrorMessage.value) {
-    errs.push(t('stepErrorPrefix', { step: 1, error: fullNameErrorMessage.value }));
+    errs.push(
+      t('stepErrorPrefix', { step: 1, error: fullNameErrorMessage.value }),
+    );
   }
   if (emailErrorMessage.value) {
-    errs.push(t('stepErrorPrefix', { step: 1, error: emailErrorMessage.value }));
+    errs.push(
+      t('stepErrorPrefix', { step: 1, error: emailErrorMessage.value }),
+    );
   }
   if (phoneErrorMessage.value) {
-    errs.push(t('stepErrorPrefix', { step: 1, error: phoneErrorMessage.value }));
+    errs.push(
+      t('stepErrorPrefix', { step: 1, error: phoneErrorMessage.value }),
+    );
   }
   if (companyErrorMessage.value) {
-    errs.push(t('stepErrorPrefix', { step: 1, error: companyErrorMessage.value }));
+    errs.push(
+      t('stepErrorPrefix', { step: 1, error: companyErrorMessage.value }),
+    );
   }
   if (shippingAddressErrorMessage.value) {
-    errs.push(t('stepErrorPrefix', { step: 1, error: shippingAddressErrorMessage.value }));
+    errs.push(
+      t('stepErrorPrefix', {
+        step: 1,
+        error: shippingAddressErrorMessage.value,
+      }),
+    );
   }
 
   // Check for time conflicts between sessions (Step 2) and workshops (Step 3)
-  const selectedSessionsObj = sessionsList.value.filter((s) => selectedSessionIds.value.includes(s.id));
+  const selectedSessionsObj = sessionsList.value.filter((s) =>
+    selectedSessionIds.value.includes(s.id),
+  );
   selectedSessionsObj.forEach((s) => {
     const conflictWorkshopName = hasWorkshopConflict(s);
     if (conflictWorkshopName) {
-      errs.push(t('step2ConflictError', { session: s.title, workshop: conflictWorkshopName }));
+      errs.push(
+        t('step2ConflictError', {
+          session: s.title,
+          workshop: conflictWorkshopName,
+        }),
+      );
     }
   });
 
   return errs;
+});
+
+const isSubmitted = ref(false);
+const registrationDetails = ref({
+  name: '',
+  email: '',
+  ticketType: '',
+  confirmation: '',
 });
 
 // Submission action handler
@@ -357,69 +386,83 @@ const submitRegistration = () => {
   // Generate a random confirmation number
   const confNumber = 'TC2028-' + Math.floor(10000 + Math.random() * 90000);
 
-  // Navigate to success page with query parameters
-  router.push({
-    path: '/success',
-    query: {
-      name: fullName.value,
-      email: email.value,
-      ticket: ticketType.value,
-      conf: confNumber,
-    },
-  });
+  // Store the details before clearing the form
+  registrationDetails.value = {
+    name: fullName.value,
+    email: email.value,
+    ticketType: ticketType.value,
+    confirmation: confNumber,
+  };
 
-  // Clear registration in-memory and local storage
+  isSubmitted.value = true;
+
+  // Clear registration in-memory and session storage
   clearRegistration();
+};
+
+const handleRestart = () => {
+  isSubmitted.value = false;
+  router.push('/attendeeinfo');
 };
 </script>
 
 <template>
-  <PageContainer content-class="space-y-8">
-    <SectionTitle>{{ $t('reviewTitle') }}</SectionTitle>
-
-    <!-- Error Banner (only shown if there are errors) -->
-    <ErrorBanner
-      v-if="validationErrors.length > 0"
-      :errors="validationErrors"
-    />
-
-    <!-- Review Block 1: Attendee Information -->
-    <ReviewCard
-      :title="$t('attendeeInfoTitle')"
-      :items="attendeeItems"
-      @edit="router.push('/attendeeinfo')"
-      :editText="$t('editStep1')"
-    />
-
-    <!-- Review Block 2: Selected Sessions -->
-    <ReviewCard
-      :title="$t('selectedSessionsHeader')"
-      :items="sessionItems"
-      @edit="router.push('/sessions')"
-      :editText="$t('editStep2')"
-    />
-
-    <!-- Review Block 3: Selected Add-ons -->
-    <ReviewCard
-      :title="$t('selectedAddonsHeader')"
-      :items="addonItems"
-      @edit="router.push('/addons')"
-      :editText="$t('editStep3')"
-    />
-
-    <!-- Review Block 4: Pricing Summary -->
-    <ReviewCard
-      :title="$t('pricingSummaryHeader')"
-      :items="pricingSummaryItems"
-      show-last-item-divider
-      @edit="router.push('/addons')"
-    />
-  </PageContainer>
-  <ActionBar
-    :show-next="true"
-    :disable-next="validationErrors.length > 0"
-    @back="router.push('/addons')"
-    @next="submitRegistration"
-    :next-label="$t('btnSubmitRegistration')"
+  <Success
+    v-if="isSubmitted"
+    :registrant-name="registrationDetails.name"
+    :registrant-email="registrationDetails.email"
+    :registrant-ticket="registrationDetails.ticketType"
+    :confirmation="registrationDetails.confirmation"
+    @restart="handleRestart"
   />
+  <template v-else>
+    <PageContainer content-class="space-y-8">
+      <SectionTitle>{{ $t('reviewTitle') }}</SectionTitle>
+
+      <!-- Error Banner (only shown if there are errors) -->
+      <ErrorBanner
+        v-if="validationErrors.length > 0"
+        :errors="validationErrors"
+      />
+
+      <!-- Review Block 1: Attendee Information -->
+      <ReviewCard
+        :title="$t('attendeeInfoTitle')"
+        :items="attendeeItems"
+        @edit="router.push('/attendeeinfo')"
+        :editText="$t('editStep1')"
+      />
+
+      <!-- Review Block 2: Selected Sessions -->
+      <ReviewCard
+        :title="$t('selectedSessionsHeader')"
+        :items="sessionItems"
+        @edit="router.push('/sessions')"
+        :editText="$t('editStep2')"
+      />
+
+      <!-- Review Block 3: Selected Add-ons -->
+      <ReviewCard
+        :title="$t('selectedAddonsHeader')"
+        :items="addonItems"
+        @edit="router.push('/addons')"
+        :editText="$t('editStep3')"
+      />
+
+      <!-- Review Block 4: Pricing Summary -->
+      <ReviewCard
+        :title="$t('pricingSummaryHeader')"
+        :items="pricingSummaryItems"
+        show-last-item-divider
+        @edit="router.push('/addons')"
+      />
+    </PageContainer>
+    <ActionBar
+      :show-next="true"
+      :disable-next="validationErrors.length > 0"
+      @back="router.push('/addons')"
+      @next="submitRegistration"
+      :next-label="$t('btnSubmitRegistration')"
+    />
+  </template>
 </template>

@@ -1,27 +1,45 @@
 <script setup>
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useEvent } from '../composables/useEvent.js';
-import SuccessIcon from '../assets/SuccessIcon.svg';
+import { useEvent } from '../../composables/useEvent.js';
+import SuccessIcon from '../../assets/SuccessIcon.svg';
 
-const route = useRoute();
-const router = useRouter();
+const props = defineProps({
+  registrantName: {
+    type: String,
+    default: '',
+  },
+  registrantEmail: {
+    type: String,
+    default: '',
+  },
+  registrantTicket: {
+    type: String,
+    default: 'vip',
+  },
+  confirmation: {
+    type: String,
+    default: '',
+  },
+});
+
+const emit = defineEmits(['restart']);
+
 const { event } = useEvent();
 const { t } = useI18n();
 
-// Retrieve registration details from route query params
-const name = computed(() => route.query.name || t('defaultAttendeeName'));
-const email = computed(() => route.query.email || t('defaultEmailPlaceholder'));
+// Retrieve registration details from props
+const name = computed(() => props.registrantName || t('defaultAttendeeName'));
+const email = computed(() => props.registrantEmail || t('defaultEmailPlaceholder'));
 const ticketType = computed(() => {
-  const tType = route.query.ticket || 'vip';
+  const tType = props.registrantTicket || 'vip';
   return tType.toUpperCase();
 });
-const confirmationNumber = computed(() => route.query.conf || 'TC2028-47291');
+const confirmationNumber = computed(() => props.confirmation || 'TC2028-47291');
 const eventName = computed(() => event.value?.name || 'TechConf 2025');
 
 const startNewRegistration = () => {
-  router.push('/attendeeinfo');
+  emit('restart');
 };
 </script>
 

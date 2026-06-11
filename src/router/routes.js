@@ -14,7 +14,6 @@ export default [
       },
       { path: 'addons', component: () => import('../pages/AddonsPage.vue') },
       { path: 'review', component: () => import('../pages/ReviewPage.vue') },
-      { path: 'success', component: () => import('../pages/SuccessPage.vue') },
     ],
   },
 ];
