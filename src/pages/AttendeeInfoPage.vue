@@ -29,6 +29,16 @@ const {
   companyErrorMessage,
   shippingAddressErrorMessage,
 } = useRegistration();
+
+const isFormInvalid = computed(() => {
+  return (
+    !!fullNameErrorMessage.value ||
+    !!emailErrorMessage.value ||
+    !!phoneErrorMessage.value ||
+    !!companyErrorMessage.value ||
+    !!shippingAddressErrorMessage.value
+  );
+});
 </script>
 
 <template>
@@ -117,6 +127,7 @@ const {
   </PageContainer>
   <ActionBar
     :show-back="false"
+    :disable-next="isFormInvalid"
     @next="router.push('/sessions')"
     :next-label="$t('nextSessionsBtn')"
   />
