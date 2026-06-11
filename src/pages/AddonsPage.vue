@@ -137,7 +137,7 @@ const updateMerchSize = (id, size) => {
           >
             <InfoIcon class="flex-none w-4 h-4 mt-[2px]" />
             <div
-              class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 w-full max-w-[724px] md:h-10 flex-none order-1 self-stretch flex-grow-0"
+              class="flex flex-row flex-wrap items-center content-start p-0 gap-1.5 flex-1"
             >
               <span class="font-bold text-[14px] leading-5"
                 >Shipping Information</span
