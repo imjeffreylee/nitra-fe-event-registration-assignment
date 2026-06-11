@@ -17,7 +17,7 @@
       <!-- Left part: Track Badge & Time Conflict Badge -->
       <div class="flex flex-row items-center gap-2">
         <TrackBadge :track="session.track" />
-        <ConflictBadge v-if="conflict" />
+        <ConflictBadge v-if="conflict" :conflicting-name="typeof conflict === 'string' ? conflict : ''" />
       </div>
 
       <!-- Selection Checkbox -->
@@ -104,7 +104,7 @@ const props = defineProps({
     default: false,
   },
   conflict: {
-    type: Boolean,
+    type: [Boolean, String],
     default: false,
   },
 });

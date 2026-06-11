@@ -222,7 +222,8 @@ export function useRegistration() {
     const activeSessions = sessions.filter((s) =>
       state.selectedSessions.includes(s.id),
     );
-    return activeSessions.some((s) => areOverlapping(workshop, s));
+    const conflict = activeSessions.find((s) => areOverlapping(workshop, s));
+    return conflict ? conflict.title : false;
   };
 
   const hasWorkshopConflict = (session) => {
@@ -230,7 +231,8 @@ export function useRegistration() {
       (a) =>
         a.category === 'workshop' && state.selectedWorkshops.includes(a.id),
     );
-    return activeWorkshops.some((w) => areOverlapping(session, w));
+    const conflict = activeWorkshops.find((w) => areOverlapping(session, w));
+    return conflict ? conflict.name : false;
   };
 
   return {

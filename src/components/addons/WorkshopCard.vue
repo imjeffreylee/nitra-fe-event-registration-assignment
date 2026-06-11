@@ -19,7 +19,7 @@
         >
           {{ workshop.name }}
         </h4>
-        <ConflictBadge v-if="conflict" />
+        <ConflictBadge v-if="conflict" :conflicting-name="typeof conflict === 'string' ? conflict : ''" />
       </div>
 
       <!-- Description -->
@@ -69,7 +69,7 @@ const props = defineProps({
     default: false,
   },
   conflict: {
-    type: Boolean,
+    type: [Boolean, String],
     default: false,
   },
 });
