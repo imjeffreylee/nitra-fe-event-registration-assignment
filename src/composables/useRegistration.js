@@ -186,7 +186,7 @@ export function useRegistration() {
   const phoneErrorMessage = computed(() => {
     if (!state.phone) return 'Phone number is required';
     if (!isPhoneValid.value) {
-      return 'Must be 10 digits starting with 09';
+      return 'Phone number must be 10 digits starting with 09';
     }
     return '';
   });

@@ -60,8 +60,18 @@ const attendeeItems = computed(() => {
       value: fullName.value,
       required: isRequired.value.fullName,
     },
-    { label: 'Email', value: email.value, required: isRequired.value.email },
-    { label: 'Phone', value: phone.value, required: isRequired.value.phone },
+    {
+      label: 'Email',
+      value: email.value,
+      required: isRequired.value.email,
+      invalid: !isEmailValid.value,
+    },
+    {
+      label: 'Phone',
+      value: phone.value,
+      required: isRequired.value.phone,
+      invalid: !isPhoneValid.value,
+    },
     {
       label: 'Company',
       value: company.value,

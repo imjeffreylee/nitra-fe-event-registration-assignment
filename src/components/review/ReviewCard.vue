@@ -69,7 +69,12 @@
                 item.value === '')
                 ? 'text-[#C71A1A] fw-[485]'
                 : [
-                    item.valueClass || 'text-neutral',
+                    item.invalid &&
+                    item.value !== undefined &&
+                    item.value !== null &&
+                    item.value !== ''
+                      ? 'text-[#C71A1A]'
+                      : item.valueClass || 'text-neutral',
                     showLastItemDivider && index === visibleItems.length - 1
                       ? 'fw-[550]'
                       : item.valueClass
