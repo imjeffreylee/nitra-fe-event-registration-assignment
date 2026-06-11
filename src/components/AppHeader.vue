@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex flex-row items-center px-12 py-4 gap-3 w-full h-18 bg-white self-stretch flex-none border-b-1 border-b-solid border-b-gray-100"
+    class="flex flex-row items-center px-4 md:px-12 py-4 gap-3 w-full h-18 bg-white self-stretch flex-none border-b-1 border-b-solid border-b-gray-100"
   >
     <!-- Logo as a Vue component -->
     <Logo class="flex-none w-10 h-10" />
